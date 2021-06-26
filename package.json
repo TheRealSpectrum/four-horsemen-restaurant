@@ -1,0 +1,29 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "prod": "npm run production",
+        "production": "mix --production",
+        "lint-eslint": "eslint \"resources/js/**/*\"",
+        "lint-prettier": "prettier --check .",
+        "fix-eslint": "eslint \"resources/js/**/*\" --fix",
+        "fix-prettier": "prettier --write ."
+    },
+    "devDependencies": {
+        "@prettier/plugin-php": "^0.17.1",
+        "@typescript-eslint/eslint-plugin": "^4.28.0",
+        "@typescript-eslint/parser": "^4.28.0",
+        "axios": "^0.21",
+        "eslint": "^7.29.0",
+        "eslint-config-prettier": "^8.3.0",
+        "laravel-mix": "^6.0.6",
+        "lodash": "^4.17.19",
+        "postcss": "^8.1.14",
+        "prettier": "^2.3.2",
+        "tailwindcss": "^2.2.4"
+    }
+}

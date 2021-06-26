@@ -1,0 +1,7 @@
+#!/bin/bash
+
+export WWWGROUP=""
+export WWWUSER=1000
+
+docker-compose exec -T laravel.test npm run lint-eslint
+docker-compose exec -T laravel.test npm run lint-prettier
