@@ -1,4 +1,6 @@
-# _Team 1 (name pending)_: Project name pending
+# _Four Horsemen_: Restaurant App
+
+[![Lint](https://github.com/TheRealSpectrum/four-horsemen-restaurant/actions/workflows/lint.yml/badge.svg)](https://github.com/TheRealSpectrum/four-horsemen-restaurant/actions/workflows/lint.yml)
 
 ## Quick setup
 
