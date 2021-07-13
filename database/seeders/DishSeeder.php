@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-use App\Models\Dish;
+use App\Models\{Dish, DishIngredient};
 
 class DishSeeder extends Seeder
 {
@@ -12,6 +12,13 @@ class DishSeeder extends Seeder
     {
         Dish::factory()
             ->count(20)
-            ->create();
+            ->create()
+            ->each(function (Dish $dish) {
+                DishIngredient::factory()
+                    ->count(rand(4, 12))
+                    ->oneDish($dish)
+                    ->existingIngredient()
+                    ->create();
+            });
     }
 }
