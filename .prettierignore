@@ -8,3 +8,8 @@ composer.json
 composer.lock
 package.json
 package-lock.json
+
+# Prettier does not parse static returns correctly
+database/factories/DishIngredientFactory.php
+database/factories/UserFactory.php
+
