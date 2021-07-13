@@ -19,7 +19,7 @@ final class DishIngredientFactory extends Factory
         ];
     }
 
-    public function oneDish(?Dish $optionalDish = null)
+    public function oneDish(?Dish $optionalDish = null): static
     {
         $dish = $optionalDish ?? Dish::factory()->create();
         return $this->state(function (array $attributes) use ($dish) {
@@ -29,7 +29,7 @@ final class DishIngredientFactory extends Factory
         });
     }
 
-    public function oneIngredient(?Ingredient $optionalIngredient = null)
+    public function oneIngredient(?Ingredient $optionalIngredient = null): static
     {
         $ingredient = $optionalIngredient ?? Ingredient::factory()->create();
         return $this->state(function (array $attributes) use ($ingredient) {
@@ -39,7 +39,7 @@ final class DishIngredientFactory extends Factory
         });
     }
 
-    public function existingDish()
+    public function existingDish(): static
     {
         return $this->state(function (array $attributes) {
             return [
@@ -48,7 +48,7 @@ final class DishIngredientFactory extends Factory
         });
     }
 
-    public function existingIngredient()
+    public function existingIngredient(): static
     {
         return $this->state(function (array $attributes) {
             return [

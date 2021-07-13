@@ -6,9 +6,9 @@ use Illuminate\Database\Seeder;
 
 use App\Models\{Dish, DishIngredient};
 
-class DishSeeder extends Seeder
+final class DishSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         Dish::factory()
             ->count(20)

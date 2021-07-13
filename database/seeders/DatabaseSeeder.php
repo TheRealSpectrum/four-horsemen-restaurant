@@ -6,9 +6,9 @@ use Illuminate\Database\Seeder;
 
 use Database\Seeders\DishSeeder;
 
-class DatabaseSeeder extends Seeder
+final class DatabaseSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $this->call([IngredientSeeder::class, DishSeeder::class]);
     }

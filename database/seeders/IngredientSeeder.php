@@ -6,9 +6,9 @@ use Illuminate\Database\Seeder;
 
 use App\Models\Ingredient;
 
-class IngredientSeeder extends Seeder
+final class IngredientSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         Ingredient::factory()
             ->count(20)

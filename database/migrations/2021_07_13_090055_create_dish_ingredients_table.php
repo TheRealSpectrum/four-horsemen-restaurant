@@ -4,9 +4,9 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDishIngredientsTable extends Migration
+final class CreateDishIngredientsTable extends Migration
 {
-    public function up()
+    public function up(): void
     {
         Schema::create("dish_ingredients", function (Blueprint $table) {
             $table->id();
@@ -16,7 +16,7 @@ class CreateDishIngredientsTable extends Migration
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists("dish_ingredients");
     }
