@@ -26,12 +26,14 @@ final class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended("admin");
+            return redirect()->route("home");
         }
 
-        return back()->withErrors([
-            "email" => __("auth.failed"),
-        ]);
+        return back()
+            ->withInput($request->only("email"))
+            ->withErrors([
+                "email" => __("auth.failed"),
+            ]);
     }
 
     public function logout(Request $request): RedirectResponse
