@@ -5,21 +5,20 @@
         <form action="{{route("auth.login")}}" method="post"
             class="flex flex-col content-center justify-center h-24 text-2xl">
             @csrf
-            <div class="flex flex-row content-center justify-center gap-6 h-10">
+            <div class="flex flex-row content-center justify-center h-10">
                 <label for="email">email</label>
-                <input id="email" type="email" name="email" class="border border-dark dark:border-light bg-light dark:bg-dark">
+                <input id="email" type="email" name="email">
 
                 <label for="password">password</label>
-                <input id="password" type="password" name="password" class="border border-dark dark:border-light bg-light dark:bg-dark">
+                <input id="password" type="password" name="password">
             </div>
             <ul>
                 @foreach($errors->all() as  $error)
-                <li class="text-center text-warning-high">{{$error}}</li>
+                <li>{{$error}}</li>
                 @endforeach
             </ul>
 
-            <button type="submit"
-                class="my-4 w-32 mx-auto border-dark border-2 dark:border-light">Login</button>
+            <button type="submit">Login</button>
         </form>
     </div>
 @endsection()
