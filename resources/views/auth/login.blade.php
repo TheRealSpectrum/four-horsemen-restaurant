@@ -7,7 +7,7 @@
             @csrf
             <div class="flex flex-row content-center justify-center gap-6 h-10">
                 <label for="email">email</label>
-                <input id="email" type="email" name="email" class="border border-dark dark:border-light bg-light dark:bg-dark">
+                <input id="email" type="email" name="email" value="{{old("email")}}" class="border border-dark dark:border-light bg-light dark:bg-dark">
 
                 <label for="password">password</label>
                 <input id="password" type="password" name="password" class="border border-dark dark:border-light bg-light dark:bg-dark">
