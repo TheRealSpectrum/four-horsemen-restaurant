@@ -12,23 +12,17 @@ class ResItem extends Component
      * @return void
      */
 
-    public  $id,
-            $name,
-            $numOfGuests,
-            $tables,
-            $date,
-            $time,
-            $eventType;
+    public $id, $name, $numOfGuests, $tables, $date, $time, $eventType;
 
     public function __construct($info)
     {
-        $this->id = $info['id'];
-        $this->name = $info['name'];
-        $this->numOfGuests = $info['numOfGuests'];
-        $this->tables = implode(', ',$info['tables']);
-        $this->date = $info['date'];
-        $this->time = $info['time'];
-        $this->eventType = $info['eventType'];
+        $this->id = $info["id"];
+        $this->name = $info["name"];
+        $this->numOfGuests = $info["numOfGuests"];
+        $this->tables = implode(", ", $info["tables"]);
+        $this->date = $info["date"];
+        $this->time = $info["time"];
+        $this->eventType = $info["eventType"];
     }
 
     /**
@@ -38,6 +32,6 @@ class ResItem extends Component
      */
     public function render()
     {
-        return view('components.res-item');
+        return view("components.res-item");
     }
 }
