@@ -26,3 +26,9 @@ Route::name("auth.")->group(function () {
     );
     Route::post("/logout", [AuthController::class, "logout"])->name("logout");
 });
+
+//test routes
+
+Route::get("/test", function () {
+    return view("reservations.index");
+});
