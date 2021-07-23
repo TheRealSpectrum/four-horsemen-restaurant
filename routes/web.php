@@ -26,3 +26,10 @@ Route::name("auth.")->group(function () {
     );
     Route::post("/logout", [AuthController::class, "logout"])->name("logout");
 });
+
+
+//test routes
+
+Route::get("/test", function () {
+    return view("reservations.index",["resevations"=>[['name'=>'rik','id'=>1,'date'=>'today','time'=>'11:30','numOfGuests'=>5,'eventType'=>'afterParty','tables'=>[1,2],]]]);
+});
