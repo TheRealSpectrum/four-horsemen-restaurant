@@ -30,5 +30,5 @@ Route::name("auth.")->group(function () {
 //test routes
 
 Route::get("/test", function () {
-    return view("reservations.index");
+    return view("reservations.index",["resevations"=>[['name'=>'Rik','id'=>1,'date'=>'2021-08-17','time'=>'11:30','numOfGuests'=>5,'eventType'=>'afterParty','tables'=>[1,2],]]]);
 });
