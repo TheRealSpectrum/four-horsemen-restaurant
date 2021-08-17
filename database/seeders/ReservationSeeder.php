@@ -4,15 +4,14 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class ReservationSeeder extends Seeder
+use App\Models\Reservation;
+
+final class ReservationSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
-        //
+        Reservation::factory()
+            ->count(50)
+            ->create();
     }
 }

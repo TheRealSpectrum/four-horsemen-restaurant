@@ -11,7 +11,7 @@ final class ReservationFactory extends Factory
 
     public function definition(): array
     {
-        $date = $this->faker->dateTimeBetween("+1 hour", "+4 days");
+        $date = $this->faker->dateTimeBetween("-2 hour", "+4 days");
         $dateEnd = clone $date;
         $dateEnd->add(new \DateInterval("PT1H"));
 
@@ -21,7 +21,12 @@ final class ReservationFactory extends Factory
             "date_start" => $date,
             "date_end" => $dateEnd,
             "active" => true,
-            "event_type" => "",
+            "event_type" => $this->faker->randomElement([
+                "",
+                "",
+                "",
+                "afterparty",
+            ]),
         ];
     }
 }
