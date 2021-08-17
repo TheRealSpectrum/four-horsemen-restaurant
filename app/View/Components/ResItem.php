@@ -12,7 +12,7 @@ class ResItem extends Component
      * @return void
      */
 
-    public $id, $name, $numOfGuests, $tables, $date, $time, $eventType;
+    public $id, $name, $numOfGuests, $tables, $date, $time, $eventType, $active;
 
     public function __construct($info)
     {
