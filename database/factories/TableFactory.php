@@ -13,16 +13,10 @@ final class TableFactory extends Factory
     public function definition(): array
     {
         return [
-            "id" => 0,
+            "id" => self::$number++,
             "seat_count" => $this->faker->numberBetween(1, 6),
         ];
     }
 
-    public function configure(): self
-    {
-        $number = 1;
-        return $this->afterMaking(function (Table $table) use (&$number) {
-            $table->id = $number++;
-        });
-    }
+    private static $number = 1;
 }

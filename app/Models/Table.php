@@ -15,5 +15,7 @@ final class Table extends Model
         return $this->belongsToMany(Reservation::class);
     }
 
+    public $incrementing = false;
+
     protected $fillable = ["id", "seat_count"];
 }
