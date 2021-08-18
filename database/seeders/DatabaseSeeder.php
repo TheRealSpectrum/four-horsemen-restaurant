@@ -12,7 +12,8 @@ final class DatabaseSeeder extends Seeder
             UserSeeder::class,
             IngredientSeeder::class,
             DishSeeder::class,
-            ReservationSeeder::class,
+            TableSeeder::class,
+            //ReservationSeeder::class,
         ]);
     }
 }
