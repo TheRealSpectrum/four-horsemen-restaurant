@@ -4,15 +4,14 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class TableSeeder extends Seeder
+use App\Models\Table;
+
+final class TableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
-        //
+        Table::factory()
+            ->count(30)
+            ->create();
     }
 }
