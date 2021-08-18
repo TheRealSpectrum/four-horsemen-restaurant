@@ -2,17 +2,27 @@
 
 namespace Database\Factories;
 
-use App\Models\Table;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TableFactory extends Factory
+use App\Models\Table;
+
+final class TableFactory extends Factory
 {
     protected $model = Table::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
-                //
-            ];
+            "id" => 0,
+            "seat_count" => $this->faker->numberBetween(1, 6),
+        ];
+    }
+
+    public function configure(): self
+    {
+        $number = 1;
+        return $this->afterMaking(function (Table $table) use (&$number) {
+            $table->id = $number++;
+        });
     }
 }
