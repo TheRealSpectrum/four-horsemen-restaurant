@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ReservationController;
+use App\Models\Reservation;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +27,10 @@ Route::name("auth.")->group(function () {
         "authenticate"
     );
     Route::post("/logout", [AuthController::class, "logout"])->name("logout");
+});
+
+Route::name("reservation.")->group(function () {
+    route::get("/reservation", [ReservationController::class , "index"])->name("index");
 });
 
 //test routes

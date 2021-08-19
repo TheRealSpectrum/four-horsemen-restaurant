@@ -19,11 +19,11 @@ class ResItem extends Component
         $this->id = $info->id;
         $this->name = $info->name;
         $this->numOfGuests = $info->numOfGuests;
-        $this->tables = implode(", ", $info->tables);
-        $this->date = $info->date;
-        $this->time = $info->time;
-        $this->eventType = $info->eventType;
-        $this->active = $info->status;
+        $this->tables = $info->tables->pluck("id");
+        $this->date = $info->date_start->format('Y-m-d');
+        $this->time = $info->date_start->format('H:i');
+        $this->eventType = $info->event_type;
+        $this->active = $info->active;
     }
 
     /**
