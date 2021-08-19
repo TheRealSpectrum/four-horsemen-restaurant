@@ -10,9 +10,23 @@ final class TableSeeder extends Seeder
 {
     public function run(): void
     {
-        Table::factory()
+        $tables = Table::factory()
             ->count(10)
-            ->has(Reservation::factory()->count(5))
             ->create();
+
+        Reservation::factory()
+            ->count(50)
+            ->create()
+            ->each(function (Reservation $reservation) use ($tables) {
+                $reservation->tables()->attach($tables->random());
+            });
+
+        Reservation::factory()
+            ->count(10)
+            ->beforeNow()
+            ->create()
+            ->each(function (Reservation $reservation) use ($tables) {
+                $reservation->tables()->attach($tables->random());
+            });
     }
 }
