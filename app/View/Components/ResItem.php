@@ -12,17 +12,18 @@ class ResItem extends Component
      * @return void
      */
 
-    public $id, $name, $numOfGuests, $tables, $date, $time, $eventType;
+    public $id, $name, $numOfGuests, $tables, $date, $time, $eventType, $active;
 
     public function __construct($info)
     {
-        $this->id = $info["id"];
-        $this->name = $info["name"];
-        $this->numOfGuests = $info["numOfGuests"];
-        $this->tables = implode(", ", $info["tables"]);
-        $this->date = $info["date"];
-        $this->time = $info["time"];
-        $this->eventType = $info["eventType"];
+        $this->id = $info->id;
+        $this->name = $info->name;
+        $this->numOfGuests = $info->numOfGuests;
+        $this->tables = $info->tables->pluck("id");
+        $this->date = $info->date_start->format("Y-m-d");
+        $this->time = $info->date_start->format("H:i");
+        $this->eventType = $info->event_type;
+        $this->active = $info->active;
     }
 
     /**

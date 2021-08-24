@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ReservationController;
+use App\Models\Reservation;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +29,27 @@ Route::name("auth.")->group(function () {
     Route::post("/logout", [AuthController::class, "logout"])->name("logout");
 });
 
+Route::name("reservation.")->group(function () {
+    route::get("/reservation", [ReservationController::class, "index"])->name(
+        "index"
+    );
+});
+
 //test routes
 
 Route::get("/test", function () {
-    return view("reservations.index");
+    return view("reservations.index", [
+        "resevations" => [
+            (object) [
+                "name" => "Rik",
+                "id" => 1,
+                "date" => "2021-08-17",
+                "time" => "15:00",
+                "numOfGuests" => 5,
+                "eventType" => "afterParty",
+                "tables" => [1, 2],
+                "status" => false,
+            ],
+        ],
+    ]);
 });

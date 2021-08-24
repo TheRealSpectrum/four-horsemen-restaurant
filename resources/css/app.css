@@ -2,3 +2,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#late_reservations .reservation,
+#upcoming_reservations .reservation {
+    width: 33.33%;
+    min-width: max-content;
+}
+#active_reservations .reservation,
+#later_reservations .reservation {
+    width: 100%;
+    min-width: max-content;
+}
