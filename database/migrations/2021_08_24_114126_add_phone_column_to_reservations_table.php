@@ -18,6 +18,15 @@ class AddPhoneColumnToReservationsTable extends Migration
                 ->string("phone")
                 ->nullable()
                 ->default(null);
+            $table
+                ->text("notes")
+                ->nullable()
+                ->default(null);
+            $table
+                ->string("name")
+                ->nullable()
+                ->default(null)
+                ->change();
         });
     }
 
@@ -29,7 +38,7 @@ class AddPhoneColumnToReservationsTable extends Migration
     public function down()
     {
         Schema::table("reservations", function (Blueprint $table) {
-            $table->dropColumn("phone");
+            $table->dropColumn("phone", "notes");
         });
     }
 }
