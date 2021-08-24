@@ -13,15 +13,12 @@ class ReservationController extends Controller
         $active = [];
         $upcoming = [];
         $later = [];
+
         $tomorow = \DateTime::createFromFormat("U", strtotime("tomorrow"));
         $now = \DateTime::createFromFormat("U", strtotime("now"));
         $plus1hour = \DateTime::createFromFormat("U", strtotime("+1hour"));
-        print_r($now);
-        echo "<br>";
-        print_r($plus1hour);
-        echo "<br>";
-        print_r($tomorow);
         $data = Reservation::all();
+
         foreach ($data as $reservation) {
             if (
                 $reservation->date_start > $now &&
@@ -42,6 +39,7 @@ class ReservationController extends Controller
                 array_push($later, $reservation);
             }
         }
+
         return view("reservations.index", [
             "late" => $late,
             "active" => $active,
