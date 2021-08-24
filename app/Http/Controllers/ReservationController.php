@@ -34,4 +34,8 @@ class ReservationController extends Controller
         }
         return view("reservations.index",["late"=>$late,"active"=>$active,"upcoming"=>$upcoming,"later"=>$later]);
     }
+    public function edit(){
+        $data = Reservation::all();
+        return view("reservations.edit",["reservations"=>$data])
+    }
 }
