@@ -47,4 +47,37 @@
 
     </div>
 </div>
+<div id="show">
+    <p>reservation information</p>
+
+    <div id="reservation-data" data-reservations="{{App\Models\Reservation::formatCollectionForJavascript($reservations)}}">
+        <div class="reservation-data-field">
+            <p>Name</p>
+            <p class="reservation-data-value"></p>
+        </div>
+        <div class="reservation-data-field">
+            <p>Number of guests</p>
+            <p class="reservation-data-value"></p>
+        </div>
+        <div class="reservation-data-field">
+            <p>Day</p>
+            <p class="reservation-data-value"></p>
+        </div>
+        <div class="reservation-data-field">
+            <p>Starting time</p>
+            <p class="reservation-data-value"></p>
+        </div>
+        <div class="reservation-data-field">
+            <p>Has arrived</p>
+            <p class="reservation-data-value"></p>
+        </div>
+        <div class="reservation-data-field">
+            <p>Event</p>
+            <p class="reservation-data-value"></p>
+        </div>
+    </div>
+
+    <button>guest arrived</button>
+    <button>cancel</button>
+</div>
 @endsection

@@ -44,6 +44,7 @@ final class ReservationController extends Controller
         }
 
         return view("reservations.index", [
+            "reservations" => $data,
             "late" => $late,
             "active" => $active,
             "upcoming" => $upcoming,
