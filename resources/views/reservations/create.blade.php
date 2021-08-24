@@ -1,8 +1,8 @@
 @extends('layout.app')
 
 @section('content')
-    <div class="w-1/2 mx-auto flex flex-row">
-        <form method="POST" action="{{ route('reservation.store') }}">
+    <div class="w-1/2 mx-auto min-h-screen border-r-2 border-l-2">
+        <form method="POST" action="{{ route('reservation.store') }}" class="w-full ">
             @csrf
 
             {{-- Name --}}
@@ -51,7 +51,7 @@
             <textarea placeholder="notes..."></textarea>
 
             {{-- Save --}}
-            <button type="submit" >Save</button>
+            <button type="submit" class="bg-save border-2 rounded w-min px-3">Save</button>
         </form>
 
         {{-- graph goes here? --}}
