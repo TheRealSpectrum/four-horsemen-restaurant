@@ -49,6 +49,12 @@ class ReservationController extends Controller
             "later" => $later,
         ]);
     }
+
+    public function create() {
+        return view("reservations.create");
+    }
+
+
     public function edit()
     {
         $data = Reservation::all();

@@ -33,6 +33,7 @@ Route::name("reservation.")->group(function () {
     route::get("/reservation", [ReservationController::class, "index"])->name(
         "index"
     );
+    Route::get("/reservation/new", [ReservationController::class, "create"])->name("create");
 });
 
 //test routes
