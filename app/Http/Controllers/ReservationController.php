@@ -55,6 +55,11 @@ class ReservationController extends Controller
         return view("reservations.create");
     }
 
+    public function store()
+    {
+        return "store called";
+    }
+
     public function edit()
     {
         $data = Reservation::all();

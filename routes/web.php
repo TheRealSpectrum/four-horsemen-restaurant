@@ -37,6 +37,10 @@ Route::name("reservation.")->group(function () {
         ReservationController::class,
         "create",
     ])->name("create");
+    Route::post("/reservation/store", [
+        ReservationController::class,
+        "store",
+    ])->name("store");
 });
 
 //test routes
