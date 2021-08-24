@@ -30,11 +30,26 @@ Route::name("auth.")->group(function () {
 });
 
 Route::name("reservation.")->group(function () {
-    route::get("/reservation", [ReservationController::class , "index"])->name("index");
+    route::get("/reservation", [ReservationController::class, "index"])->name(
+        "index"
+    );
 });
 
 //test routes
 
 Route::get("/test", function () {
-    return view("reservations.index",["resevations"=>[(object)['name'=>'Rik','id'=>1,'date'=>'2021-08-17','time'=>'15:00','numOfGuests'=>5,'eventType'=>'afterParty','tables'=>[1,2],'status'=>false]]]);
+    return view("reservations.index", [
+        "resevations" => [
+            (object) [
+                "name" => "Rik",
+                "id" => 1,
+                "date" => "2021-08-17",
+                "time" => "15:00",
+                "numOfGuests" => 5,
+                "eventType" => "afterParty",
+                "tables" => [1, 2],
+                "status" => false,
+            ],
+        ],
+    ]);
 });

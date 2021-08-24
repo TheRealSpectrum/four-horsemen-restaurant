@@ -20,8 +20,8 @@ class ResItem extends Component
         $this->name = $info->name;
         $this->numOfGuests = $info->numOfGuests;
         $this->tables = $info->tables->pluck("id");
-        $this->date = $info->date_start->format('Y-m-d');
-        $this->time = $info->date_start->format('H:i');
+        $this->date = $info->date_start->format("Y-m-d");
+        $this->time = $info->date_start->format("H:i");
         $this->eventType = $info->event_type;
         $this->active = $info->active;
     }
