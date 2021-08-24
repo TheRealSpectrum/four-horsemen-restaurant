@@ -13,9 +13,9 @@ class ReservationController extends Controller
         $active = [];
         $upcoming = [];
         $later = [];
-        $tomorow = new \DateTime(strtotime("tomorrow"));
-        $now = new \DateTime(strtotime("now"));
-        $plus1hour = new \DateTime(strtotime("+1hour"));
+        $tomorow = \DateTime::createFromFormat("U",strtotime("tomorrow"));
+        $now = \DateTime::createFromFormat("U",strtotime("now"));
+        $plus1hour = \DateTime::createFromFormat("U",strtotime("+1hour"));
         print_r($now);
         echo "<br>";
         print_r($plus1hour);
@@ -49,6 +49,7 @@ class ReservationController extends Controller
             "later" => $later,
         ]);
     }
+
     public function edit()
     {
         $data = Reservation::all();
