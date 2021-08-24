@@ -1,4 +1,5 @@
 {
+    "name": "four-horsemen-restaurant",
     "private": true,
     "scripts": {
         "dev": "npm run development",
