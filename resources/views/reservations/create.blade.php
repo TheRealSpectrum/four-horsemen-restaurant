@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-    <div>
+    <div class="w-1/2 mx-auto">
         <form>
             <label for="name">Name</label>
             <input id="name" type="text" />

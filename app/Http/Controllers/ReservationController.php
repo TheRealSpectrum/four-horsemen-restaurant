@@ -50,10 +50,10 @@ class ReservationController extends Controller
         ]);
     }
 
-    public function create() {
+    public function create()
+    {
         return view("reservations.create");
     }
-
 
     public function edit()
     {
