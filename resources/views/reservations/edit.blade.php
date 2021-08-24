@@ -10,7 +10,9 @@ date_default_timezone_set("Europe/Amsterdam");
     <div id="active_reservations" class="row-start-2 col-start-1 col-span-2 flex flex-row flex-wrap border-2 border-black place-content-start">
     </div>
     <div id="incoming_reservations" class="row-start-2 col-start-3 col-span-6 flex flex-col flex-nowrap border-2 border-black place-content-start">
-        <div class="search"></div>
+        <div class="search">
+            <x-labled-input :data=""></x-reservation-item>
+        </div>
         <div class="results"></div>
         <div class="edit"></div>
     </div>
