@@ -53,6 +53,6 @@ class ReservationController extends Controller
     public function edit()
     {
         $data = Reservation::all();
-        return view("reservations.edit", ["reservations" => $data]);
+        return view("reservations.edit", ["data" => $data]);
     }
 }
