@@ -31,7 +31,7 @@ final class ReservationController extends Controller
             }
 
             if ($reservation->date_start > $now) {
-                array_push($upcoming . $reservation);
+                array_push($upcoming, $reservation);
                 continue;
             }
 
