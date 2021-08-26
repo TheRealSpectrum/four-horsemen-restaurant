@@ -9,8 +9,7 @@
         "hot": "mix watch --hot",
         "prod": "npm run production",
         "production": "mix --production",
-        "lint-eslintold": "eslint \"resources/js/**/*\"",
-        "lint-eslint": "",
+        "lint-eslint": "eslint \"resources/js/**/*\"",
         "lint-prettier": "prettier --check .",
         "fix-eslint": "eslint \"resources/js/**/*\" --fix",
         "fix-prettier": "prettier --write ."
