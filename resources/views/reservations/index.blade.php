@@ -83,6 +83,7 @@
             </div>
 
             <div class="flex flex-col h-full gap-6 w-60">
+                <button id="show-box-close" class="border-2 border-dark bg-save text-2xl dark:border-light p-2 rounded">Back to index</button>
                 <button class="border-2 border-dark bg-save text-2xl dark:border-light p-2 rounded">guest arrived</button>
                 <button class="border-2 border-dark bg-warning-high text-2xl dark:border-light p-2 rounded">cancel</button>
             </div>
