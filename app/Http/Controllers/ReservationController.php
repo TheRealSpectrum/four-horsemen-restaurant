@@ -89,11 +89,18 @@ final class ReservationController extends Controller
         $data = Reservation::all();
         $tables = Table::all();
         $pivot = [];
-        foreach($data as $reservation){
-            foreach($reservation->tables as $table){
-                array_push($pivot,["reservation_id"=>$reservation->id,"table_id"=>$table->id]);
+        foreach ($data as $reservation) {
+            foreach ($reservation->tables as $table) {
+                array_push($pivot, [
+                    "reservation_id" => $reservation->id,
+                    "table_id" => $table->id,
+                ]);
             }
         }
-        return view("reservations.edit", ["data" => $data, "tables" => $tables, "pivot"=>$pivot]);
+        return view("reservations.edit", [
+            "data" => $data,
+            "tables" => $tables,
+            "pivot" => $pivot,
+        ]);
     }
 }

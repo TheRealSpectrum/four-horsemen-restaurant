@@ -14,21 +14,21 @@
     min-width: max-content;
 }
 /* vue component styles */
-#app{
+#app {
     display: grid;
     place-items: center;
     height: 100vh;
     position: relative;
     overflow: hidden;
 }
-#app .container{
+#app .container {
     width: 75%;
     height: 100vh;
     display: grid;
     grid-template-rows: 100px 1fr;
     padding: 10px 0 0 10px;
 }
-#app .search{
+#app .search {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -38,7 +38,7 @@
     height: max-content;
     gap: 5px 10px;
 }
-#app .search label{
+#app .search label {
     flex-shrink: 0;
     width: calc(50% - 5px);
     height: 33.33%;
@@ -46,7 +46,7 @@
     flex-direction: row;
     justify-content: space-between;
 }
-#app .results{
+#app .results {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -54,33 +54,26 @@
     overflow-y: scroll;
 }
 
-#app .edit{
+#app .edit {
     display: grid;
-    grid-area: 
-    "id phone"
-    "name guestCount"
-    "event date"
-    "notes time"
-    "notes tables"
-    "notes tables"
-    "notes btns"
-    ;
+    grid-area: "id phone" "name guestCount" "event date" "notes time"
+        "notes tables" "notes tables" "notes btns";
 }
 /* vue and blade component shared styles */
-.imgWrap{
+.imgWrap {
     width: 50px;
     height: 50px;
     overflow: hidden;
 }
-.imgWrap img{
+.imgWrap img {
     max-width: none;
     max-height: none;
     width: 50px;
     height: 50px;
 }
-.icon{
-    fill:white;
+.icon {
+    fill: white;
 }
-input{
+input {
     color: black;
 }
