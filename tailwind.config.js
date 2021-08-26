@@ -3,7 +3,7 @@ module.exports = {
         content: ["./resources/**/*.blade.php", "./resources/**/*.js"],
         safelist: ["hidden"],
     },
-    darkMode: "media",
+    darkMode: "class",
     variants: {
         extend: {
             backgroundColor: ["odd", "even"],
