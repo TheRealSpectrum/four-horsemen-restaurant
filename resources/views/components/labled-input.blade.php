@@ -1,0 +1,1 @@
+<label class="labeled-input">{{$label}}<input type="text" name="{{$label}}-{{$type}}" placeholder="{{$placeholder}}">{{$value??}}</label>
