@@ -47,37 +47,46 @@
 
     </div>
 </div>
-<div id="show">
-    <p>reservation information</p>
+<div id="show-box-root" data-show-box-json="{{App\Models\Reservation::formatCollectionForJavascript($reservations)}}"
+    class="fixed w-screen h-screen inset-0 p-52 bg-dim hidden">
 
-    <div id="reservation-data" data-reservations="{{App\Models\Reservation::formatCollectionForJavascript($reservations)}}">
-        <div class="reservation-data-field">
-            <p>Name</p>
-            <p class="reservation-data-value"></p>
-        </div>
-        <div class="reservation-data-field">
-            <p>Number of guests</p>
-            <p class="reservation-data-value"></p>
-        </div>
-        <div class="reservation-data-field">
-            <p>Day</p>
-            <p class="reservation-data-value"></p>
-        </div>
-        <div class="reservation-data-field">
-            <p>Starting time</p>
-            <p class="reservation-data-value"></p>
-        </div>
-        <div class="reservation-data-field">
-            <p>Has arrived</p>
-            <p class="reservation-data-value"></p>
-        </div>
-        <div class="reservation-data-field">
-            <p>Event</p>
-            <p class="reservation-data-value"></p>
+    <div class="bg-light w-full h-full border-2 border-dark p-4 dark:border-light dark:bg-dark">
+        <h1 class="mx-auto text-center text-4xl font-bold">reservation information</h1>
+
+        <div class="flex flex-row justify-end h-full items-stretch">
+            <div id="reservation-data" 
+                class="flex flex-col gap-6 pt-6">
+                <div class="ml-32 grid grid-cols-5">
+                    <p class="text-2xl font-bold w-30 text-right pr-4 row-span-1">Name:</p>
+                    <p data-show-box-display="name" class="show-box-display text-2xl text-dark-gray row-span-4 dark:text-light-gray"></p>
+                </div>
+                <div class="ml-32 grid grid-cols-5">
+                    <p class="text-2xl font-bold w-30 text-right pr-4 row-span-1">Number of guests:</p>
+                    <p data-show-box-display="guestCount" class="show-box-display text-2xl text-dark-grey row-span-5"></p>
+                </div>
+                <div class="ml-32 grid grid-cols-5">
+                    <p class="text-2xl font-bold w-30 text-right pr-4 row-span-1">Day:</p>
+                    <p data-show-box-display="dateStart" class="show-box-display text-2xl text-dark-grey row-span-5"></p>
+                </div>
+                <div class="ml-32 grid grid-cols-5">
+                    <p class="text-2xl font-bold w-30 text-right pr-4 row-span-1">Starting time:</p>
+                    <p data-show-box-display="timeStart" class="show-box-display text-2xl text-dark-grey row-span-5"></p>
+                </div>
+                <div class="ml-32 grid grid-cols-5">
+                    <p class="text-2xl font-bold w-30 text-right pr-4 row-span-1">Has arrived:</p>
+                    <p data-show-box-display="active" class="show-box-display text-2xl text-dark-grey row-span-5"></p>
+                </div>
+                <div class="ml-32 grid grid-cols-5">
+                    <p class="text-2xl font-bold w-30 text-right pr-4 row-span-1">Event:</p>
+                    <p data-show-box-display="eventType" class="show-box-display text-2xl text-dark-grey row-span-5"></p>
+                </div>
+            </div>
+
+            <div class="flex flex-col h-full gap-6 w-60">
+                <button class="border-2 border-dark bg-save text-2xl dark:border-light p-2 rounded">guest arrived</button>
+                <button class="border-2 border-dark bg-warning-high text-2xl dark:border-light p-2 rounded">cancel</button>
+            </div>
         </div>
     </div>
-
-    <button>guest arrived</button>
-    <button>cancel</button>
 </div>
 @endsection

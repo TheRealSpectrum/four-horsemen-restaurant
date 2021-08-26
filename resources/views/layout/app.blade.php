@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title> @yield("title", "Molveno Resort Restaurant App") </title>
+    <script src="{{ asset("js/app.js") }}" defer></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     {{-- Google Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
