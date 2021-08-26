@@ -59,7 +59,7 @@ class ReservationController extends Controller
     {
         $this->validate($request, [
             "name" => "required",
-            "phone" => "required",
+            "phone_number" => "required",
             "guest_count" => "required",
             "date" => "required",
             "time" => "required",

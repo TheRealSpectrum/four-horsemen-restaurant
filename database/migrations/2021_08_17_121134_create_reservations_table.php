@@ -19,12 +19,12 @@ final class CreateReservationsTable extends Migration
             $table->dateTime("date_start");
             $table->dateTime("date_end");
             $table->boolean("active");
-            $table->string("event_type")->default("");
+            $table->string("event_type")->nullable();
             $table
                 ->string("phone_number")
                 ->nullable()
                 ->default(null);
-            $table->text("notes")->default("");
+            $table->text("notes")->nullable();
 
             $table->timestamps();
         });

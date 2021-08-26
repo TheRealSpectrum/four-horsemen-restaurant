@@ -22,6 +22,8 @@ final class Reservation extends Model
         "date_end",
         "active",
         "event_type",
+        "phone_number",
+        "notes",
     ];
 
     protected $casts = [

@@ -14,7 +14,7 @@
             {{-- Phone Number --}}
             <div>
                 <label for="phone">Phone</label>
-                <input id="phone" type="tel" name="phone" />
+                <input id="phone" type="tel" name="phone_number" />
             </div>
 
             {{-- Number of Guests --}}
