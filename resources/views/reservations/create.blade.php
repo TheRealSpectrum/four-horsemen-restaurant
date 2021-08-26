@@ -8,47 +8,47 @@
             {{-- Name --}}
             <div>
                 <label for="name">Name</label>
-                <input id="name" type="text" />
+                <input id="name" type="text" name="name" />
             </div>
 
             {{-- Phone Number --}}
             <div>
                 <label for="phone">Phone</label>
-                <input id="phone" type="tel" />
+                <input id="phone" type="tel" name="phone" />
             </div>
 
             {{-- Number of Guests --}}
             <div>
                 <label for="guests">Number of Guests</label>
-                <input id="guests" type="number" />
+                <input id="guests" type="number" name="guest_count" />
             </div>
 
             {{-- Date --}}
             <div>
                 <label for="date">Date</label>
-                <input id="date" type="date" />
+                <input id="date" type="date" name="date" />
             </div>
             
             {{-- Time --}}
             <div>
                 <label for="time">Time</label>
-                <input id="time" type="time" min="00:00" max="23:59" />
+                <input id="time" type="time" min="00:00" max="23:59" name="time" />
             </div>
 
             {{-- Event --}}
             <div>
                 <label for="event">Event</label>
-                <input id="event" type="text" />
+                <input id="event" type="text" name="event_type" />
             </div>
 
             {{-- Tables --}}
             <div>
                 <label for="tables">Tables</label>
-                <input id="tables" type="text" />
+                <input id="tables" type="text" name="tables" />
             </div>
 
             {{-- Notes --}}
-            <textarea placeholder="notes..."></textarea>
+            <textarea name="notes" placeholder="notes..."></textarea>
 
             {{-- Save --}}
             <button type="submit" class="bg-save border-2 rounded w-min px-3">Save</button>

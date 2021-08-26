@@ -55,9 +55,30 @@ class ReservationController extends Controller
         return view("reservations.create");
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        return "store called";
+        $this->validate($request, [
+            "name" => "required",
+            "phone" => "required",
+            "guest_count" => "required",
+            "date" => "required",
+            "time" => "required",
+            "event_type" => "",
+            "tables" => "",
+            "notes" => "",
+        ]);
+
+        $request["date_start"] = strtotime($request["date"] . $request["time"]);
+
+        $request["date_end"] = $request["date_start"] + 60 * 60 * 3;
+        $request["active"] = false;
+
+        Reservation::create($request->all());
+
+        return redirect("/reservation")->with(
+            "success",
+            "The reservation is set"
+        );
     }
 
     public function edit()
