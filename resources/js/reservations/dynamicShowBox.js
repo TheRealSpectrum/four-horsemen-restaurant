@@ -5,8 +5,6 @@
     const SHOW_BOX_TRIGGERS =
         document.getElementsByClassName("show-box-trigger");
 
-    const SHOW_BOX_JSON = JSON.parse(SHOW_BOX_ROOT.dataset.showBoxJson);
-
     for (const showBoxTrigger of SHOW_BOX_TRIGGERS) {
         const displayData = SHOW_BOX_JSON[showBoxTrigger.dataset.showBoxIndex];
         showBoxTrigger.addEventListener("click", () => {
