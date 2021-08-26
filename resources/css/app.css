@@ -13,3 +13,67 @@
     width: 100%;
     min-width: max-content;
 }
+/* vue component styles */
+#app {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+#app .container {
+    width: 75%;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 100px 1fr;
+    padding: 10px 0 0 10px;
+}
+#app .search {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    width: calc(100% - 10px);
+    height: max-content;
+    gap: 5px 10px;
+}
+#app .search label {
+    flex-shrink: 0;
+    width: calc(50% - 5px);
+    height: 33.33%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#app .results {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    overflow-y: scroll;
+}
+
+#app .edit {
+    display: grid;
+    grid-area: "id phone" "name guestCount" "event date" "notes time"
+        "notes tables" "notes tables" "notes btns";
+}
+/* vue and blade component shared styles */
+.imgWrap {
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+}
+.imgWrap img {
+    max-width: none;
+    max-height: none;
+    width: 50px;
+    height: 50px;
+}
+.icon {
+    fill: white;
+}
+input {
+    color: black;
+}

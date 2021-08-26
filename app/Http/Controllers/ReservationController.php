@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Reservation;
+use App\Models\Table;
 
 final class ReservationController extends Controller
 {
@@ -86,6 +87,20 @@ final class ReservationController extends Controller
     public function edit()
     {
         $data = Reservation::all();
-        return view("reservations.edit", ["reservations" => $data]);
+        $tables = Table::all();
+        $pivot = [];
+        foreach ($data as $reservation) {
+            foreach ($reservation->tables as $table) {
+                array_push($pivot, [
+                    "reservation_id" => $reservation->id,
+                    "table_id" => $table->id,
+                ]);
+            }
+        }
+        return view("reservations.edit", [
+            "data" => $data,
+            "tables" => $tables,
+            "pivot" => $pivot,
+        ]);
     }
 }
