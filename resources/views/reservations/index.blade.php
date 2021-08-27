@@ -99,4 +99,12 @@
         </div>
     </div>
 </div>
+
+
+<x-notifier id="notify-guest-update">
+    The reservation status has been updated to: <br>
+    arrived
+</x-notifier>
+<x-notifier id="notify-reservation-cancel" type="alert">The reservation has been canceled</x-notifier>
+
 @endsection
