@@ -61,14 +61,14 @@ final class ReservationController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            "name" => "required",
-            "phone_number" => "required",
-            "guest_count" => "required",
-            "date" => "required",
+            "name" => "required|string|between:2,255",
+            "phone_number" => "required|string|regex:/^([0-9\s\-\+\(\)]*)$/",
+            "guest_count" => "required|integer",
+            "date" => "required|after_or_equal:today",
             "time" => "required",
-            "event_type" => "",
+            "event_type" => "string|nullable",
             "tables" => "",
-            "notes" => "",
+            "notes" => "string|nullable",
         ]);
 
         $request["date_start"] = strtotime($request["date"] . $request["time"]);
