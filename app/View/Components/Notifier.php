@@ -7,9 +7,14 @@ use Illuminate\View\View;
 
 final class Notifier extends Component
 {
-    public function __construct(string $id, string $type = "info")
-    {
+    public function __construct(
+        string $id = "",
+        string $type = "info",
+        bool $trigger = false
+    ) {
         $this->notifyId = $id;
+        $this->instantTrigger = $trigger ? "1" : "0";
+
         switch ($type) {
             case "info":
                 $this->titleText = "Info";
@@ -34,4 +39,5 @@ final class Notifier extends Component
     public string $notifyId;
     public string $titleText;
     public string $colorName;
+    public string $instantTrigger;
 }
