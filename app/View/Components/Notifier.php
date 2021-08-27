@@ -4,16 +4,17 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Request;
 
 final class Notifier extends Component
 {
     public function __construct(
         string $id = "",
         string $type = "info",
-        bool $trigger = false
+        string $trigger = ""
     ) {
         $this->notifyId = $id;
-        $this->instantTrigger = $trigger ? "1" : "0";
+        $this->instantTrigger = Request::has($trigger) ? "1" : "0";
 
         switch ($type) {
             case "info":
