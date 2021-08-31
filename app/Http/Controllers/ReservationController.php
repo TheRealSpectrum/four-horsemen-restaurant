@@ -57,7 +57,23 @@ final class ReservationController extends Controller
 
     public function create()
     {
-        return view("reservations.create");
+        $data = Reservation::with("tables")->get();
+        $tables = Table::all();
+        $pivot = [];
+        foreach ($data as $reservation) {
+            foreach ($reservation->tables as $table) {
+                array_push($pivot, [
+                    "reservation_id" => $reservation->id,
+                    "table_id" => $table->id,
+                ]);
+            }
+        }
+
+        return view("reservations.create", [
+            "data" => $data,
+            "tables" => $tables,
+            "pivot" => $pivot,
+        ]);
     }
 
     public function store(Request $request)

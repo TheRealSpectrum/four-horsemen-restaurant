@@ -42,9 +42,8 @@
             </div>
 
             {{-- Tables --}}
-            <div>
-                <label for="tables">Tables</label>
-                <input id="tables" type="text" name="tables" />
+            <div id="app">
+                <table-select-component :reservation_data="{{($data)}}" :table_data="{{($tables)}}" :pivot="{{json_encode($pivot)}}"></table-select-component>
             </div>
 
             {{-- Notes --}}
@@ -56,4 +55,5 @@
 
         {{-- graph goes here? --}}
     </div>
+    <script src="{{ mix('/js/app.js') }}"></script>
 @endsection
