@@ -1,22 +1,29 @@
 <template>
     <div>
-        <input type="hidden" name="table" :value="computed_tables" readonly>
-        <label
-            id="tables"
-        >tables
-            <select 
-                name="tableToAdd"
-                v-model="tableToAdd" 
-                :value="tableToAdd"
-            >
-                <option :value="table.id" v-for="table in computed_table_data" :key="table.id" v-on:click="addTable()">
-                    Table {{table.id}} - {{table.seat_count}} {{((table.seat_count>1)?"seats":"seat")}}
+        <input type="hidden" name="table" :value="computed_tables" readonly />
+        <label id="tables"
+            >tables
+            <select name="tableToAdd" v-model="tableToAdd" :value="tableToAdd">
+                <option
+                    :value="table.id"
+                    v-for="table in computed_table_data"
+                    :key="table.id"
+                    v-on:click="addTable()"
+                >
+                    Table {{ table.id }} - {{ table.seat_count }}
+                    {{ table.seat_count > 1 ? "seats" : "seat" }}
                 </option>
             </select>
-            <div class="selectedTables flex flex-row justify-start gap-2"> 
-                <div class="table " v-for="(table,index) in selectedTabels" :key="index">
-                    <p>{{table}}</p>
-                    <div class="remove" v-on:click="removeTable(index)">remove</div>
+            <div class="selectedTables flex flex-row justify-start gap-2">
+                <div
+                    class="table"
+                    v-for="(table, index) in selectedTabels"
+                    :key="index"
+                >
+                    <p>{{ table }}</p>
+                    <div class="remove" v-on:click="removeTable(index)">
+                        remove
+                    </div>
                 </div>
             </div>
         </label>
@@ -25,17 +32,15 @@
 
 <script>
 export default {
-    props:{
-
+    props: {
         pivot: Array,
         table_data: Array,
         reservation_data: Array,
 
         selectedTabels: Array,
         tableToAdd: String,
-    
     },
-    computed:{
+    computed: {
         computed_table_data: function () {
             return this.table_data.filter((i) => this.isAvailible(i));
         },
@@ -80,38 +85,32 @@ export default {
             });
         },
         addTable() {
-            let tables = this.selectedTabels ?? []
+            let tables = this.selectedTabels ?? [];
             if (
                 !this.computed_tables.split(",").includes(`${this.tableToAdd}`)
             ) {
                 tables.push(this.tableToAdd);
             }
             this.tableToAdd = "";
-            this.selectedTabels = tables
+            this.selectedTabels = tables;
         },
         isAvailible(table) {
             let id = table.id;
-            let time = document.querySelector("input[id='time']")?.value
-            let date = document.querySelector("input[id='date']")?.value
-            let datetime =new Date(`${date}T${time}:00`)
+            let time = document.querySelector("input[id='time']")?.value;
+            let date = document.querySelector("input[id='date']")?.value;
+            let datetime = new Date(`${date}T${time}:00`);
             let result = true;
             this.reservation_data.forEach((reservation) => {
                 if (
-                    (
-                        datetime > new Date(reservation.date_start)
-                    &&
-                        datetime < new Date(reservation.date_end)
-                    ) 
+                    (datetime > new Date(reservation.date_start) &&
+                        datetime < new Date(reservation.date_end)) ||
                     // || //uncoment when end time is configereble
                     // (
-                    //     Date(`${this.current_end_date}T${this.current_end_time}`) > reservation.date_start 
+                    //     Date(`${this.current_end_date}T${this.current_end_time}`) > reservation.date_start
                     // &&
                     //     Date(`${this.current_end_date}T${this.current_end_time}`) < reservation.date_end
                     // )
-                    ||
-                    (
-                        this.selectedTabels?.includes(id)
-                    )
+                    this.selectedTabels?.includes(id)
                 ) {
                     reservation.tables.forEach((rezervedTable) => {
                         if (rezervedTable.id == id) {
@@ -123,9 +122,7 @@ export default {
             return result;
         },
     },
-}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
