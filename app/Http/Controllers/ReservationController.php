@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Models\Reservation;
 use App\Models\Table;
+use DateTime;
+use SebastianBergmann\Environment\Console;
 
 final class ReservationController extends Controller
 {
@@ -86,7 +88,7 @@ final class ReservationController extends Controller
 
     public function edit()
     {
-        $data = Reservation::all();
+        $data = Reservation::with("tables")->get();
         $tables = Table::all();
         $pivot = [];
         foreach ($data as $reservation) {
@@ -102,5 +104,46 @@ final class ReservationController extends Controller
             "tables" => $tables,
             "pivot" => $pivot,
         ]);
+    }
+    public function update(Request $data){
+        // dd($data);
+        $reservation = Reservation::where('id',$data->input('id'))->first();
+        if($data->input('action')==="update"){
+            $date = new DateTime($data->input('date') .' '. $data->input('time'));
+            $dateEnd = clone $date;
+            $dateEnd->add(new \DateInterval($data->input('endTime')));
+            $reservation->name = $data->input("name");
+            $reservation->phone_number = $data->input("phone");
+            $reservation->guest_count = $data->input("guestCount");
+            $reservation->event_type = $data->input("event");
+            $reservation->notes = $data->input("notes");
+            $reservation->date_start = $date;
+            $reservation->date_end = $dateEnd;
+            $tablesOnReservation = [];
+            foreach ($reservation->tables()->get() as $pivot_table) {
+                array_push($tablesOnReservation,$pivot_table->getOriginal()['pivot_table_id']);
+            }
+            foreach(explode(',',$data->input('table')) as $table){
+                if(in_array($table,$tablesOnReservation)==false){
+                    $reservation->tables()->attach(intval($table));
+                }
+            }
+            foreach ($tablesOnReservation as $pivot_table) {
+                // dd(
+                //     $pivot_table,explode(',',$data->input('table')),
+                //     in_array("$pivot_table",explode(',',$data->input('table'))),
+                //     in_array($pivot_table,explode(',',$data->input('table')))
+                // );
+                if(in_array("$pivot_table",explode(',',$data->input('table')))===false){
+                    $reservation->tables()->detach($pivot_table);
+                }
+            }
+            $reservation->save();
+            return $this->edit();
+        }elseif($data->input('action')==="cancel"){
+
+        }elseif($reservation === null){
+
+        }
     }
 }
