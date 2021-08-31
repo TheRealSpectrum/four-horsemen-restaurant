@@ -177,14 +177,23 @@
                     :value="selectedTime"
                 >
                 <select name="endTime" id="endTime">
-                    <option 
+                    <!-- pre made for when config gets working expected config format 
+                    config:{
+                        reservation_lenghts:[
+                            {hours:int,minutes:int},
+                            {hours:int,minutes:int}
+                        ]
+                    }
+
+
+                        <option 
                         v-for="(reservation_length,index) in config.reservation_lengths" :key="index"
                         :value="`PT${reservation_length.hour}H${reservation_length.minutes}M`"
                         :default="reservation_length.default"
                     >
-                        + {{reservation_length.houre}} hour {{(reservation_length.minutes !== 0)?`and ${reservation_length.minutes} minutes `:''}}
-                    </option>
-                    <!-- <option value="PT1H" default>+ 1 hour</option>
+                        + {{reservation_length.hours}} hour {{(reservation_length.minutes !== 0)?`and ${reservation_length.minutes} minutes `:''}}
+                    </option> -->
+                    <option value="PT1H" default>+ 1 hour</option>
                     <option value="PT1H15M">+ 1 hour and 15 minutes</option>
                     <option value="PT1H30M">+ 1 hour and 30 minutes</option>
                     <option value="PT1H45M">+ 1 hour and 45 minutes</option>
@@ -196,7 +205,7 @@
                     <option value="PT3H15M">+ 3 hour and 15 minutes</option>
                     <option value="PT3H30M">+ 3 hour and 30 minutes</option>
                     <option value="PT3H45M">+ 3 hour and 45 minutes</option>
-                    <option value="PT4H">+ 4 hour</option> -->
+                    <option value="PT4H">+ 4 hour</option>
                 </select>
             </label>
             <label
@@ -279,13 +288,9 @@ export default {
             })
             return `total seats : ${seats}`
         },
-        config:function(){
-
-        }
     },
     data: () => ({
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        config:{},
     }),
     methods: {
         isValid(item) {
