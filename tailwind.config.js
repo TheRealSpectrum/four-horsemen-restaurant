@@ -1,6 +1,6 @@
 module.exports = {
     purge: ["./resources/**/*.blade.php", "./resources/**/*.js"],
-    darkMode: "media",
+    darkMode: "class",
     variants: {
         extend: {
             backgroundColor: ["odd", "even"],
