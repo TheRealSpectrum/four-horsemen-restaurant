@@ -24,8 +24,8 @@ final class Reservation extends Model
                         "$reservation->id": {
                             "name": "$reservation->name",
                             "guestCount": $reservation->guest_count,
-                            "date_start": "{$reservation->date_start->format("Y-m-d")}",
-                            "time_start": "{$reservation->date_start->format("H:i")}",
+                            "dateStart": "{$reservation->date_start->format("Y-m-d")}",
+                            "timeStart": "{$reservation->date_start->format("H:i")}",
                             "active": $isActive,
                             "eventType": "$reservation->event_type"
                         },

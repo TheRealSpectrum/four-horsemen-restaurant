@@ -3,6 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "components/notifier.css";
+
 #late_reservations .reservation,
 #upcoming_reservations .reservation {
     width: 33.33%;

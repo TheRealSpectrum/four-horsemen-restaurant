@@ -1,5 +1,8 @@
 module.exports = {
-    purge: ["./resources/**/*.blade.php", "./resources/**/*.js"],
+    purge: {
+        content: ["./resources/**/*.blade.php", "./resources/**/*.js"],
+        safelist: ["hidden"],
+    },
     darkMode: "class",
     variants: {
         extend: {
@@ -13,6 +16,7 @@ module.exports = {
             "light-gray": "#becec0",
             "dark-gray": "#5e696b",
             dark: "#010521",
+            dim: "#01052188",
             highlight: "#162f9e",
             warning: {
                 high: "#ff7272",
