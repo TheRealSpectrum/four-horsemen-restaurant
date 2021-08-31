@@ -129,19 +129,19 @@ final class ReservationController extends Controller
                 }
             }
             foreach ($tablesOnReservation as $pivot_table) {
-                // dd(
-                //     $pivot_table,explode(',',$data->input('table')),
-                //     in_array("$pivot_table",explode(',',$data->input('table'))),
-                //     in_array($pivot_table,explode(',',$data->input('table')))
-                // );
                 if(in_array("$pivot_table",explode(',',$data->input('table')))===false){
                     $reservation->tables()->detach($pivot_table);
                 }
             }
             $reservation->save();
-            return $this->edit();
+            return redirect("/agenda");
         }elseif($data->input('action')==="cancel"){
-
+            $reservation->canceled = true;
+            foreach ($reservation->tables()->get() as $pivot_table) {
+                $reservation->tables()->detach($pivot_table->getOriginal()['pivot_table_id']);
+            }
+            $reservation->save();
+            return redirect("/agenda");
         }elseif($reservation === null){
 
         }
