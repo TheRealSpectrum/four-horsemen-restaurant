@@ -104,7 +104,7 @@
     The reservation status has been updated to: <br>
     arrived
 </x-notifier>
-<x-notifier id="notify-reservation-cancel" type="alert" trigger="notifyReservationCancel">The reservation has been canceled</x-notifier>
+<x-notifier id="notify-reservation-cancel" type="warningLow" trigger="notifyReservationCancel">The reservation has been canceled</x-notifier>
 <x-confirmation id="test">
     Please confirm
 </x-confirmation>

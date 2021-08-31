@@ -5,11 +5,11 @@ namespace App\View\Components;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 
-class Confirmation extends Notifier
+final class Confirmation extends Popup
 {
     public function __construct(
         string $id = "",
-        string $type = "info",
+        string $type = "save",
         string $trigger = ""
     ) {
         parent::__construct($id, $type, $trigger);
