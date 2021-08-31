@@ -55,7 +55,11 @@
     width: 100%;
     overflow-y: scroll;
 }
-
+#app .results .reservation{
+    width: 33.33%;
+    min-width: 350px;
+    flex-grow: 1;
+}
 #app .edit {
     position: relative;
     display: grid;
