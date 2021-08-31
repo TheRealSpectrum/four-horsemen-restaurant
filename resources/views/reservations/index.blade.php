@@ -105,5 +105,9 @@
     arrived
 </x-notifier>
 <x-notifier id="notify-reservation-cancel" type="alert" trigger="notifyReservationCancel">The reservation has been canceled</x-notifier>
+<x-confirmation id="test">
+    Please confirm
+</x-confirmation>
+
 
 @endsection

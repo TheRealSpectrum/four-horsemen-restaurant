@@ -6,7 +6,7 @@ use Illuminate\View\Component;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Request;
 
-final class Notifier extends Component
+class Notifier extends Component
 {
     public function __construct(
         string $id = "",
