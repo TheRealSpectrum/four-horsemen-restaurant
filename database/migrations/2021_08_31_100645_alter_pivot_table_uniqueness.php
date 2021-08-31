@@ -14,7 +14,7 @@ class AlterPivotTableUniqueness extends Migration
     public function up()
     {
         Schema::table("reservation_table", function (Blueprint $table) {
-            $table->primary(['reservation_id','table_id']);
+            $table->primary(["reservation_id", "table_id"]);
         });
     }
 

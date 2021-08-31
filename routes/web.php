@@ -36,7 +36,9 @@ Route::name("reservation.")->group(function () {
 
     route::get("/agenda", [ReservationController::class, "edit"])->name("edit");
 
-    route::patch("/update", [ReservationController::class, "update"])->name("update");
+    route::patch("/update", [ReservationController::class, "update"])->name(
+        "update"
+    );
 
     Route::get("/reservation/new", [
         ReservationController::class,
@@ -47,7 +49,6 @@ Route::name("reservation.")->group(function () {
         ReservationController::class,
         "store",
     ])->name("store");
-    
 });
 
 //test routes

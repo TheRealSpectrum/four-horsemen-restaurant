@@ -55,7 +55,7 @@
     width: 100%;
     overflow-y: scroll;
 }
-#app .results .reservation{
+#app .results .reservation {
     width: 33.33%;
     min-width: 350px;
     flex-grow: 1;
@@ -65,57 +65,60 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-areas: "id phone" "name guestCount" "event date" "notes time"
+    grid-template-areas:
+        "id phone" "name guestCount" "event date" "notes time"
         "notes tables" "notes tables" "notes btns";
     gap: 10px;
     border: solid 1px white;
-    margin: 0 12px 0 0 ;
+    margin: 0 12px 0 0;
 }
-#app .edit label{
+#app .edit label {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
-#app .edit input,#app .edit select,#app .edit textarea{
+#app .edit input,
+#app .edit select,
+#app .edit textarea {
     color: black;
 }
-#app #id{
+#app #id {
     grid-area: id;
 }
-#app #phone{
+#app #phone {
     grid-area: phone;
 }
-#app #name{
+#app #name {
     grid-area: name;
 }
-#app #guestCount{
+#app #guestCount {
     grid-area: guestCount;
 }
-#app #date{
+#app #date {
     grid-area: date;
 }
-#app #event{
+#app #event {
     grid-area: event;
 }
-#app #time{
+#app #time {
     grid-area: time;
 }
-#app #tables{
+#app #tables {
     grid-area: tables;
 }
-#app #notes{
+#app #notes {
     grid-area: notes;
     display: block;
 }
-#notes textarea{
+#notes textarea {
     width: 100%;
     height: 80%;
     resize: none;
 }
-#app .edit .btnWrap{
+#app .edit .btnWrap {
     grid-area: btns;
 }
-#app .edit #cancel{
+#app .edit #cancel {
     position: absolute;
     top: 0;
     right: 10px;
@@ -125,12 +128,12 @@
     display: grid;
     place-content: center;
 }
-#app .btnWrap button{
+#app .btnWrap button {
     border: solid 1px black;
     padding: 5px;
     border-radius: 5px;
 }
-#app .lableWrap{
+#app .lableWrap {
     display: flex;
     justify-content: space-between;
 }
@@ -152,6 +155,6 @@
 input {
     color: black;
 }
-.hidden{
+.hidden {
     display: none !important ;
 }

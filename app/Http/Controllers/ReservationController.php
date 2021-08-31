@@ -105,13 +105,16 @@ final class ReservationController extends Controller
             "pivot" => $pivot,
         ]);
     }
-    public function update(Request $data){
+    public function update(Request $data)
+    {
         // dd($data);
-        $reservation = Reservation::where('id',$data->input('id'))->first();
-        if($data->input('action')==="update"){
-            $date = new DateTime($data->input('date') .' '. $data->input('time'));
+        $reservation = Reservation::where("id", $data->input("id"))->first();
+        if ($data->input("action") === "update") {
+            $date = new DateTime(
+                $data->input("date") . " " . $data->input("time")
+            );
             $dateEnd = clone $date;
-            $dateEnd->add(new \DateInterval($data->input('endTime')));
+            $dateEnd->add(new \DateInterval($data->input("endTime")));
             $reservation->name = $data->input("name");
             $reservation->phone_number = $data->input("phone");
             $reservation->guest_count = $data->input("guestCount");
@@ -121,29 +124,38 @@ final class ReservationController extends Controller
             $reservation->date_end = $dateEnd;
             $tablesOnReservation = [];
             foreach ($reservation->tables()->get() as $pivot_table) {
-                array_push($tablesOnReservation,$pivot_table->getOriginal()['pivot_table_id']);
+                array_push(
+                    $tablesOnReservation,
+                    $pivot_table->getOriginal()["pivot_table_id"]
+                );
             }
-            foreach(explode(',',$data->input('table')) as $table){
-                if(in_array($table,$tablesOnReservation)==false){
+            foreach (explode(",", $data->input("table")) as $table) {
+                if (in_array($table, $tablesOnReservation) == false) {
                     $reservation->tables()->attach(intval($table));
                 }
             }
             foreach ($tablesOnReservation as $pivot_table) {
-                if(in_array("$pivot_table",explode(',',$data->input('table')))===false){
+                if (
+                    in_array(
+                        "$pivot_table",
+                        explode(",", $data->input("table"))
+                    ) === false
+                ) {
                     $reservation->tables()->detach($pivot_table);
                 }
             }
             $reservation->save();
             return redirect("/agenda");
-        }elseif($data->input('action')==="cancel"){
+        } elseif ($data->input("action") === "cancel") {
             $reservation->canceled = true;
             foreach ($reservation->tables()->get() as $pivot_table) {
-                $reservation->tables()->detach($pivot_table->getOriginal()['pivot_table_id']);
+                $reservation
+                    ->tables()
+                    ->detach($pivot_table->getOriginal()["pivot_table_id"]);
             }
             $reservation->save();
             return redirect("/agenda");
-        }elseif($reservation === null){
-
+        } elseif ($reservation === null) {
         }
     }
 }

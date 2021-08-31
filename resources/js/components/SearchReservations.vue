@@ -253,10 +253,10 @@ export default {
         searchDate: Date,
         searchTime: Date,
 
-        editState:Boolean,
-        tableToAdd:String,
+        editState: Boolean,
+        tableToAdd: String,
 
-        selected_reservation:Object,
+        selected_reservation: Object,
         selectedID: String,
         selectedPhone: String,
         selectedName: String,
@@ -274,28 +274,30 @@ export default {
         computed_table_data: function () {
             return this.table_data.filter((i) => this.isAvailible(i));
         },
-        computed_tables: function(){
-            let out = ''
-            out += this.selectedTabels?.join()
-            return out
+        computed_tables: function () {
+            let out = "";
+            out += this.selectedTabels?.join();
+            return out;
         },
-        table_seats: function(){
-            let out = {}
-            this.table_data.forEach(table => {
-                out[table.id]=table.seat_count               
+        table_seats: function () {
+            let out = {};
+            this.table_data.forEach((table) => {
+                out[table.id] = table.seat_count;
             });
-            return out
+            return out;
         },
-        total_asigned_seats:function(){
-            let seats = 0
-            this.selectedTabels?.forEach(table =>{
-                seats += this.table_seats[table]
-            })
-            return `total seats : ${seats}`
+        total_asigned_seats: function () {
+            let seats = 0;
+            this.selectedTabels?.forEach((table) => {
+                seats += this.table_seats[table];
+            });
+            return `total seats : ${seats}`;
         },
     },
     data: () => ({
-        csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        csrf: document
+            .querySelector('meta[name="csrf-token"]')
+            .getAttribute("content"),
     }),
     methods: {
         isValid(item) {
@@ -304,31 +306,23 @@ export default {
             if (
                 (this.searchID == item.id ||
                     this.searchID == undefined ||
-                    this.searchID == "") 
-                &&
+                    this.searchID == "") &&
                 (this.searchPhone == item.phone ||
                     this.searchPhone == undefined ||
-                    this.searchPhone == "") 
-                &&
+                    this.searchPhone == "") &&
                 (name_filter.test(item.name) ||
                     this.searchName == undefined ||
-                    this.searchName == "") 
-                &&
+                    this.searchName == "") &&
                 (event_filter.test(item.event_type) ||
                     this.searchEvent == undefined ||
-                    this.searchEvent == "") 
-                &&
+                    this.searchEvent == "") &&
                 (this.searchDate == this.IsolateDate(item.date_start) ||
                     this.searchDate == undefined ||
-                    this.searchDate == "") 
-                &&
+                    this.searchDate == "") &&
                 (this.searchTime == this.IsolateTime(item.date_start) ||
                     this.searchTime == undefined ||
-                    this.searchTime == "")
-                &&
-                (
-                    item.canceled == false
-                )
+                    this.searchTime == "") &&
+                item.canceled == false
             )
                 return true;
         },
@@ -354,69 +348,77 @@ export default {
                 return true;
             }
         },
-        toggleEdit(state){
-            if(((this.editState == true || this.editState==undefined ) && state != "show")|| state=="hide"){
-                this.editState = false
-            }else if((this.editState==false && state !="hide" )|| state=="show"){
-                this.editState = true
+        toggleEdit(state) {
+            if (
+                ((this.editState == true || this.editState == undefined) &&
+                    state != "show") ||
+                state == "hide"
+            ) {
+                this.editState = false;
+            } else if (
+                (this.editState == false && state != "hide") ||
+                state == "show"
+            ) {
+                this.editState = true;
             }
-            console.log(this.selectedTabels)
+            console.log(this.selectedTabels);
         },
-        SelectReservation(item){
-            this.selected_reservation = item
-            this.selectedID = item.id
-            this.selectedPhone = item.phone
-            this.selectedName = item.name
-            this.selectedEvent = item.event_type
-            this.selectedGuestCount = item.guest_count
-            this.selectedDate = this.IsolateDate(item.date_start)
-            this.selectedTime = this.IsolateTime(item.date_start)
-            this.selectedNotes = item.notes
-            this.selectedTabels = []
-            for(let reservations_table of this.pivot){
-                if(reservations_table.reservation_id==item.id){
-                    this.selectedTabels.push(reservations_table.table_id)
+        SelectReservation(item) {
+            this.selected_reservation = item;
+            this.selectedID = item.id;
+            this.selectedPhone = item.phone;
+            this.selectedName = item.name;
+            this.selectedEvent = item.event_type;
+            this.selectedGuestCount = item.guest_count;
+            this.selectedDate = this.IsolateDate(item.date_start);
+            this.selectedTime = this.IsolateTime(item.date_start);
+            this.selectedNotes = item.notes;
+            this.selectedTabels = [];
+            for (let reservations_table of this.pivot) {
+                if (reservations_table.reservation_id == item.id) {
+                    this.selectedTabels.push(reservations_table.table_id);
                 }
             }
-            console.log(this.selectedTabels)
-            this.toggleEdit("show")
+            console.log(this.selectedTabels);
+            this.toggleEdit("show");
         },
-        removeTable(index){
-            delete this.selectedTabels[index]
-            this.selectedTabels = this.selectedTabels.filter(function (el) {return el != null})
+        removeTable(index) {
+            delete this.selectedTabels[index];
+            this.selectedTabels = this.selectedTabels.filter(function (el) {
+                return el != null;
+            });
         },
-        addTable(){
-            if(!this.computed_tables.split(',').includes(`${this.tableToAdd}`)){
-                this.selectedTabels.push(this.tableToAdd)
+        addTable() {
+            if (
+                !this.computed_tables.split(",").includes(`${this.tableToAdd}`)
+            ) {
+                this.selectedTabels.push(this.tableToAdd);
             }
-            this.tableToAdd = ''
+            this.tableToAdd = "";
         },
-        isAvailible(table){
-            let id = table.id
-            let result = true
-            this.reservation_data.forEach(reservation=>{
-                if(
-                    (
-                        this.selected_reservation?.date_start > reservation.date_start
-                        &&
-                        this.selected_reservation?.date_start < reservation.date_end 
-                    )
-                    ||
-                    (
-                        this.selected_reservation?.date_end > reservation.date_start 
-                        &&
-                        this.selected_reservation?.date_end < reservation.date_end 
-                    )
-                ){
-                    reservation.tables.forEach(rezervedTable=>{
-                        if(rezervedTable.id == id){
-                            result = false
+        isAvailible(table) {
+            let id = table.id;
+            let result = true;
+            this.reservation_data.forEach((reservation) => {
+                if (
+                    (this.selected_reservation?.date_start >
+                        reservation.date_start &&
+                        this.selected_reservation?.date_start <
+                            reservation.date_end) ||
+                    (this.selected_reservation?.date_end >
+                        reservation.date_start &&
+                        this.selected_reservation?.date_end <
+                            reservation.date_end)
+                ) {
+                    reservation.tables.forEach((rezervedTable) => {
+                        if (rezervedTable.id == id) {
+                            result = false;
                         }
-                    })
+                    });
                 }
-            })
-            return result
-        }
+            });
+            return result;
+        },
     },
 };
 </script>
