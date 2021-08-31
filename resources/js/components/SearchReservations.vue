@@ -61,30 +61,31 @@
             </label>
         </div>
         <div class="results flex flex-row flex-shrink-0 w-10/12 flex-wrap">
-            <div class="w-1/3" v-for="item in computed_reservation_data" :key="item.index" v-on:click="SelectReservation(item)">
-                <div v-if="isValid(item)" class="border-black border grid grid-cols-2 grid-rows-3 h-16 p-2 text-sm reservation relative">
-                    <p  class="row-start-1 col-start-1 leading-none" :title="item.name">
-                        {{(item.name.substring(0,15) + ((item.name.length>15)?"...":""))}}
-                    </p>
-                    <p class="row-start-2 col-start-1 leading-none">
-                        {{IsolateDate(item.date_start)}}
-                    </p>
-                    <p class="row-start-3 col-start-1 leading-none">
-                        {{item.guest_count}} {{ (parseInt(item.guest_count)>1) ? "guests" : "guest"}}
-                    </p>
-                    <p class="row-start-1 col-start-2 leading-none">
-                        Id : {{item.id}}
-                    </p>
-                    <p class="row-start-2 col-start-2 leading-none">
-                        {{item.event_type}}
-                    </p>
-                    <p class="row-start-3 col-start-2 leading-none">
-                        {{"not yet"}}
-                    </p>
-                    <div class="imgWrap row-start-1 col-start-3 col-span-2 absolute right-0 flex flex-row">
-                        <img src="icons/late.svg" alt="Late" class="icon " v-if="IsLate(item.date_start,item.active)">
-                        <img src="icons/event.svg" alt="Event" class="icon " v-if="item.event_type">
-                    </div>
+            <div 
+            v-for="item in computed_reservation_data" :key="item.index"
+            v-on:click="SelectReservation(item)"
+            class="border-black border grid grid-cols-2 grid-rows-3 h-16 p-2 text-sm reservation relative">
+                <p  class="row-start-1 col-start-1 leading-none" :title="item.name">
+                    {{(item.name.substring(0,15) + ((item.name.length>15)?"...":""))}}
+                </p>
+                <p class="row-start-2 col-start-1 leading-none">
+                    {{IsolateDate(item.date_start)}} - {{IsolateTime(item.date_start)}} - {{IsolateTime(item.date_end)}}
+                </p>
+                <p class="row-start-3 col-start-1 leading-none">
+                    {{item.guest_count}} {{ (parseInt(item.guest_count)>1) ? "guests" : "guest"}}
+                </p>
+                <p class="row-start-1 col-start-2 leading-none">
+                    Id : {{item.id}}
+                </p>
+                <p class="row-start-2 col-start-2 leading-none">
+                    {{item.event_type}}
+                </p>
+                <p class="row-start-3 col-start-2 leading-none">
+                    {{"not yet"}}
+                </p>
+                <div class="imgWrap row-start-1 col-start-3 col-span-2 absolute right-0 flex flex-row">
+                    <img src="icons/late.svg" alt="Late" class="icon " v-if="IsLate(item.date_start,item.active)">
+                    <img src="icons/event.svg" alt="Event" class="icon " v-if="item.event_type">
                 </div>
             </div>
         </div>
@@ -216,7 +217,7 @@
                     v-model="tableToAdd" 
                     :value="tableToAdd"
                 >
-                    <option :value="table.id" v-for="table in table_data" :key="table.id" v-on:click="addTable()">
+                    <option :value="table.id" v-for="table in computed_table_data" :key="table.id" v-on:click="addTable()">
                         Table {{table.id}} - {{table.seat_count}} {{((table.seat_count>1)?"seats":"seat")}}
                     </option>
                 </select>
@@ -255,6 +256,7 @@ export default {
         editState:Boolean,
         tableToAdd:String,
 
+        selected_reservation:Object,
         selectedID: String,
         selectedPhone: String,
         selectedName: String,
@@ -268,6 +270,9 @@ export default {
     computed: {
         computed_reservation_data: function () {
             return this.reservation_data.filter((i) => this.isValid(i));
+        },
+        computed_table_data: function () {
+            return this.table_data.filter((i) => this.isAvailible(i));
         },
         computed_tables: function(){
             let out = ''
@@ -299,22 +304,31 @@ export default {
             if (
                 (this.searchID == item.id ||
                     this.searchID == undefined ||
-                    this.searchID == "") &&
+                    this.searchID == "") 
+                &&
                 (this.searchPhone == item.phone ||
                     this.searchPhone == undefined ||
-                    this.searchPhone == "") &&
+                    this.searchPhone == "") 
+                &&
                 (name_filter.test(item.name) ||
                     this.searchName == undefined ||
-                    this.searchName == "") &&
+                    this.searchName == "") 
+                &&
                 (event_filter.test(item.event_type) ||
                     this.searchEvent == undefined ||
-                    this.searchEvent == "") &&
+                    this.searchEvent == "") 
+                &&
                 (this.searchDate == this.IsolateDate(item.date_start) ||
                     this.searchDate == undefined ||
-                    this.searchDate == "") &&
+                    this.searchDate == "") 
+                &&
                 (this.searchTime == this.IsolateTime(item.date_start) ||
                     this.searchTime == undefined ||
                     this.searchTime == "")
+                &&
+                (
+                    item.canceled == false
+                )
             )
                 return true;
         },
@@ -349,6 +363,7 @@ export default {
             console.log(this.selectedTabels)
         },
         SelectReservation(item){
+            this.selected_reservation = item
             this.selectedID = item.id
             this.selectedPhone = item.phone
             this.selectedName = item.name
@@ -375,6 +390,32 @@ export default {
                 this.selectedTabels.push(this.tableToAdd)
             }
             this.tableToAdd = ''
+        },
+        isAvailible(table){
+            let id = table.id
+            let result = true
+            this.reservation_data.forEach(reservation=>{
+                if(
+                    (
+                        this.selected_reservation?.date_start > reservation.date_start
+                        &&
+                        this.selected_reservation?.date_start < reservation.date_end 
+                    )
+                    ||
+                    (
+                        this.selected_reservation?.date_end > reservation.date_start 
+                        &&
+                        this.selected_reservation?.date_end < reservation.date_end 
+                    )
+                ){
+                    reservation.tables.forEach(rezervedTable=>{
+                        if(rezervedTable.id == id){
+                            result = false
+                        }
+                    })
+                }
+            })
+            return result
         }
     },
 };
