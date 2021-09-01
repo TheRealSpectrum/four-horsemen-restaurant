@@ -19,6 +19,7 @@ final class CreateReservationsTable extends Migration
             $table->dateTime("date_start");
             $table->dateTime("date_end");
             $table->boolean("active");
+            $table->boolean("canceled")->default(false);
             $table->string("event_type")->nullable();
             $table
                 ->string("phone_number")

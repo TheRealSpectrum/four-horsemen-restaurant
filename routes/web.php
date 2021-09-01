@@ -33,11 +33,18 @@ Route::name("reservation.")->group(function () {
     route::get("/reservation", [ReservationController::class, "index"])->name(
         "index"
     );
+
     route::get("/agenda", [ReservationController::class, "edit"])->name("edit");
+
+    route::patch("/update", [ReservationController::class, "update"])->name(
+        "update"
+    );
+
     Route::get("/reservation/new", [
         ReservationController::class,
         "create",
     ])->name("create");
+
     Route::post("/reservation/store", [
         ReservationController::class,
         "store",

@@ -49,6 +49,7 @@ final class Reservation extends Model
         "date_start",
         "date_end",
         "active",
+        "cancel",
         "event_type",
         "phone_number",
         "notes",
