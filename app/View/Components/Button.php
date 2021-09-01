@@ -8,10 +8,12 @@ class Button extends Component
 {
     public function __construct(
         string $class = "",
+        string $id = "",
         string $type = "button",
         string $level = "neutral"
     ) {
         $this->additionalClasses = $class;
+        $this->id = $id;
         $this->buttonType = $type;
 
         switch ($level) {
@@ -33,5 +35,6 @@ class Button extends Component
     }
 
     public string $additionalClasses = "";
+    public string $id = "";
     public string $buttonType = "";
 }
