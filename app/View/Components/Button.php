@@ -4,7 +4,17 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class Button extends Component
+/**
+ * General purpose button.
+ *
+ * Possible to change the background color by changing the `level` attribute:
+ * safe = green
+ * low = orange
+ * high = red
+ *
+ * Button type defaults to `button`.
+ */
+final class Button extends Component
 {
     public function __construct(
         string $class = "",
