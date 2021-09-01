@@ -90,10 +90,10 @@
                     @method("PATCH")
                     <button class="border-2 border-dark bg-save text-2xl dark:border-light p-2 rounded">guest arrived</button>
                 </form>
-                <form action="#" method="post">
+                <form action="#" method="post" id="reservation-cancel">
                     @csrf
                     @method("PATCH")
-                    <button class="border-2 border-dark bg-warning-high text-2xl dark:border-light p-2 rounded">cancel</button>
+                    <button type="button" data-confirmation-id="confirm-reservation-cancel" class="confirmation-trigger border-2 border-dark bg-warning-high text-2xl dark:border-light p-2 rounded">cancel</button>
                 </form>
             </div>
         </div>
@@ -105,29 +105,8 @@
     arrived
 </x-notifier>
 <x-notifier id="notify-reservation-cancel" type="warningLow" trigger="notifyReservationCancel">The reservation has been canceled</x-notifier>
-<x-confirmation id="confirm-reservation-cancel" type="warningHigh" trigger="test"
-    option-back="You can only accept" option-continue="You can only accept">
-    They are watching.
-    They are watching.
-    They are watching.
-    They are watching.
-    They are watching.
-    They are watching.
-    They are watching.
-    They are watching.
-    They are watching.
-    They are watching.
-    They are watching.
-    They are watching.
-    They are watching.
-    They are watching.
-    They are watching.
-    They are watching.
-    They are watching.
-    They are watching.
-    They are watching.
-    They are watching.
-</x-confirmation>
+<x-confirmation id="confirm-reservation-cancel" type="warningHigh" form="reservation-cancel"
+    option-back="No, go back" option-continue="Yes, cancel reservation" title="Cancel the reservation?"/>
 
 
 @endsection
