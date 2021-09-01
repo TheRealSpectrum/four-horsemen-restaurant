@@ -105,8 +105,28 @@
     arrived
 </x-notifier>
 <x-notifier id="notify-reservation-cancel" type="warningLow" trigger="notifyReservationCancel">The reservation has been canceled</x-notifier>
-<x-confirmation id="test">
-    Please confirm
+<x-confirmation id="confirm-reservation-cancel" type="warningHigh" trigger="test"
+    option-back="You can only accept" option-continue="You can only accept">
+    They are watching.
+    They are watching.
+    They are watching.
+    They are watching.
+    They are watching.
+    They are watching.
+    They are watching.
+    They are watching.
+    They are watching.
+    They are watching.
+    They are watching.
+    They are watching.
+    They are watching.
+    They are watching.
+    They are watching.
+    They are watching.
+    They are watching.
+    They are watching.
+    They are watching.
+    They are watching.
 </x-confirmation>
 
 

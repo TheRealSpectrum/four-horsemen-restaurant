@@ -10,13 +10,20 @@ final class Confirmation extends Popup
     public function __construct(
         string $id = "",
         string $type = "save",
-        string $trigger = ""
+        string $trigger = "",
+        string $optionBack = "Go Back",
+        string $optionContinue = "Continue"
     ) {
         parent::__construct($id, $type, $trigger);
+        $this->optionBackText = $optionBack;
+        $this->optionContinueText = $optionContinue;
     }
 
     public function render(): View
     {
         return view("components.confirmation");
     }
+
+    public string $optionBackText = "";
+    public string $optionContinueText = "";
 }
