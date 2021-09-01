@@ -82,18 +82,18 @@
                 </div>
             </div>
 
-            <div class="flex flex-col h-full gap-6 w-60">
-                <button id="show-box-close" class="border-2 border-dark bg-save text-2xl dark:border-light p-2 rounded">Back to index</button>
+            <div class="flex flex-col h-full gap-6 w-60 items-stretch">
+                <x-button id="show-box-close">Back to index</x-button>
                 {{-- todo: Link to correct routes when completed --}}
                 <form action="#" method="post">
                     @csrf
                     @method("PATCH")
-                    <button class="border-2 border-dark bg-save text-2xl dark:border-light p-2 rounded">guest arrived</button>
+                    <x-button class="w-full" type="submit" level="low">Guest arrived</x-button>
                 </form>
                 <form action="#" method="post" id="reservation-cancel">
                     @csrf
                     @method("PATCH")
-                    <button type="button" data-confirmation-id="confirm-reservation-cancel" class="confirmation-trigger border-2 border-dark bg-warning-high text-2xl dark:border-light p-2 rounded">cancel</button>
+                    <x-button level="high" data-confirmation-id="confirm-reservation-cancel" class="confirmation-trigger w-full">Cancel reservation</x-button>
                 </form>
             </div>
         </div>
