@@ -3,8 +3,12 @@
         <input type="hidden" name="table" :value="computed_tables" readonly />
         <label id="tables"
             >tables
-            <select name="tableToAdd" v-model="tableToAdd" :value="tableToAdd"
-                    v-on:change="addTable()">
+            <select
+                name="tableToAdd"
+                v-model="tableToAdd"
+                :value="tableToAdd"
+                v-on:change="addTable()"
+            >
                 <option
                     :value="table.id"
                     v-for="table in computed_table_data"
@@ -86,17 +90,16 @@ export default {
         },
         addTable() {
             let tables = this.selectedTabels ?? [];
-            console.table(tables)
+            console.table(tables);
             if (
-                typeof(this.tableToAdd) == 'number'
-                &&
+                typeof this.tableToAdd == "number" &&
                 !this.computed_tables.split(",").includes(`${this.tableToAdd}`)
             ) {
                 tables.push(this.tableToAdd);
-                console.table(tables)
+                console.table(tables);
             }
             this.tableToAdd = "";
-            console.table(tables)
+            console.table(tables);
             this.selectedTabels = tables;
         },
         isAvailible(table) {

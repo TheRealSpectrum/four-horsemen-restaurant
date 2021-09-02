@@ -390,8 +390,7 @@ export default {
         },
         addTable() {
             if (
-                typeof(this.tableToAdd) == 'number'
-                &&
+                typeof this.tableToAdd == "number" &&
                 !this.computed_tables.split(",").includes(`${this.tableToAdd}`)
             ) {
                 this.selectedTabels.push(this.tableToAdd);
