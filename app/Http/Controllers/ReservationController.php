@@ -23,6 +23,7 @@ final class ReservationController extends Controller
         $plusOneHour = new \DateTime("+1hour");
 
         $data = Reservation::where("date_start", "<", $tomorrow)
+            ->where("canceled", false)
             ->with("tables")
             ->orderBy("date_start")
             ->get();
@@ -180,7 +181,7 @@ final class ReservationController extends Controller
                 $table = Table::where(
                     "id",
                     $pivot_table->getOriginal()["pivot_table_id"]
-                );
+                )->first();
                 $table->active = true;
                 $table->save();
             }
