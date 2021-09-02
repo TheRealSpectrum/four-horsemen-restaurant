@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\{
     AuthController,
+    HomeController,
     ReservationController
 };
 
@@ -13,9 +14,7 @@ use App\Http\Controllers\{
  * middleware: 'web'
  */
 
-Route::get("/", function () {
-    return view("welcome");
-})->name("home");
+Route::get("/", HomeController::class)->name("home");
 
 Route::name("auth.")->group(function () {
     Route::get("/login", [AuthController::class, "login"])->name("login");
