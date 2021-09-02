@@ -14,6 +14,8 @@ final class CreateTablesTable extends Migration
 
             $table->integer("seat_count");
 
+            $table->boolean("active")->default(0);
+
             $table->timestamps();
         });
     }

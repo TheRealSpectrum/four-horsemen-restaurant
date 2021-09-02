@@ -84,15 +84,16 @@
 
             <div class="flex flex-col h-full gap-6 w-60 items-stretch">
                 <x-button id="show-box-close">Back to index</x-button>
-                {{-- todo: Link to correct routes when completed --}}
-                <form action="#" method="post">
+                <form action="/update" method="POST">
                     @csrf
                     @method("PATCH")
+                    <input type="hidden" name="action" value="activate">
                     <x-button class="w-full" type="submit" level="low">Guest arrived</x-button>
                 </form>
-                <form action="#" method="post" id="reservation-cancel">
+                <form action="/update" method="POST" id="reservation-cancel">
                     @csrf
                     @method("PATCH")
+                    <input type="hidden" name="action" value="cancel">
                     <x-button level="high" data-confirmation-id="confirm-reservation-cancel" class="confirmation-trigger w-full">Cancel reservation</x-button>
                 </form>
             </div>

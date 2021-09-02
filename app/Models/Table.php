@@ -17,5 +17,5 @@ final class Table extends Model
 
     public $incrementing = false;
 
-    protected $fillable = ["id", "seat_count"];
+    protected $fillable = ["id", "seat_count", "active"];
 }
