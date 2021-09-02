@@ -1,6 +1,9 @@
 module.exports = {
-    purge: ["./resources/**/*.blade.php", "./resources/**/*.js"],
-    darkMode: "media",
+    purge: {
+        content: ["./resources/**/*.blade.php", "./resources/**/*.js"],
+        safelist: ["hidden"],
+    },
+    darkMode: "class",
     variants: {
         extend: {
             backgroundColor: ["odd", "even"],
@@ -13,7 +16,9 @@ module.exports = {
             "light-gray": "#becec0",
             "dark-gray": "#5e696b",
             dark: "#010521",
+            dim: "#01052188",
             highlight: "#162f9e",
+            "button-dim": "#23232322",
             warning: {
                 high: "#ff7272",
                 low: "#ffcf72",

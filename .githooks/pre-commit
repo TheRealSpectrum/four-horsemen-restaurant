@@ -3,5 +3,6 @@
 export WWWGROUP=""
 export WWWUSER=1000
 
-docker-compose exec -T laravel.test npm run lint-eslint
+### EsLint is currently broken and will not be checked.
+# docker-compose exec -T laravel.test npm run lint-eslint
 docker-compose exec -T laravel.test npm run lint-prettier

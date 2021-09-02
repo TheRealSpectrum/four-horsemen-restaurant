@@ -60,12 +60,8 @@
             </div>
 
             {{-- Tables --}}
-            <div class="mx-auto w-1/2 flex justify-center items-center">
-                <label for="tables" class="w-1/3 font-bold text-center">Tables</label>
-                <input id="tables" type="text" name="tables" class="w-1/2 border p-2 text-center" value="{{ old('tables', '') }}" />
-                @error('tables')
-                    <p class="text-sm text-warning-high">{{ $message }}</p>
-                @enderror
+            <div id="app">
+                <table-select-component :reservation_data="{{($data)}}" :table_data="{{($tables)}}" :pivot="{{json_encode($pivot)}}"></table-select-component>
             </div>
 
             {{-- Notes --}}
@@ -83,4 +79,5 @@
 
         {{-- graph goes here? --}}
     </div>
+    <script src="{{ mix('/js/app.js') }}"></script>
 @endsection
