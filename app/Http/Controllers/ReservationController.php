@@ -170,12 +170,17 @@ final class ReservationController extends Controller
                     ->detach($pivot_table->getOriginal()["pivot_table_id"]);
             }
             $reservation->save();
-            return redirect()->back()->with("notifyReservationCancel","$reservation->id");
+            return redirect()
+                ->back()
+                ->with("notifyReservationCancel", "$reservation->id");
         } elseif ($data->input("action") === "activate") {
             // TODO add database transaction
             $reservation->active = true;
             foreach ($reservation->tables()->get() as $pivot_table) {
-                $table = Table::where("id",$pivot_table->getOriginal()["pivot_table_id"]);
+                $table = Table::where(
+                    "id",
+                    $pivot_table->getOriginal()["pivot_table_id"]
+                );
                 $table->active = true;
                 $table->save();
             }
