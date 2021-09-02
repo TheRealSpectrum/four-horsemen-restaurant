@@ -80,4 +80,9 @@
         {{-- graph goes here? --}}
     </div>
     <script src="{{ mix('/js/app.js') }}"></script>
+    <script>
+        const app = new Vue({
+            el: "#app",
+        });
+    </script>
 @endsection

@@ -11,4 +11,9 @@ date_default_timezone_set("Europe/Amsterdam");
 
 </div>
 <script src="{{ mix('/js/app.js') }}"></script>
+<script>
+    const app = new Vue({
+        el: "#app",
+    });
+</script>
 @endsection()

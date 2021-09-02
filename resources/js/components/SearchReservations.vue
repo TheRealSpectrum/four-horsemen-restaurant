@@ -38,6 +38,7 @@
                     name="date" 
                     placeholder="reservation Date" 
                     v-model="searchDate" 
+                    :min="IsolateDate(Date.now())"
                 >
             </label>
             <label>event type
@@ -154,6 +155,7 @@
                     name="date" 
                     placeholder="reservation id" 
                     :value="selectedDate"
+                    :min="IsolateDate(Date.now())"
                 >
             </label>
             <label
@@ -178,7 +180,7 @@
                     :value="selectedTime"
                 >
                 <select name="endTime" id="endTime">
-                    <!-- pre made for when config gets working expected config format 
+                    <!-- pre made for when config gets working expected config format
                     config:{
                         reservation_lenghts:[
                             {hours:int,minutes:int},
@@ -247,26 +249,54 @@ export default {
         pivot: Array,
         table_data: Array,
         reservation_data: Array,
-        searchID: String,
-        searchPhone: String,
-        searchName: String,
-        searchEvent: String,
-        searchDate: Date,
-        searchTime: Date,
+        // searchID: String,
+        // searchPhone: String,
+        // searchName: String,
+        // searchEvent: String,
+        // searchDate: Date,
+        // searchTime: Date,
 
-        editState: Boolean,
-        tableToAdd: String,
+        // editState: Boolean,
+        // tableToAdd: String,
 
-        selected_reservation: Object,
-        selectedID: String,
-        selectedPhone: String,
-        selectedName: String,
-        selectedEvent: String,
-        selectedTabels: Array,
-        selectedGuestCount: Number,
-        selectedDate: Date,
-        selectedTime: Date,
-        selectedNotes: String,
+        // selected_reservation: Object,
+        // selectedID: String,
+        // selectedPhone: String,
+        // selectedName: String,
+        // selectedEvent: String,
+        // selectedTabels: Array,
+        // selectedGuestCount: Number,
+        // selectedDate: Date,
+        // selectedTime: Date,
+        // selectedNotes: String,
+    },
+    data() {
+        return {
+            searchID: "",
+            searchPhone: "",
+            searchName: "",
+            searchEvent: "",
+            searchDate: undefined,
+            searchTime: undefined,
+
+            editState: false,
+            tableToAdd: "",
+
+            selected_reservation: undefined,
+            selectedID: undefined,
+            selectedPhone: undefined,
+            selectedName: undefined,
+            selectedEvent: undefined,
+            selectedTabels: undefined,
+            selectedGuestCount: undefined,
+            selectedDate: undefined,
+            selectedTime: undefined,
+            selectedNotes: undefined,
+
+            csrf: document
+                .querySelector('meta[name="csrf-token"]')
+                .getAttribute("content"),
+        };
     },
     computed: {
         computed_reservation_data: function () {
@@ -295,11 +325,8 @@ export default {
             return `total seats : ${seats}`;
         },
     },
-    data: () => ({
-        csrf: document
-            .querySelector('meta[name="csrf-token"]')
-            .getAttribute("content"),
-    }),
+    // data: () => ({
+    // }),
     methods: {
         isValid(item) {
             let name_filter = new RegExp(this.searchName, "g");

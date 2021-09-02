@@ -88,12 +88,14 @@
                     @csrf
                     @method("PATCH")
                     <input type="hidden" name="action" value="activate">
+                    <input class="show-box-insert-id" type="hidden" name="id" value="">
                     <x-button class="w-full" type="submit" level="low">Guest arrived</x-button>
                 </form>
                 <form action="/update" method="POST" id="reservation-cancel">
                     @csrf
                     @method("PATCH")
                     <input type="hidden" name="action" value="cancel">
+                    <input class="show-box-insert-id" type="hidden" name="id" value="">
                     <x-button level="high" data-confirmation-id="confirm-reservation-cancel" class="confirmation-trigger w-full">Cancel reservation</x-button>
                 </form>
             </div>

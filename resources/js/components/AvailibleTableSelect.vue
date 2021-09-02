@@ -10,9 +10,9 @@
                 v-on:change="addTable()"
             >
                 <option
-                    :value="table.id"
                     v-for="table in computed_table_data"
                     :key="table.id"
+                    :value="table.id"
                 >
                     Table {{ table.id }} - {{ table.seat_count }}
                     {{ table.seat_count > 1 ? "seats" : "seat" }}
@@ -40,9 +40,12 @@ export default {
         pivot: Array,
         table_data: Array,
         reservation_data: Array,
-
-        selectedTabels: Array,
-        tableToAdd: String,
+    },
+    data() {
+        return {
+            selectedTabels: [],
+            tableToAdd: "",
+        };
     },
     computed: {
         computed_table_data: function () {
@@ -90,16 +93,13 @@ export default {
         },
         addTable() {
             let tables = this.selectedTabels ?? [];
-            console.table(tables);
             if (
                 typeof this.tableToAdd == "number" &&
                 !this.computed_tables.split(",").includes(`${this.tableToAdd}`)
             ) {
                 tables.push(this.tableToAdd);
-                console.table(tables);
             }
             this.tableToAdd = "";
-            console.table(tables);
             this.selectedTabels = tables;
         },
         isAvailible(table) {
