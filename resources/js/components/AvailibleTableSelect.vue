@@ -3,12 +3,16 @@
         <input type="hidden" name="table" :value="computed_tables" readonly />
         <label id="tables"
             >tables
-            <select name="tableToAdd" v-model="tableToAdd" :value="tableToAdd">
+            <select
+                name="tableToAdd"
+                v-model="tableToAdd"
+                :value="tableToAdd"
+                v-on:change="addTable()"
+            >
                 <option
                     :value="table.id"
                     v-for="table in computed_table_data"
                     :key="table.id"
-                    v-on:click="addTable()"
                 >
                     Table {{ table.id }} - {{ table.seat_count }}
                     {{ table.seat_count > 1 ? "seats" : "seat" }}
@@ -86,12 +90,16 @@ export default {
         },
         addTable() {
             let tables = this.selectedTabels ?? [];
+            console.table(tables);
             if (
+                typeof this.tableToAdd == "number" &&
                 !this.computed_tables.split(",").includes(`${this.tableToAdd}`)
             ) {
                 tables.push(this.tableToAdd);
+                console.table(tables);
             }
             this.tableToAdd = "";
+            console.table(tables);
             this.selectedTabels = tables;
         },
         isAvailible(table) {
