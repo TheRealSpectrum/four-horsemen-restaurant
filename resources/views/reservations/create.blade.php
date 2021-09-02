@@ -60,7 +60,7 @@
             </div>
 
             {{-- Tables --}}
-            <div id="app">
+            <div id="app" class="mx-auto w-1/2 flex justify-center items-center">
                 <table-select-component :reservation_data="{{($data)}}" :table_data="{{($tables)}}" :pivot="{{json_encode($pivot)}}"></table-select-component>
             </div>
 
