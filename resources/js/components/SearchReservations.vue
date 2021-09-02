@@ -81,7 +81,7 @@
                     {{item.event_type}}
                 </p>
                 <p class="row-start-3 col-start-2 leading-none">
-                    {{"not yet"}}
+                    {{getTables(item)}}
                 </p>
                 <div class="imgWrap row-start-1 col-start-3 col-span-2 absolute right-0 flex flex-row">
                     <img src="icons/late.svg" alt="Late" class="icon " v-if="IsLate(item.date_start,item.active)">
@@ -418,6 +418,13 @@ export default {
                 }
             });
             return result;
+        },
+        getTables(item) {
+            let out = [];
+            item.tables.forEach((table) => {
+                out.push(table.id);
+            });
+            return out.join(", ");
         },
     },
 };
