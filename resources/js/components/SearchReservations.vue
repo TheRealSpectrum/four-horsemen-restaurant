@@ -216,8 +216,9 @@
                     name="tableToAdd"
                     v-model="tableToAdd" 
                     :value="tableToAdd"
+                    v-on:change="addTable()"
                 >
-                    <option :value="table.id" v-for="table in computed_table_data" :key="table.id" v-on:click="addTable()">
+                    <option :value="table.id" v-for="table in computed_table_data" :key="table.id" >
                         Table {{table.id}} - {{table.seat_count}} {{((table.seat_count>1)?"seats":"seat")}}
                     </option>
                 </select>
