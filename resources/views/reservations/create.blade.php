@@ -26,7 +26,7 @@
             {{-- Number of Guests --}}
             <div class="mx-auto w-1/2 flex justify-center items-center flex-wrap">
                 <label for="guests" class="w-1/3 font-bold text-center">Number of Guests</label>
-                <input id="guests" type="number" name="guest_count" placeholder="amount of guests..." class="w-1/2 border p-2 text-center" value="{{ old('guest_count', '') }}" />
+                <input id="guests" type="number" name="guest_count" placeholder="number of guests..." class="w-1/2 border p-2 text-center" value="{{ old('guest_count', '') }}" />
                 @error('guest_count')
                     <p class="text-sm text-warning-high">{{ $message }}</p>
                 @enderror
@@ -53,7 +53,7 @@
             {{-- Event --}}
             <div class="mx-auto w-1/2 flex justify-center items-center flex-wrap">
                 <label for="event" class="w-1/3 font-bold text-center">Event</label>
-                <input id="event" type="text" name="event_type" class="w-1/2 border p-2 text-center" value="{{ old('event_type', '') }}" />
+                <input id="event" type="text" name="event_type" placeholder="event..." class="w-1/2 border p-2 text-center" value="{{ old('event_type', '') }}" />
                 @error('event_type')
                     <p class="text-sm text-warning-high">{{ $message }}</p>
                 @enderror
