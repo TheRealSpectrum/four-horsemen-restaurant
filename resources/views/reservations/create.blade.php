@@ -35,7 +35,7 @@
             {{-- Date --}}
             <div class="mx-auto w-1/2 flex justify-center items-center">
                 <label for="date" class="w-1/3 font-bold text-center">Date</label>
-                <input id="date" type="date" name="date" class="w-1/2 border p-2 text-center" value="{{ old('date', '') }}" />
+                <input id="date" type="date" name="date" class="w-1/2 border p-2 text-center" value="{{ old('date', today()->format('Y-m-d')) }}" />
                 @error('date')
                     <p class="text-sm text-warning-high">{{ $message }}</p>
                 @enderror
