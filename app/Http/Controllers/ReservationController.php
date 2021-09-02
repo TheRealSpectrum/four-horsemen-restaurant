@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\Reservation;
 use App\Models\Table;
+use Carbon\Carbon;
 use DateTime;
-use SebastianBergmann\Environment\Console;
 
 final class ReservationController extends Controller
 {
@@ -78,19 +79,25 @@ final class ReservationController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request["dateTime"] = new Carbon($request["date"] ." ". $request["time"].":00");
+
+        $validator = Validator::make($request->all(), [
             "name" => "required|string|between:2,255",
             "phone_number" => "required|string|regex:/^([0-9\s\-\+\(\)]*)$/",
             "guest_count" => "required|integer|min:1",
-            "date" => "required|after_or_equal:today",
-            "time" => "required",
+            "dateTime" => "required|after:-10 minutes",
             "event_type" => "string|nullable",
             "tables" => "",
             "notes" => "string|nullable",
         ]);
 
-        $request["date_start"] = strtotime($request["date"] . $request["time"]);
+        if ($validator->fails()) {
+            return redirect('/reservation/new')
+                        ->withErrors($validator,)
+                        ->withInput();
+        }
 
+        $request["date_start"] = strtotime($request["date"] . $request["time"]);
         $request["date_end"] = $request["date_start"] + 60 * 60 * 3;
         $request["active"] = false;
 
