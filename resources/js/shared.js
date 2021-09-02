@@ -5,3 +5,6 @@ import { confirm } from "./shared/components/confirmation";
 window.shared = {};
 window.shared.notify = notify;
 window.shared.confirm = confirm;
+window.dark = () => {
+    document.querySelector("html").classList.toggle("dark");
+};
