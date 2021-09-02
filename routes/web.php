@@ -22,5 +22,7 @@ Route::name("auth.")->group(function () {
     Route::post("/logout", [AuthController::class, "logout"])->name("logout");
 });
 
-Route::resource("reservations", ReservationController::class)->except("show", "destroy", "edit");
-Route::get("reservations/edit", [ReservationController::class, "edit"])->name("reservations.edit");
+Route::middleware("auth")->group(function () {
+    Route::resource("reservations", ReservationController::class)->except("show", "destroy", "edit");
+    Route::get("reservations/edit", [ReservationController::class, "edit"])->name("reservations.edit");
+});
