@@ -36,7 +36,7 @@
             <div class="mx-auto w-1/2 flex justify-center items-center flex-wrap">
                 <label for="date" class="w-1/3 font-bold text-center">Date</label>
                 <input id="date" type="date" name="date" min="{{ today()->format('Y-m-d') }}" class="w-1/2 border p-2 text-center" value="{{ old('date', today()->format('Y-m-d')) }}" />
-                @error('date')
+                @error('dateTime')
                     <p class="text-sm text-warning-high">{{ $message }}</p>
                 @enderror
             </div>
@@ -45,7 +45,7 @@
             <div class="mx-auto w-1/2 flex justify-center items-center flex-wrap">
                 <label for="time" class="w-1/3 font-bold text-center">Time</label>
                 <input id="time" type="time" min="00:00" max="23:59" name="time" class="w-1/2 border p-2 text-center" value="{{ old('time', date('H:i')) }}" />
-                @error('time')
+                @error('dateTime')
                     <p class="text-sm text-warning-high">{{ $message }}</p>
                 @enderror
             </div>
