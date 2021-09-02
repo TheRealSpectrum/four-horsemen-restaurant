@@ -408,7 +408,8 @@ export default {
                     (this.selected_reservation?.date_end >
                         reservation.date_start &&
                         this.selected_reservation?.date_end <
-                            reservation.date_end)
+                            reservation.date_end) ||
+                    this.selectedTabels?.includes(id)
                 ) {
                     reservation.tables.forEach((rezervedTable) => {
                         if (rezervedTable.id == id) {
