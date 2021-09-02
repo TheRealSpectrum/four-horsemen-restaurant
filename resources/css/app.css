@@ -16,7 +16,7 @@
     min-width: max-content;
 }
 /* vue component styles */
-#app {
+div[id='app'][class='search']{
     display: grid;
     place-items: center;
     height: 100vh;
