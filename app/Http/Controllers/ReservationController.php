@@ -63,7 +63,7 @@ final class ReservationController extends Controller
         $this->validate($request, [
             "name" => "required|string|between:2,255",
             "phone_number" => "required|string|regex:/^([0-9\s\-\+\(\)]*)$/",
-            "guest_count" => "required|integer",
+            "guest_count" => "required|integer|min:1",
             "date" => "required|after_or_equal:today",
             "time" => "required",
             "event_type" => "string|nullable",
