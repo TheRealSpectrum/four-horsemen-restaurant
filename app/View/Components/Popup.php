@@ -4,35 +4,40 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 use Illuminate\Support\Facades\Request;
+use Illuminate\View\View;
 
-abstract class Popup extends Component
+final class Popup extends Component
 {
     public function __construct(
-        string $id = "",
+        string $class = "",
+        string $internalClass = "",
         string $type = "save",
         string $trigger = ""
     ) {
-        $this->popupId = $id;
-        $this->instantTrigger = Request::has($trigger) ? "1" : "0";
+        $this->additionalClasses = $class;
+        $this->additionalInternalClasses = $internalClass;
+
+        $this->shouldTrigger = Request::has($trigger) ? "1" : "0";
 
         switch ($type) {
-            case "save":
-                $this->titleText = "Info";
-                $this->colorName = "save";
+            case "safe":
+                $this->additionalInternalClasses .= " bg-save";
                 break;
             case "warningLow":
-                $this->titleText = "Alert!";
-                $this->colorName = "warning-low";
+                $this->additionalInternalClasses .= " bg-warning-low";
                 break;
             case "warningHigh":
-                $this->titleText = "Alert!";
-                $this->colorName = "warning-high";
+                $this->additionalInternalClasses .= " bg-warning-high";
                 break;
         }
     }
 
-    public string $popupId = "";
-    public string $titleText = "";
-    public string $colorName = "";
-    public string $instantTrigger = "";
+    public function render(): View
+    {
+        return view("components.popup");
+    }
+
+    public string $additionalClasses = "";
+    public string $additionalInternalClasses = "";
+    public string $shouldTrigger = "";
 }
