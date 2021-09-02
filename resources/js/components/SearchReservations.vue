@@ -271,32 +271,32 @@ export default {
         // selectedNotes: String,
     },
     data() {
-        return{
-        searchID: '',
-        searchPhone: '',
-        searchName: '',
-        searchEvent: '',
-        searchDate: undefined,
-        searchTime: undefined,
+        return {
+            searchID: "",
+            searchPhone: "",
+            searchName: "",
+            searchEvent: "",
+            searchDate: undefined,
+            searchTime: undefined,
 
-        editState: false,
-        tableToAdd: '',
+            editState: false,
+            tableToAdd: "",
 
-        selected_reservation: undefined,
-        selectedID: undefined,
-        selectedPhone: undefined,
-        selectedName: undefined,
-        selectedEvent: undefined,
-        selectedTabels: undefined,
-        selectedGuestCount: undefined,
-        selectedDate: undefined,
-        selectedTime: undefined,
-        selectedNotes: undefined,
+            selected_reservation: undefined,
+            selectedID: undefined,
+            selectedPhone: undefined,
+            selectedName: undefined,
+            selectedEvent: undefined,
+            selectedTabels: undefined,
+            selectedGuestCount: undefined,
+            selectedDate: undefined,
+            selectedTime: undefined,
+            selectedNotes: undefined,
 
-        csrf: document
-            .querySelector('meta[name="csrf-token"]')
-            .getAttribute("content"),
-        }
+            csrf: document
+                .querySelector('meta[name="csrf-token"]')
+                .getAttribute("content"),
+        };
     },
     computed: {
         computed_reservation_data: function () {

@@ -40,13 +40,12 @@ export default {
         pivot: Array,
         table_data: Array,
         reservation_data: Array,
-
     },
     data() {
-        return{
+        return {
             selectedTabels: [],
             tableToAdd: "",
-        }
+        };
     },
     computed: {
         computed_table_data: function () {
