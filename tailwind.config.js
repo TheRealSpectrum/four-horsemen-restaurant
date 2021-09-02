@@ -18,6 +18,7 @@ module.exports = {
             dark: "#010521",
             dim: "#01052188",
             highlight: "#162f9e",
+            "button-dim": "#23232322",
             warning: {
                 high: "#ff7272",
                 low: "#ffcf72",
