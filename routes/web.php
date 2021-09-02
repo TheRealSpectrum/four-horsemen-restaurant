@@ -2,20 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ReservationController;
-use App\Models\Reservation;
+use App\Http\Controllers\{
+    AuthController,
+    ReservationController
+};
 
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+ * Generic routes usually accessed by a browser.
+ *
+ * middleware: 'web'
+ */
 
 Route::get("/", function () {
     return view("welcome");
@@ -29,26 +25,4 @@ Route::name("auth.")->group(function () {
     Route::post("/logout", [AuthController::class, "logout"])->name("logout");
 });
 
-Route::name("reservation.")->group(function () {
-    route::get("/reservation", [ReservationController::class, "index"])->name(
-        "index"
-    );
-
-    route::get("/agenda", [ReservationController::class, "edit"])->name("edit");
-
-    route::patch("/update", [ReservationController::class, "update"])->name(
-        "update"
-    );
-
-    Route::get("/reservation/new", [
-        ReservationController::class,
-        "create",
-    ])->name("create");
-
-    Route::post("/reservation/store", [
-        ReservationController::class,
-        "store",
-    ])->name("store");
-});
-
-//test routes
+Route::resource("reservations", ReservationController::class)->except("show", "destroy");
