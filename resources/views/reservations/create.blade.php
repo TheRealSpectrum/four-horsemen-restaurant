@@ -1,6 +1,6 @@
-@extends('layout.app')
+@extends('layout.reservations')
 
-@section('content')
+@section('reservations-content')
     <div class="w-1/2 mx-auto min-h-screen border-r border-l pt-3">
         <form method="POST" action="{{ route('reservation.store') }}" class="w-full flex flex-col my-3 py-3 space-y-5">
             @csrf
