@@ -19,11 +19,7 @@
                         displayData[showBoxDisplay.dataset.showBoxDisplay];
                 }
                 for (const showBoxInsertId of SHOW_BOX_INSERT_IDS) {
-                    showBoxInsertId.action =
-                        showBoxInsertId.dataset.actionTemplate.replace(
-                            "VALUE",
-                            showBoxTrigger.dataset.showBoxIndex
-                        );
+                    showBoxInsertId.value = showBoxTrigger.dataset.showBoxIndex;
                 }
                 SHOW_BOX_ROOT.classList.remove("hidden");
             });
