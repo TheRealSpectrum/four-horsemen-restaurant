@@ -20,6 +20,6 @@
     </div>
     <div class="w-full h-20"></div>
 
-    @yield("reservation-content")
+    @yield("reservations-content")
 
 @endsection

@@ -1,6 +1,6 @@
 @extends("layout.reservations")
 
-@section("reservation-content")
+@section("reservations-content")
 <div id="main_wrapper" class="grid grid-cols-10 grid-rows-1 gap-5 ">
     <p class="row-start-1 col-span-2">active reservations</p>
     <div id="active_reservations"
