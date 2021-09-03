@@ -10,7 +10,12 @@
             <a href="{{route("reservation.create")}}" class="w-full inline-block"><x-button class="w-full">Create reservation</x-button></a>
             <a href="{{route("reservation.edit")}}" class="w-full inline-block"><x-button class="w-full">All reservations</x-button></a>
         </div>
-        <div></div>
+        <div>
+            <form action="{{route("auth.logout")}}" method="post" class="flex flex-row justify-end h-full py-6 px-6">
+                @csrf
+                <x-button type="submit">Logout</x-button>
+            </form>
+        </div>
 
     </div>
     <div class="w-full h-20"></div>
