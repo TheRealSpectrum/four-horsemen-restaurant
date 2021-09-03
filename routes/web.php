@@ -22,7 +22,13 @@ Route::name("auth.")->group(function () {
     Route::post("/logout", [AuthController::class, "logout"])->name("logout");
 });
 
-Route::middleware("auth")->group(function () {
-    Route::resource("reservations", ReservationController::class)->except("show", "destroy", "edit");
-    Route::get("reservations/edit", [ReservationController::class, "edit"])->name("reservations.edit");
+Route::resource("reservations", ReservationController::class)->except("show", "destroy", "edit")->middleware("auth");
+
+// This more or less does the same thing as above, but more verbose and using non-standard naming conventions
+Route::name("reservation.")->middleware("auth")->group(function () {
+    route::get("/reservation", [ReservationController::class, "index"])->name("index");
+    route::get("/agenda", [ReservationController::class, "edit"])->name("edit");
+    route::patch("/update", [ReservationController::class, "update"])->name("update");
+    Route::get("/reservation/new", [ReservationController::class, "create"])->name("create");
+    Route::post("/reservation/store", [ReservationController::class, "store"])->name("store");
 });
