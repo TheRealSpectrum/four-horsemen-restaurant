@@ -80,15 +80,35 @@ final class ReservationController extends Controller
 
     public function store(Request $request)
     {
-        $request["dateTime"] = new Carbon($request["date"] ." ". $request["time"].":00");
+        $request["date_start"] = new Carbon($request["date"] ." ". $request["time"].":00");
+
+        $reservations = Reservation::with("tables")->get();
+        $asignedTables = explode(",",$request->tables);
+        $tableValidation = true;
+        foreach ($reservations as $reservation) {
+            if(
+                $reservation->date_start < $request->date_start &&
+                $reservation->date_end < $request->date_start
+            ) {
+                foreach($reservation->tables()->get() as $table){
+                    if(array_search($table->id,$asignedTables)){
+                        $tableValidation = false;
+                    }
+                }
+            }
+        }
+        if($tableValidation == true){
+            $request["tablesValidated"] = true;
+        }
+        
 
         $validator = Validator::make($request->all(), [
             "name" => "required|string|between:2,255",
             "phone_number" => "required|string|regex:/^([0-9\s\-\+\(\)]*)$/",
             "guest_count" => "required|integer|min:1",
-            "dateTime" => "required|after:-10 minutes",
+            "date_start" => "required|after:-10 minutes",
             "event_type" => "string|nullable",
-            "tables" => "",
+            "tablesValidated" => "required",
             "notes" => "string|nullable",
         ]);
 
@@ -102,7 +122,12 @@ final class ReservationController extends Controller
         $request["date_end"] = $request["date_start"] + 60 * 60 * 3;
         $request["active"] = false;
 
-        Reservation::create($request->all());
+        $newReservation = Reservation::create($request->all());
+
+        foreach (explode(",", $request->input("table")) as $table) {
+            $newReservation->tables()->attach(intval($table));
+        }
+        
 
         return redirect("/reservation")->with(
             "success",
