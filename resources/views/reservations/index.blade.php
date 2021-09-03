@@ -84,18 +84,16 @@
 
             <div class="flex flex-col h-full gap-6 w-60 items-stretch">
                 <x-button id="show-box-close">Back to index</x-button>
-                <form action="/update" method="POST">
+                <form data-action-template="{{route("reservations.update", ["reservation" => "VALUE"])}}" method="POST" class="show-box-insert-id">
                     @csrf
                     @method("PATCH")
                     <input type="hidden" name="action" value="activate">
-                    <input class="show-box-insert-id" type="hidden" name="id" value="">
                     <x-button class="w-full" type="submit" level="low">Guest arrived</x-button>
                 </form>
-                <form action="/update" method="POST" id="reservation-cancel">
+                <form data-action-template="{{route("reservations.update", ["reservation" => "VALUE"])}}" method="POST" id="reservation-cancel" class="show-box-insert-id">
                     @csrf
                     @method("PATCH")
                     <input type="hidden" name="action" value="cancel">
-                    <input class="show-box-insert-id" type="hidden" name="id" value="">
                     <x-button level="high" data-confirmation-id="confirm-reservation-cancel" class="confirmation-trigger w-full">Cancel reservation</x-button>
                 </form>
             </div>

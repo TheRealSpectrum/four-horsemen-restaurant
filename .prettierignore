@@ -9,6 +9,9 @@ composer.lock
 package.json
 package-lock.json
 
+# Routes are better structured manually
+routes/
+
 # Prettier does not parse static returns correctly
 database/factories/DishIngredientFactory.php
 database/factories/UserFactory.php
