@@ -108,22 +108,16 @@ export default {
             let date = document.querySelector("input[id='date']")?.value;
             let timeDiff = document.getElementById("endTime")?.value;
             let startDateTime = new Date(`${date}T${time}:00`);
-            let endDateTime = new Date(startDateTime.getTime() + timeDiff * 60000);
+            let endDateTime = new Date(
+                startDateTime.getTime() + timeDiff * 60000
+            );
             let result = true;
             this.reservation_data.forEach((reservation) => {
                 if (
-                        (
-                            startDateTime > new Date(reservation.date_start)
-                        && 
-                            startDateTime < new Date(reservation.date_end)
-                        )
-                    ||
-                        (
-                            endDateTime > new Date(reservation.date_start)
-                        &&
-                            endDateTime < new Date(reservation.date_end)
-                        )
-                    ||
+                    (startDateTime > new Date(reservation.date_start) &&
+                        startDateTime < new Date(reservation.date_end)) ||
+                    (endDateTime > new Date(reservation.date_start) &&
+                        endDateTime < new Date(reservation.date_end)) ||
                     this.selectedTabels?.includes(id)
                 ) {
                     reservation.tables.forEach((rezervedTable) => {
