@@ -83,6 +83,7 @@ final class ReservationController extends Controller
         $request["date_start"] = new Carbon(
             $request["date"] . " " . $request["time"] . ":00"
         );
+        $request["date_end"] = clone $request["date_start"]->addMinutes($request->input('endTime'));
 
         $reservations = Reservation::with("tables")->get();
         $asignedTables = explode(",", $request->tables);
@@ -108,6 +109,7 @@ final class ReservationController extends Controller
             "phone_number" => "required|string|regex:/^([0-9\s\-\+\(\)]*)$/",
             "guest_count" => "required|integer|min:1",
             "date_start" => "required|after:-10 minutes",
+            "date_end" => "required|after:+50 minutes",
             "event_type" => "string|nullable",
             "tablesValidated" => "required",
             "notes" => "string|nullable",
@@ -119,8 +121,8 @@ final class ReservationController extends Controller
                 ->withInput();
         }
 
-        $request["date_start"] = strtotime($request["date"] . $request["time"]);
-        $request["date_end"] = $request["date_start"] + 60 * 60 * 3;
+        // $request["date_start"] = strtotime($request["date"] . $request["time"]);
+        // $request["date_end"] = $request["date_start"] + 60 * 60 * 3;
         $request["active"] = false;
 
         $newReservation = Reservation::create($request->all());
