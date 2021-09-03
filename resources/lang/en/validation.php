@@ -152,6 +152,21 @@ return [
         "attribute-name" => [
             "rule-name" => "custom-message",
         ],
+        "date_start" => [
+            "after" => "The :attribute must 10 minutes before now.",
+        ],
+        "name" => [
+            "required" => "A :attribute is required.",
+            "between" =>
+                "The :attribute must be between :min and :max characters.",
+        ],
+        "phone_number" => [
+            "required" => "The :attribute is required.",
+            "regex" => "This is not a valid :attribute.",
+        ],
+        "tablesValidated" => [
+            "required" => "There are no :attribute selected.",
+        ],
     ],
 
     /*
@@ -165,5 +180,10 @@ return [
     |
     */
 
-    "attributes" => [],
+    "attributes" => [
+        "phone_number" => "phone number",
+        "guest_count" => "number of guests",
+        "date_start" => "date and time",
+        "tablesValidated" => "tables",
+    ],
 ];
