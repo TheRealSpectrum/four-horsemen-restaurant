@@ -80,27 +80,28 @@ final class ReservationController extends Controller
 
     public function store(Request $request)
     {
-        $request["date_start"] = new Carbon($request["date"] ." ". $request["time"].":00");
+        $request["date_start"] = new Carbon(
+            $request["date"] . " " . $request["time"] . ":00"
+        );
 
         $reservations = Reservation::with("tables")->get();
-        $asignedTables = explode(",",$request->tables);
+        $asignedTables = explode(",", $request->tables);
         $tableValidation = true;
         foreach ($reservations as $reservation) {
-            if(
+            if (
                 $reservation->date_start < $request->date_start &&
                 $reservation->date_end < $request->date_start
             ) {
-                foreach($reservation->tables()->get() as $table){
-                    if(array_search($table->id,$asignedTables)){
+                foreach ($reservation->tables()->get() as $table) {
+                    if (array_search($table->id, $asignedTables)) {
                         $tableValidation = false;
                     }
                 }
             }
         }
-        if($tableValidation == true){
+        if ($tableValidation == true) {
             $request["tablesValidated"] = true;
         }
-        
 
         $validator = Validator::make($request->all(), [
             "name" => "required|string|between:2,255",
@@ -113,9 +114,9 @@ final class ReservationController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect('/reservation/new')
-                        ->withErrors($validator,)
-                        ->withInput();
+            return redirect("/reservation/new")
+                ->withErrors($validator)
+                ->withInput();
         }
 
         $request["date_start"] = strtotime($request["date"] . $request["time"]);
@@ -127,7 +128,6 @@ final class ReservationController extends Controller
         foreach (explode(",", $request->input("table")) as $table) {
             $newReservation->tables()->attach(intval($table));
         }
-        
 
         return redirect("/reservation")->with(
             "success",
