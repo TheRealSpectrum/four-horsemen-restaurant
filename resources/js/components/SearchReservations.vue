@@ -301,8 +301,8 @@ export default {
     // }),
     methods: {
         isValid(item) {
-            let name_filter = new RegExp(this.searchName, "g");
-            let event_filter = new RegExp(this.searchEvent, "g");
+            let name_filter = new RegExp(this.searchName, "gi");
+            let event_filter = new RegExp(this.searchEvent, "gi");
             if (
                 (this.searchID == item.id ||
                     this.searchID == undefined ||
