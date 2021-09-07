@@ -123,10 +123,7 @@ final class ReservationController extends Controller
                 ->withInput();
         }
 
-        // $request["date_start"] = strtotime($request["date"] . $request["time"]);
-        // $request["date_end"] = $request["date_start"] + 60 * 60 * 3;
         $request["active"] = false;
-        // dd($request);
 
         $newReservation = Reservation::create($request->all());
 
@@ -159,46 +156,58 @@ final class ReservationController extends Controller
             "pivot" => $pivot,
         ]);
     }
+
     public function update(Request $data)
     {
-        $data["date_start"] = new Carbon(
-            $data["date"] . " " . $data["time"] . ":00"
-        );
-
-        $validator = Validator::make($data->all(), [
-            "name" => "required|string|between:2,255",
-            "phone" => "required|string|regex:/^([0-9\s\-\+\(\)]*)$/",
-            "guestCount" => "required|integer|min:1",
-            "date_start" => "required|after:-10 minutes",
-            "date_end" => "required|after:+50 minutes",
-            "event" => "string|nullable",
-            "table" => "required",
-            "tablesValidated" => "required",
-            "notes" => "string|nullable",
-        ]);
-
-        // dd($data);
-
-        if ($validator->fails()) {
-            return redirect("/agenda")
-                ->withErrors($validator)
-                ->withInput();
-        }
-
         $reservation = Reservation::where("id", $data->input("id"))->first();
         if ($data->input("action") === "update") {
-            $date = new DateTime(
-                $data->input("date") . " " . $data->input("time")
+            $data["date_start"] = new Carbon(
+                $data["date"] . " " . $data["time"] . ":00"
             );
-            $dateEnd = clone $date;
-            $dateEnd->add(new \DateInterval($data->input("endTime")));
-            $reservation->name = $data->input("name");
-            $reservation->phone_number = $data->input("phone");
-            $reservation->guest_count = $data->input("guestCount");
-            $reservation->event_type = $data->input("event");
-            $reservation->notes = $data->input("notes");
-            $reservation->date_start = $date;
-            $reservation->date_end = $dateEnd;
+
+            $data["date_end"] = clone $data["date_start"];
+            $data["date_end"]->addMinutes($data->input("endTime"));
+
+            $reservations = Reservation::with("tables")->get();
+            $asignedTables = explode(",", $data->tables);
+            $tableValidation = true;
+            foreach ($reservations as $otherReservation) {
+                if (
+                    $otherReservation->date_start < $data->date_start &&
+                    $otherReservation->date_end < $data->date_start &&
+                    $otherReservation->id != $reservation->id
+                ) {
+                    foreach ($reservation->tables()->get() as $table) {
+                        if (array_search($table->id, $asignedTables)) {
+                            $tableValidation = false;
+                        }
+                    }
+                }
+            }
+            if ($tableValidation == true) {
+                $data["tablesValidated"] = true;
+            }
+            // dd(get_defined_vars());
+            $validator = Validator::make($data->all(), [
+                "name" => "string|between:2,255",
+                "phone_number" => "string|regex:/^([0-9\s\-\+\(\)]*)$/",
+                "guest_count" => "integer|min:1",
+                "date_start" => "after:-10 minutes",
+                "date_end" => "after:+50 minutes",
+                "event_type" => "string|nullable",
+                "table" => "required",
+                "tablesValidated" => "required",
+                "notes" => "string|nullable",
+            ]);
+
+            if ($validator->fails()) {
+                return redirect("/agenda")
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            $reservation->fill($data->all());
+
             $tablesOnReservation = [];
             foreach ($reservation->tables()->get() as $pivot_table) {
                 array_push(
