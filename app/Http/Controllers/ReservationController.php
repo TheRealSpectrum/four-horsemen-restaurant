@@ -24,12 +24,16 @@ final class ReservationController extends Controller
         $plusOneHour = new \DateTime("+1hour");
 
         $data = Reservation::where("date_start", "<", $tomorrow)
+            ->where("date_end", ">=", $now)
             ->where("canceled", false)
             ->with("tables")
             ->orderBy("date_start")
             ->get();
 
         foreach ($data as $reservation) {
+            if ($reservation->date_end < $now) {
+            }
+
             if ($reservation->date_start > $plusOneHour) {
                 array_push($later, $reservation);
                 continue;
