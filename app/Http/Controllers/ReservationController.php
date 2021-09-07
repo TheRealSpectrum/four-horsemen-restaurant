@@ -84,9 +84,7 @@ final class ReservationController extends Controller
             $request["date"] . " " . $request["time"] . ":00"
         );
         $request["date_end"] = clone $request["date_start"];
-        $request["date_end"]->addMinutes(
-            $request->input("endTime")
-        );
+        $request["date_end"]->addMinutes($request->input("endTime"));
 
         $reservations = Reservation::with("tables")->get();
         $asignedTables = explode(",", $request->tables);
