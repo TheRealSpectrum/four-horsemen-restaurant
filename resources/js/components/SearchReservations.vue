@@ -101,7 +101,6 @@
                 <input 
                     type="text" 
                     name="id"  
-                    placeholder="reservation id"  
                     :value="selectedID" 
                     hidden
                     readonly
@@ -112,8 +111,7 @@
             >guest phone
                 <input 
                     type="text" 
-                    name="phone" 
-                    placeholder="reservation id" 
+                    name="phone_number" 
                     :value="selectedPhone"
                 >
            </label>
@@ -123,7 +121,6 @@
                 <input 
                     type="text" 
                     name="name" 
-                    placeholder="reservation id" 
                     :value="selectedName"
                 >
             </label>
@@ -132,8 +129,7 @@
             ><span class="lableWrap"><span class="text">guest count</span> <span class="extraData">{{total_asigned_seats}}</span></span>
                 <input 
                     type="number" 
-                    name="guestCount" 
-                    placeholder="reservation id" 
+                    name="guest_count" 
                     :value="selectedGuestCount"
                 >
             </label>
@@ -142,8 +138,7 @@
             >event type
                 <input 
                     type="text" 
-                    name="event" 
-                    placeholder="reservation id" 
+                    name="event_type" 
                     :value="selectedEvent"
                 >
             </label>
@@ -153,7 +148,6 @@
                 <input 
                     type="date" 
                     name="date" 
-                    placeholder="reservation id" 
                     :value="selectedDate"
                     :min="IsolateDate(Date.now())"
                 >
@@ -165,7 +159,6 @@
                 <textarea 
                     type="text" 
                     name="notes" 
-                    placeholder="reservation id"
                     :value="selectedNotes"
                 >
                 </textarea>
@@ -176,7 +169,6 @@
                 <input 
                     type="time"
                     name="time"
-                    placeholder="reservation id" 
                     :value="selectedTime"
                 >
                 <select name="endTime" id="endTime">
@@ -196,19 +188,19 @@
                     >
                         + {{reservation_length.hours}} hour {{(reservation_length.minutes !== 0)?`and ${reservation_length.minutes} minutes `:''}}
                     </option> -->
-                    <option value="PT1H" default>+ 1 hour</option>
-                    <option value="PT1H15M">+ 1 hour and 15 minutes</option>
-                    <option value="PT1H30M">+ 1 hour and 30 minutes</option>
-                    <option value="PT1H45M">+ 1 hour and 45 minutes</option>
-                    <option value="PT2H">+ 2 hour</option>
-                    <option value="PT2H15M">+ 2 hour and 15 minutes</option>
-                    <option value="PT2H30M">+ 2 hour and 30 minutes</option>
-                    <option value="PT2H45M">+ 2 hour and 45 minutes</option>
-                    <option value="PT3H">+ 3 hour</option>
-                    <option value="PT3H15M">+ 3 hour and 15 minutes</option>
-                    <option value="PT3H30M">+ 3 hour and 30 minutes</option>
-                    <option value="PT3H45M">+ 3 hour and 45 minutes</option>
-                    <option value="PT4H">+ 4 hour</option>
+                    <option value="60" default>+ 1 hour</option>
+                    <option value="75">+ 1 hour and 15 minutes</option>
+                    <option value="90">+ 1 hour and 30 minutes</option>
+                    <option value="105">+ 1 hour and 45 minutes</option>
+                    <option value="120">+ 2 hour</option>
+                    <option value="135">+ 2 hour and 15 minutes</option>
+                    <option value="150">+ 2 hour and 30 minutes</option>
+                    <option value="165">+ 2 hour and 45 minutes</option>
+                    <option value="180">+ 3 hour</option>
+                    <option value="195">+ 3 hour and 15 minutes</option>
+                    <option value="210">+ 3 hour and 30 minutes</option>
+                    <option value="225">+ 3 hour and 45 minutes</option>
+                    <option value="240">+ 4 hour</option>
                 </select>
             </label>
             <label
@@ -374,7 +366,7 @@ export default {
         SelectReservation(item) {
             this.selected_reservation = item;
             this.selectedID = item.id;
-            this.selectedPhone = item.phone;
+            this.selectedPhone = item.phone_number;
             this.selectedName = item.name;
             this.selectedEvent = item.event_type;
             this.selectedGuestCount = item.guest_count;
