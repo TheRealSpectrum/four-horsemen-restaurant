@@ -161,7 +161,6 @@ final class ReservationController extends Controller
     {
         $reservation = Reservation::where("id", $data->input("id"))->first();
         if ($data->input("action") === "update") {
-
             $data["date_start"] = new Carbon(
                 $data["date"] . " " . $data["time"] . ":00"
             );
@@ -205,7 +204,7 @@ final class ReservationController extends Controller
                 return redirect("/agenda")
                     ->withErrors($validator)
                     ->withInput();
-            };
+            }
 
             $reservation->fill($data->all());
 
@@ -233,7 +232,6 @@ final class ReservationController extends Controller
             }
             $reservation->save();
             return redirect("/agenda");
-
         } elseif ($data->input("action") === "cancel") {
             $reservation->canceled = true;
             foreach ($reservation->tables()->get() as $pivot_table) {
