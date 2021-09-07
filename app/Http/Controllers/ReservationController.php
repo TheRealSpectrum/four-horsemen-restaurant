@@ -127,7 +127,7 @@ final class ReservationController extends Controller
         // $request["date_start"] = strtotime($request["date"] . $request["time"]);
         // $request["date_end"] = $request["date_start"] + 60 * 60 * 3;
         $request["active"] = false;
-        // dd($request);
+        dd($request);
 
         $newReservation = Reservation::create($request->all());
 
@@ -162,7 +162,30 @@ final class ReservationController extends Controller
     }
     public function update(Request $data)
     {
+        $data["date_start"] = new Carbon(
+            $data["date"] . " " . $data["time"] . ":00"
+        );
+
+        $validator = Validator::make($data->all(), [
+            "name" => "required|string|between:2,255",
+            "phone" => "required|string|regex:/^([0-9\s\-\+\(\)]*)$/",
+            "guestCount" => "required|integer|min:1",
+            "date_start" => "required|after:-10 minutes",
+            "date_end" => "required|after:+50 minutes",
+            "event" => "string|nullable",
+            "table" => "required",
+            "tablesValidated" => "required",
+            "notes" => "string|nullable",
+        ]);
+
         // dd($data);
+
+        if ($validator->fails()) {
+            return redirect("/agenda")
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $reservation = Reservation::where("id", $data->input("id"))->first();
         if ($data->input("action") === "update") {
             $date = new DateTime(
