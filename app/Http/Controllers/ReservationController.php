@@ -83,7 +83,8 @@ final class ReservationController extends Controller
         $request["date_start"] = new Carbon(
             $request["date"] . " " . $request["time"] . ":00"
         );
-        $request["date_end"] = clone $request["date_start"]->addMinutes(
+        $request["date_end"] = clone $request["date_start"];
+        $request["date_end"]->addMinutes(
             $request->input("endTime")
         );
 
