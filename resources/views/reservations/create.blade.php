@@ -1,6 +1,6 @@
-@extends('layout.app')
+@extends('layout.reservations')
 
-@section('content')
+@section('reservations-content')
     <div class="w-1/2 mx-auto min-h-screen border-r border-l pt-3">
         <form method="POST" action="{{ route('reservation.store') }}" class="w-full flex flex-col my-3 py-3 space-y-5">
             @csrf
@@ -44,8 +44,26 @@
             {{-- Time --}}
             <div class="mx-auto w-1/2 flex justify-center items-center flex-wrap">
                 <label for="time" class="w-1/3 font-bold text-center">Time</label>
-                <input id="time" type="time" min="00:00" max="23:59" name="time" class="w-1/2 border p-2 text-center" value="{{ old('time', date('H:i')) }}" />
+                <input id="time" type="time-local" min="00:00" max="23:59" name="time" class="w-1/2 border p-2 text-center" value="{{ old('time', date('H:i')) }}" />
                 @error('date_start')
+                    <p class="text-sm text-warning-high">{{ $message }}</p>
+                @enderror
+                <select name="endTime" id="endTime">
+                    <option value="60" default>+ 1 hour</option>
+                    <option value="75">+ 1 hour and 15 minutes</option>
+                    <option value="90">+ 1 hour and 30 minutes</option>
+                    <option value="105">+ 1 hour and 45 minutes</option>
+                    <option value="120">+ 2 hour</option>
+                    <option value="135">+ 2 hour and 15 minutes</option>
+                    <option value="150">+ 2 hour and 30 minutes</option>
+                    <option value="165">+ 2 hour and 45 minutes</option>
+                    <option value="180">+ 3 hour</option>
+                    <option value="195">+ 3 hour and 15 minutes</option>
+                    <option value="210">+ 3 hour and 30 minutes</option>
+                    <option value="225">+ 3 hour and 45 minutes</option>
+                    <option value="240">+ 4 hour</option>
+                </select>                
+                @error('date_end')
                     <p class="text-sm text-warning-high">{{ $message }}</p>
                 @enderror
             </div>
@@ -62,9 +80,6 @@
             {{-- Tables --}}
             <div id="app" class="mx-auto w-1/2 flex justify-center items-center flex-wrap">
                 <table-select-component :reservation_data="{{($data)}}" :table_data="{{($tables)}}" :pivot="{{json_encode($pivot)}}"></table-select-component>
-                @error('tablesValidated')
-                    <p class="text-sm text-warning-high">{{ $message }}</p>
-                @enderror
             </div>
 
             {{-- Notes --}}

@@ -1,51 +1,29 @@
-@extends("layout.app")
+@extends("layout.reservations")
 
-@section("content")
-<div id="main_wrapper" class="grid grid-cols-10 grid-rows-1 gap-5 ">
-    <p class="row-start-1 col-span-2">active reservations</p>
-    <div id="active_reservations"
-        class="row-start-2 col-start-1 col-span-2 flex flex-row flex-wrap border-2 border-black place-content-start">
+@section("reservations-content")
+<div id="main_wrapper" class="grid grid-cols-4 grid-rows-1 gap-5 p-10">
 
+    <x-reservation-tab class="h-full col-start-1 col-span-1" title="Active Reservations">
         @foreach ($active as $item)
             <x-res-item :info="$item"></x-reservation-item>
         @endforeach
+    </x-reservation-tab>
 
-    </div>
-
-    <div id="incoming_reservations"
-        class="row-start-2 col-start-3 col-span-6 flex flex-col flex-nowrap border-2 border-black place-content-start">
-
-        <p>late reservations</p>
-        <div id="late_reservations"
-            class="flex flex-row flex-wrap border-2 border-black place-content-start">
-
+    <x-reservation-tab class="h-full col-start-2 col-span-2" columns="2" title="This Hour">
             @foreach ($late as $item)
                 <x-res-item :info="$item"></x-reservation-item>
             @endforeach
 
-        </div>
-
-        <p>reservations in the next hour</p>
-        <div id="upcoming_reservations"
-            class="flex flex-row flex-wrap border-2 border-black place-content-start">
-
             @foreach ($upcoming as $item)
                 <x-res-item :info="$item"></x-reservation-item>
             @endforeach
+    </x-reservation-tab>
 
-        </div>
-
-    </div>
-
-    <p class="row-start-1 col-start-9 col-span-2">reservations later today</p>  
-    <div id="later_reservations"
-        class="row-start-2 col-start-9 col-span-2 flex flex-row flex-wrap border-2 border-black place-content-start">
-
+    <x-reservation-tab class="col-start-4 col-span-1" title="Later this day">
         @foreach ($later as $item)
             <x-res-item :info="$item"></x-reservation-item>
         @endforeach  
-
-    </div>
+    </x-reservation-tab>
 </div>
 <div id="show-box-root" data-show-box-json="{{App\Models\Reservation::formatCollectionForJavascript($reservations)}}"
     class="fixed w-screen h-screen inset-0 p-52 bg-dim hidden">

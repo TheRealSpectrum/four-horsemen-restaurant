@@ -13,20 +13,47 @@ final class TableSeeder extends Seeder
         $tables = Table::factory()
             ->count(10)
             ->create();
+        $startAtIndex = 0;
+
+        $reservationCallback = function (
+            Reservation $reservation,
+            int $index
+        ) use ($tables, &$startAtIndex) {
+            $reservation
+                ->tables()
+                ->attach($tables[($index + $startAtIndex) % 10]);
+        };
 
         Reservation::factory()
             ->count(50)
             ->create()
-            ->each(function (Reservation $reservation) use ($tables) {
-                $reservation->tables()->attach($tables->random());
-            });
+            ->each($reservationCallback);
+
+        Reservation::factory()
+            ->count(20)
+            ->todayAfterOneHour()
+            ->create()
+            ->each($reservationCallback);
 
         Reservation::factory()
             ->count(10)
+            ->withinOneHour()
+            ->create()
+            ->each($reservationCallback);
+
+        Reservation::factory()
+            ->count(8)
             ->beforeNow()
             ->create()
-            ->each(function (Reservation $reservation) use ($tables) {
-                $reservation->tables()->attach($tables->random());
-            });
+            ->each($reservationCallback);
+
+        $startAtIndex = 8;
+
+        Reservation::factory()
+            ->count(2)
+            ->beforeNow()
+            ->tooLate()
+            ->create()
+            ->each($reservationCallback);
     }
 }

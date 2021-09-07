@@ -174,8 +174,8 @@
                 id="time" 
             >Time
                 <input 
-                    type="time" 
-                    name="time" 
+                    type="time-local"
+                    name="time"
                     placeholder="reservation id" 
                     :value="selectedTime"
                 >
@@ -249,26 +249,6 @@ export default {
         pivot: Array,
         table_data: Array,
         reservation_data: Array,
-        // searchID: String,
-        // searchPhone: String,
-        // searchName: String,
-        // searchEvent: String,
-        // searchDate: Date,
-        // searchTime: Date,
-
-        // editState: Boolean,
-        // tableToAdd: String,
-
-        // selected_reservation: Object,
-        // selectedID: String,
-        // selectedPhone: String,
-        // selectedName: String,
-        // selectedEvent: String,
-        // selectedTabels: Array,
-        // selectedGuestCount: Number,
-        // selectedDate: Date,
-        // selectedTime: Date,
-        // selectedNotes: String,
     },
     data() {
         return {
