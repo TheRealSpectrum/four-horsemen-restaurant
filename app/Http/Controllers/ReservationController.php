@@ -127,7 +127,7 @@ final class ReservationController extends Controller
         // $request["date_start"] = strtotime($request["date"] . $request["time"]);
         // $request["date_end"] = $request["date_start"] + 60 * 60 * 3;
         $request["active"] = false;
-        dd($request);
+        // dd($request);
 
         $newReservation = Reservation::create($request->all());
 
