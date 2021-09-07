@@ -113,6 +113,7 @@ final class ReservationController extends Controller
             "date_start" => "required|after:-10 minutes",
             "date_end" => "required|after:+50 minutes",
             "event_type" => "string|nullable",
+            "table" => "required",
             "tablesValidated" => "required",
             "notes" => "string|nullable",
         ]);
@@ -126,6 +127,7 @@ final class ReservationController extends Controller
         // $request["date_start"] = strtotime($request["date"] . $request["time"]);
         // $request["date_end"] = $request["date_start"] + 60 * 60 * 3;
         $request["active"] = false;
+        // dd($request);
 
         $newReservation = Reservation::create($request->all());
 
