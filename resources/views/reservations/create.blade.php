@@ -1,7 +1,7 @@
 @extends('layout.reservations')
 
 @section('reservations-content')
-    <div class="w-1/2 mx-auto min-h-screen border-r border-l pt-3">
+    <div class="w-1/2 mx-auto border-r border-l pt-3" style="height : 90vh">
         <form method="POST" action="{{ route('reservation.store') }}" class="w-full flex flex-col my-3 py-3 space-y-5">
             @csrf
 
