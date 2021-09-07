@@ -8,6 +8,7 @@
                 v-model="tableToAdd"
                 :value="tableToAdd"
                 v-on:change="addTable()"
+                v-on:click="updateDateTime()"
             >
                 <option
                     v-for="table in computed_table_data"
@@ -45,6 +46,8 @@ export default {
         return {
             selectedTabels: [],
             tableToAdd: "",
+            selected_date: document.querySelector("input[id='date']")?.value,
+            selected_time: document.querySelector("input[id='time']")?.value,
         };
     },
     computed: {
@@ -104,20 +107,20 @@ export default {
         },
         isAvailible(table) {
             let id = table.id;
-            let time = document.querySelector("input[id='time']")?.value;
-            let date = document.querySelector("input[id='date']")?.value;
             let timeDiff = document.getElementById("endTime")?.value;
-            let startDateTime = new Date(`${date}T${time}:00`);
+            let startDateTime = new Date(
+                `${this.selected_date}T${this.selected_time}:00.000000+02:00`
+            );
             let endDateTime = new Date(
                 startDateTime.getTime() + timeDiff * 60000
             );
             let result = true;
             this.reservation_data.forEach((reservation) => {
                 if (
-                    (startDateTime > new Date(reservation.date_start) &&
-                        startDateTime < new Date(reservation.date_end)) ||
-                    (endDateTime > new Date(reservation.date_start) &&
-                        endDateTime < new Date(reservation.date_end)) ||
+                    (startDateTime >= new Date(reservation.date_start) &&
+                        startDateTime <= new Date(reservation.date_end)) ||
+                    (endDateTime >= new Date(reservation.date_start) &&
+                        endDateTime <= new Date(reservation.date_end)) ||
                     this.selectedTabels?.includes(id)
                 ) {
                     reservation.tables.forEach((rezervedTable) => {
@@ -128,6 +131,12 @@ export default {
                 }
             });
             return result;
+        },
+        updateDateTime() {
+            this.selected_date =
+                document.querySelector("input[id='date']")?.value;
+            this.selected_time =
+                document.querySelector("input[id='time']")?.value;
         },
     },
 };
