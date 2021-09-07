@@ -11,7 +11,7 @@ final class TableSeeder extends Seeder
     public function run(): void
     {
         $tables = Table::factory()
-            ->count(10)
+            ->count(12)
             ->create();
         $startAtIndex = 0;
 
