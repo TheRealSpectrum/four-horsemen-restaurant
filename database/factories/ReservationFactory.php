@@ -11,7 +11,7 @@ final class ReservationFactory extends Factory
 
     public function definition(): array
     {
-        $date = $this->faker->dateTimeBetween("+1 hour", "+4 days");
+        $date = $this->faker->dateTimeBetween("+1 day", "+4 days");
         $dateEnd = clone $date;
         $dateEnd->add(new \DateInterval("PT1H"));
 
@@ -35,19 +35,51 @@ final class ReservationFactory extends Factory
     public function beforeNow(): self
     {
         return $this->state(function (array $attributes) {
-            $date = $this->faker->dateTimeBetween("-2 hours", "-10 minutes");
+            $date = $this->faker->dateTimeBetween("-1 hours", "-10 minutes");
             $dateEnd = clone $date;
             $dateEnd->add(new \DateInterval("PT1H"));
 
             return [
                 "date_start" => $date,
                 "date_end" => $dateEnd,
-                "active" => $this->faker->randomElement([
-                    true,
-                    true,
-                    true,
-                    false,
-                ]),
+                "active" => true,
+            ];
+        });
+    }
+
+    public function tooLate(): self
+    {
+        return $this->state(function (array $attributes) {
+            return ["active" => false];
+        });
+    }
+
+    public function withinOneHour(): self
+    {
+        return $this->state(function (array $attributes) {
+            $date = $this->faker->dateTimeBetween("+10 minutes", "+1 hour");
+            $dateEnd = clone $date;
+            $dateEnd->add(new \DateInterval("PT1H"));
+
+            return [
+                "date_start" => $date,
+                "date_end" => $dateEnd,
+                "active" => true,
+            ];
+        });
+    }
+
+    public function todayAfterOneHour(): self
+    {
+        return $this->state(function (array $attributes) {
+            $date = $this->faker->dateTimeBetween("+1 hour", "+1 day");
+            $dateEnd = clone $date;
+            $dateEnd->add(new \DateInterval("PT1H"));
+
+            return [
+                "date_start" => $date,
+                "date_end" => $dateEnd,
+                "active" => true,
             ];
         });
     }
