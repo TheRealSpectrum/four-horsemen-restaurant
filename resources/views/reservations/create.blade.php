@@ -44,7 +44,7 @@
             {{-- Time --}}
             <div class="mx-auto w-1/2 flex justify-center items-center flex-wrap">
                 <label for="time" class="w-1/3 font-bold text-center">Time</label>
-                <input id="time" type="time-local" min="00:00" max="23:59" name="time" class="w-1/2 border p-2 text-center" value="{{ old('time', date('H:i')) }}" />
+                <input id="time" type="time" min="00:00" max="23:59" name="time" class="w-1/2 border p-2 text-center" value="{{ old('time', date('H:i')) }}" />
                 @error('date_start')
                     <p class="text-sm text-warning-high">{{ $message }}</p>
                 @enderror

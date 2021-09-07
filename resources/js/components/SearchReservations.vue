@@ -174,7 +174,7 @@
                 id="time" 
             >Time
                 <input 
-                    type="time-local"
+                    type="time"
                     name="time"
                     placeholder="reservation id" 
                     :value="selectedTime"
