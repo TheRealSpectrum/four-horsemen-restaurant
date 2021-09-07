@@ -159,6 +159,6 @@ input {
     display: none !important ;
 }
 .reservationwrapper {
-    height:95%;
-    overflow:auto;
+    height: 95%;
+    overflow: auto;
 }
