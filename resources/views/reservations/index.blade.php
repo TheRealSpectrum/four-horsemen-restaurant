@@ -1,7 +1,7 @@
 @extends("layout.reservations")
 
 @section("reservations-content")
-<div id="main_wrapper" class="grid grid-cols-4 grid-rows-1 gap-5 p-10">
+<div id="main_wrapper" class="grid grid-cols-4 grid-rows-1 gap-5 p-10 bg-backgrounddark" style="height:91vh">
 
     <x-reservation-tab class="h-full col-start-1 col-span-1" title="Active Reservations">
         @foreach ($active as $item)
