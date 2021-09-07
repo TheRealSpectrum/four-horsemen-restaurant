@@ -80,7 +80,11 @@
             {{-- Tables --}}
             <div id="app" class="mx-auto w-1/2 flex justify-center items-center flex-wrap">
                 <table-select-component :reservation_data="{{($data)}}" :table_data="{{($tables)}}" :pivot="{{json_encode($pivot)}}"></table-select-component>
+                @error("table")
+                    <p class="text-sm text-warning-high">{{ $message }}</p>
+                @enderror
             </div>
+            
 
             {{-- Notes --}}
             <div class="mx-auto w-1/2 flex flex-row flex-nowrap justify-center relative">
