@@ -24,7 +24,7 @@ final class AuthTest extends TestCase
         $this->withSession(["banned" => false])
             ->actingAs($user)
             ->get("/login")
-            ->assertRedirect("/");
+            ->assertRedirect("/reservations");
     }
 
     public function test_user_can_authenticate(): void
@@ -37,7 +37,7 @@ final class AuthTest extends TestCase
         $this->post("/login", [
             "email" => "admin@example.com",
             "password" => "password",
-        ])->assertRedirect("/");
+        ])->assertRedirect("/reservations");
 
         $this->assertAuthenticatedAs($user);
     }
@@ -69,7 +69,7 @@ final class AuthTest extends TestCase
 
     public function test_user_is_redirected_on_logout(): void
     {
-        $this->post("/logout")->assertRedirect("/");
+        $this->post("/logout")->assertRedirect("/login");
         $this->assertGuest();
     }
 
@@ -80,14 +80,14 @@ final class AuthTest extends TestCase
         $this->withSession(["banned" => false])
             ->actingAs($user)
             ->get("/login")
-            ->assertRedirect("/");
+            ->assertRedirect("/reservations");
 
         $this->assertAuthenticatedAs($user);
 
         $this->withSession(["banned" => false])
             ->actingAs($user)
             ->post("/logout")
-            ->assertRedirect("/");
+            ->assertRedirect("/login");
 
         $this->assertGuest();
     }
