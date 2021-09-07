@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 
 use Tests\TestCase;
 
-use App\Models\{Table, User};
+use App\Models\{Reservation, Table, User};
 
 final class ReservationsTest extends TestCase
 {
@@ -102,6 +102,36 @@ final class ReservationsTest extends TestCase
             ]);
 
         $response->assertRedirect("/reservation");
+        $this->assertDatabaseCount("reservations", 1);
+    }
+
+    public function test_authenticated_user_can_update_reservation(): void
+    {
+        $this->assertDatabaseCount("reservations", 0);
+        $user = User::factory()->create();
+        $newTableId = Table::factory()->create()->id;
+        $oldTable = Table::factory()->create();
+        $reservation = Reservation::factory()->create();
+        $reservation->tables()->attach($oldTable);
+
+        $this->assertDatabaseCount("reservations", 1);
+
+        $response = $this->withSession(["banned" => false])
+            ->actingAs($user)
+            ->patch("/update", [
+                "id" => $reservation->id,
+                "name" => "Guest Name",
+                "phone_number" => "+31612345678",
+                "guest_count" => "4",
+                "date" => "3021-09-25", // Test will break when I'm dead, so not a problem.
+                "time" => "13:00",
+                "endTime" => "60",
+                "event_type" => "birthday",
+                "notes" => "Including service dog",
+                "table" => (string) $newTableId,
+            ]);
+
+        $response->assertRedirect("/agenda");
         $this->assertDatabaseCount("reservations", 1);
     }
 
