@@ -3,14 +3,16 @@
 @section("content")
     <div class="mx-auto max-w-6xl min-h-screen flex flex-col content-center justify-center">
         <form action="{{route("auth.login")}}" method="post"
-            class="flex flex-col content-center justify-center h-24 text-2xl">
+            class="flex flex-col content-center justify-center h-32 text-2xl">
             @csrf
             <div class="flex flex-row content-center justify-center gap-6 h-10">
-                <label for="email">email</label>
-                <input id="email" type="email" name="email" value="{{old("email")}}" class="border border-dark dark:border-light bg-light dark:bg-dark">
+                <label for="email" class="text-light">email</label>
+                <input id="email" type="email" name="email" value="{{old("email")}}"
+                    class="border-2 border-light dark:border-light bg-backgrounddark dark:bg-dark text-light">
 
-                <label for="password">password</label>
-                <input id="password" type="password" name="password" class="border border-dark dark:border-light bg-light dark:bg-dark">
+                <label for="password" class="text-light">password</label>
+                <input id="password" type="password" name="password"
+                    class="border-2 border-light dark:border-light bg-backgrounddark dark:bg-dark text-light">
             </div>
             <ul>
                 @foreach($errors->all() as  $error)
@@ -19,7 +21,7 @@
             </ul>
 
             <button type="submit"
-                class="my-4 w-32 mx-auto border-dark border-2 dark:border-light">Login</button>
+                class="my-4 w-32 mx-auto border-light border-2 dark:border-light text-light">Login</button>
         </form>
     </div>
 @endsection()

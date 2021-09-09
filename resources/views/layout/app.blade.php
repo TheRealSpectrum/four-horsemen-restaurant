@@ -12,7 +12,7 @@
     <!-- Rik heeft de hik -->
 </head>
 <body>
-    <div class="bg-light dark:bg-dark text-dark dark:text-light min-h-screen">
+    <div class="bg-backgrounddark dark:bg-dark text-dark dark:text-light min-h-screen">
         @yield("content")
     </div>
 </body>

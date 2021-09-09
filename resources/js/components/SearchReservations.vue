@@ -1,6 +1,6 @@
 <template>
     <!-- prettier-ignore -->
-    <div class="container border border-current">
+    <div class="container border border-current bg-columnlight">
         <div class="search">
             <label>reservation id
                 <input 

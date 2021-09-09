@@ -34,6 +34,15 @@ final class Button extends Component
             case "high":
                 $this->additionalClasses .= " bg-warning-high";
                 break;
+            case "nav":
+                $this->additionalClasses .= " bg-navbutton-base";
+                break;
+            case "nav-current":
+                $this->additionalClasses .= " bg-navbutton-active";
+                break;
+            case "neutral":
+                $this->additionalClasses .= " bg-light";
+                break;
         }
     }
 
