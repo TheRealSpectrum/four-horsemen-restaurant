@@ -15,7 +15,7 @@
             </div>
 
             {{-- Phone Number --}}
-            <div class="mx-auto w-1/2 flex justify-center items-cente flex-wrap">
+            <div class="mx-auto w-1/2 flex justify-center items-center flex-wrap">
                 <label for="phone" class="w-1/3 font-bold text-center">Phone</label>
                 <input id="phone" type="tel" name="phone_number" placeholder="phone..." class="w-1/2 border p-2 text-center" value="{{ old('phone_number', '') }}" />
                 @error('phone_number')
