@@ -24,7 +24,7 @@ div[id="app"][class="search"] {
     overflow: hidden;
 }
 #app .container {
-    width: 75%;
+    width: 50%;
     height: 100%;
     display: grid;
     grid-template-rows: 100px 1fr;
@@ -55,6 +55,8 @@ div[id="app"][class="search"] {
     flex-wrap: wrap;
     width: 100%;
     overflow-y: scroll;
+    padding: 5px;
+    gap: 5px;
 }
 #app .results .reservation {
     width: 33.33%;
@@ -118,6 +120,11 @@ div[id="app"][class="search"] {
 }
 #app .edit .btnWrap {
     grid-area: btns;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 10px;
 }
 #app .edit #cancel {
     position: absolute;
@@ -133,6 +140,7 @@ div[id="app"][class="search"] {
     border: solid 1px black;
     padding: 5px;
     border-radius: 5px;
+    height: 4ch;
 }
 #app .lableWrap {
     display: flex;
