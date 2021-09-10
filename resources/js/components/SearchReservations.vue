@@ -224,11 +224,11 @@
                 </div>
             </label>
             <div class="btnWrap">
-                <button type="submit" name="action" value="update">
-                    update reservation
+                <button type="submit" name="action" value="cancel" class="bg-cancel">
+                    cancel
                 </button>
-                <button type="submit" name="action" value="cancel">
-                    cancel reservation
+                <button type="submit" name="action" value="update" class="bg-save">
+                    save
                 </button>
             </div>
         </form>
