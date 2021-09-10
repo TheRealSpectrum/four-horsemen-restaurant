@@ -1,4 +1,4 @@
-name: LaravelTests
+name: Laravel
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  tests:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,4 +31,5 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
+          CI_EENABLES: "true"
         run: vendor/bin/phpunit
