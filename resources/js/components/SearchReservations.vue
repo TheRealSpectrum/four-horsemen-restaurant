@@ -224,8 +224,8 @@ export default {
     data() {
         return {
             // config data
-            min_duration:60,
-            max_duration:240,
+            min_duration: 60,
+            max_duration: 240,
             // search data
             searchID: "",
             searchPhone: "",
@@ -279,14 +279,14 @@ export default {
             });
             return `total seats : ${seats}`;
         },
-        computed_durations: function (){
-            let durations = []
-            let cur = this.min_duration
-            do{
-                durations.push(cur)
-                cur+=15
-            }while(cur<=this.max_duration)
-            return durations
+        computed_durations: function () {
+            let durations = [];
+            let cur = this.min_duration;
+            do {
+                durations.push(cur);
+                cur += 15;
+            } while (cur <= this.max_duration);
+            return durations;
         },
     },
     methods: {
@@ -370,39 +370,41 @@ export default {
             }
             this.toggleEdit("show");
         },
-        toggleTable(tableID){
+        toggleTable(tableID) {
             let tables = this.selectedTabels ?? [];
             if (
                 typeof tableID == "number" &&
                 !this.computed_tables.split(",").includes(`${tableID}`)
             ) {
                 tables.push(tableID);
-                document.getElementById(`option-${tableID}`).classList.add("selected")
+                document
+                    .getElementById(`option-${tableID}`)
+                    .classList.add("selected");
                 this.selectedTabels = tables;
-            }else if(
+            } else if (
                 typeof tableID == "number" &&
                 this.computed_tables.split(",").includes(`${tableID}`)
-            ){
-                let indexOfTable = tables.indexOf(tableID)
-                delete tables[indexOfTable]
+            ) {
+                let indexOfTable = tables.indexOf(tableID);
+                delete tables[indexOfTable];
                 tables = tables.filter(function (el) {
                     return el != null;
                 });
-                document.getElementById(`option-${tableID}`).classList.remove("selected")
+                document
+                    .getElementById(`option-${tableID}`)
+                    .classList.remove("selected");
                 this.selectedTabels = tables;
             }
-
         },
         isAvailible(table) {
             let id = table.id;
             let result = true;
-            let startTime = new Date(this.selected_reservation?.date_start) 
-            let endTime = new Date(this.selected_reservation?.date_end)
+            let startTime = new Date(this.selected_reservation?.date_start);
+            let endTime = new Date(this.selected_reservation?.date_end);
             this.reservation_data.forEach((reservation) => {
                 if (
-                        (startTime <= new Date(reservation.date_end))
-                    &&
-                        (endTime >= new Date(reservation.date_start))
+                    startTime <= new Date(reservation.date_end) &&
+                    endTime >= new Date(reservation.date_start)
                 ) {
                     reservation.tables.forEach((rezervedTable) => {
                         if (rezervedTable.id == id) {
@@ -420,19 +422,19 @@ export default {
             });
             return out.join(", ");
         },
-        getDurationString(value){
-            let out = "+"
-            if(Math.floor(value/60)>0){
-                out+=` ${Math.floor(value/60)} hour`
+        getDurationString(value) {
+            let out = "+";
+            if (Math.floor(value / 60) > 0) {
+                out += ` ${Math.floor(value / 60)} hour`;
             }
-            if(value%60>0){
-                out+=` ${value%60} minutes`
+            if (value % 60 > 0) {
+                out += ` ${value % 60} minutes`;
             }
-            return out
+            return out;
         },
-        isSelected(table){
-            return this.selectedTabels?.includes(table)
-        }
+        isSelected(table) {
+            return this.selectedTabels?.includes(table);
+        },
     },
 };
 </script>
