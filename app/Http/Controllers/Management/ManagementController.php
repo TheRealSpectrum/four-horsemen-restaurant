@@ -58,11 +58,15 @@ abstract class ManagementController extends Controller
 
     public function show($id): view
     {
+        $this->managementInitWrapper();
         $model = $this->GetModelBuilder()
             ->where("id", $id)
             ->firstOrFail();
 
         return view("management.show", [
+            "managementName" => $this->managementName,
+            "managementParameterName" => $this->managementParameterName,
+            "columns" => $this->registeredColumns,
             "model" => $model,
         ]);
     }
@@ -107,7 +111,12 @@ abstract class ManagementController extends Controller
 
     public function destroy($id): RedirectResponse
     {
-        //
+        $model = $this->GetModelBuilder()
+            ->where("id", $id)
+            ->firstOrFail();
+
+        $model->delete();
+        return redirect()->route("management.$this->managementName.index");
     }
 
     protected string $managementModel = "";
