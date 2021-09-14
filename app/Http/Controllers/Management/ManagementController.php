@@ -33,7 +33,13 @@ abstract class ManagementController extends Controller
 
     public function show($id): view
     {
-        return view("management.show");
+        $model = $this->GetModelBuilder()
+            ->where("id", $id)
+            ->firstOrFail();
+
+        return view("management.show", [
+            "model" => $model,
+        ]);
     }
 
     public function edit($id): view
@@ -42,7 +48,9 @@ abstract class ManagementController extends Controller
             ->where("id", $id)
             ->firstOrFail();
 
-        return view("management.edit", ["model" => $model]);
+        return view("management.edit", [
+            "model" => $model,
+        ]);
     }
 
     public function update(Request $request, $id): RedirectResponse
