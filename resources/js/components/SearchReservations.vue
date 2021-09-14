@@ -289,8 +289,6 @@ export default {
             return durations
         },
     },
-    // data: () => ({
-    // }),
     methods: {
         isValid(item) {
             let name_filter = new RegExp(this.searchName, "gi");
@@ -353,7 +351,6 @@ export default {
             ) {
                 this.editState = true;
             }
-            console.log(this.selectedTabels);
         },
         SelectReservation(item) {
             this.selected_reservation = item;
@@ -371,12 +368,10 @@ export default {
                     this.selectedTabels.push(reservations_table.table_id);
                 }
             }
-            console.log(this.selectedTabels);
             this.toggleEdit("show");
         },
         toggleTable(tableID){
             let tables = this.selectedTabels ?? [];
-            console.log(typeof tableID)
             if (
                 typeof tableID == "number" &&
                 !this.computed_tables.split(",").includes(`${tableID}`)
@@ -401,11 +396,13 @@ export default {
         isAvailible(table) {
             let id = table.id;
             let result = true;
+            let startTime = new Date(this.selected_reservation?.date_start) 
+            let endTime = new Date(this.selected_reservation?.date_end)
             this.reservation_data.forEach((reservation) => {
                 if (
-                        (this.selected_reservation?.date_start <= new Date(reservation.date_end))
+                        (startTime <= new Date(reservation.date_end))
                     &&
-                        (this.selected_reservation?.date_end >= new Date(reservation.date_start))
+                        (endTime >= new Date(reservation.date_start))
                 ) {
                     reservation.tables.forEach((rezervedTable) => {
                         if (rezervedTable.id == id) {
