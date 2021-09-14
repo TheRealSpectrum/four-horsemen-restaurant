@@ -69,18 +69,40 @@ abstract class ManagementController extends Controller
 
     public function edit($id): view
     {
+        $this->managementInitWrapper();
         $model = $this->GetModelBuilder()
             ->where("id", $id)
             ->firstOrFail();
 
         return view("management.edit", [
+            "managementName" => $this->managementName,
+            "managementParameterName" => $this->managementParameterName,
+            "columns" => $this->registeredColumns,
             "model" => $model,
         ]);
     }
 
     public function update(Request $request, $id): RedirectResponse
     {
-        //
+        $this->managementInitWrapper();
+
+        $validationRules = [];
+        foreach ($this->registeredColumns as $column) {
+            $validationRules[$column->name] = $column->validationRules;
+        }
+
+        $validated = $request->validate($validationRules);
+
+        $model = $this->GetModelBuilder()
+            ->where("id", $id)
+            ->firstOrFail();
+
+        $model->fill($validated);
+        $model->save();
+
+        return redirect()->route("management.$this->managementName.show", [
+            $this->managementParameterName => $model->id,
+        ]);
     }
 
     public function destroy($id): RedirectResponse
