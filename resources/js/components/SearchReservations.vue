@@ -164,6 +164,7 @@
                 </textarea>
             </label>
             <label
+                class="relative"
                 id="time" 
             >Time
                 <input 
@@ -171,58 +172,35 @@
                     name="time"
                     :value="selectedTime"
                 >
-                <select name="endTime" id="endTime">
-                    <!-- pre made for when config gets working expected config format
-                    config:{
-                        reservation_lenghts:[
-                            {hours:int,minutes:int},
-                            {hours:int,minutes:int}
-                        ]
-                    }
-
-
-                        <option 
-                        v-for="(reservation_length,index) in config.reservation_lengths" :key="index"
-                        :value="`PT${reservation_length.hour}H${reservation_length.minutes}M`"
-                        :default="reservation_length.default"
-                    >
-                        + {{reservation_length.hours}} hour {{(reservation_length.minutes !== 0)?`and ${reservation_length.minutes} minutes `:''}}
-                    </option> -->
-                    <option value="60" default>+ 1 hour</option>
-                    <option value="75">+ 1 hour and 15 minutes</option>
-                    <option value="90">+ 1 hour and 30 minutes</option>
-                    <option value="105">+ 1 hour and 45 minutes</option>
-                    <option value="120">+ 2 hour</option>
-                    <option value="135">+ 2 hour and 15 minutes</option>
-                    <option value="150">+ 2 hour and 30 minutes</option>
-                    <option value="165">+ 2 hour and 45 minutes</option>
-                    <option value="180">+ 3 hour</option>
-                    <option value="195">+ 3 hour and 15 minutes</option>
-                    <option value="210">+ 3 hour and 30 minutes</option>
-                    <option value="225">+ 3 hour and 45 minutes</option>
-                    <option value="240">+ 4 hour</option>
-                </select>
-            </label>
-            <label
-                id="tables"
-            >tables
-                <select 
-                    name="tableToAdd"
-                    v-model="tableToAdd" 
-                    :value="tableToAdd"
-                    v-on:change="addTable()"
-                >
-                    <option :value="table.id" v-for="table in computed_table_data" :key="table.id" >
-                        Table {{table.id}} - {{table.seat_count}} {{((table.seat_count>1)?"seats":"seat")}}
-                    </option>
-                </select>
-                <div class="selectedTables flex flex-row justify-start gap-2"> 
-                    <div class="table " v-for="(table,index) in selectedTabels" :key="index">
-                        <p>{{table}}</p>
-                        <div class="remove" v-on:click="removeTable(index)">remove</div>
-                    </div>
+                <div class="durationWrap">
+                    <label>duration:</label>
+                    <select name="endTime" id="endTime" v-model="selected_duration">
+                        <option
+                        v-for="value in computed_durations" :key="value"
+                        :value="value"
+                        >
+                        {{getDurationString(value)}}
+                        </option>
+                    </select>
                 </div>
             </label>
+        <label id="tables"
+            >tables
+            <div class="custom-select-multi">
+                <div class="custom-option"
+                    v-for="table in computed_table_data"
+                    :key="table.id"
+                    :value="table.id"
+                    :class="(isSelected(table.id))?'selected':''" 
+                    v-on:click="toggleTable(table.id)"
+                    :id="`option-${table.id}`"
+
+                >
+                    Table {{ table.id }} - {{ table.seat_count }}
+                    {{ table.seat_count > 1 ? "seats" : "seat" }}
+                </div>
+            </div>
+        </label>
             <div class="btnWrap">
                 <button type="submit" name="action" value="cancel" class="bg-cancel">
                     cancel
@@ -231,6 +209,7 @@
                     save
                 </button>
             </div>
+
         </form>
     </div>
 </template>
@@ -244,16 +223,19 @@ export default {
     },
     data() {
         return {
+            // config data
+            min_duration: 60,
+            max_duration: 240,
+            // search data
             searchID: "",
             searchPhone: "",
             searchName: "",
             searchEvent: "",
             searchDate: undefined,
             searchTime: undefined,
-
+            //state data
             editState: false,
-            tableToAdd: "",
-
+            //selected reservation data
             selected_reservation: undefined,
             selectedID: undefined,
             selectedPhone: undefined,
@@ -264,7 +246,8 @@ export default {
             selectedDate: undefined,
             selectedTime: undefined,
             selectedNotes: undefined,
-
+            selected_duration: undefined,
+            //csrf token
             csrf: document
                 .querySelector('meta[name="csrf-token"]')
                 .getAttribute("content"),
@@ -296,9 +279,16 @@ export default {
             });
             return `total seats : ${seats}`;
         },
+        computed_durations: function () {
+            let durations = [];
+            let cur = this.min_duration;
+            do {
+                durations.push(cur);
+                cur += 15;
+            } while (cur <= this.max_duration);
+            return durations;
+        },
     },
-    // data: () => ({
-    // }),
     methods: {
         isValid(item) {
             let name_filter = new RegExp(this.searchName, "gi");
@@ -361,7 +351,6 @@ export default {
             ) {
                 this.editState = true;
             }
-            console.log(this.selectedTabels);
         },
         SelectReservation(item) {
             this.selected_reservation = item;
@@ -379,38 +368,43 @@ export default {
                     this.selectedTabels.push(reservations_table.table_id);
                 }
             }
-            console.log(this.selectedTabels);
             this.toggleEdit("show");
         },
-        removeTable(index) {
-            delete this.selectedTabels[index];
-            this.selectedTabels = this.selectedTabels.filter(function (el) {
-                return el != null;
-            });
-        },
-        addTable() {
+        toggleTable(tableID) {
+            let tables = this.selectedTabels ?? [];
             if (
-                typeof this.tableToAdd == "number" &&
-                !this.computed_tables.split(",").includes(`${this.tableToAdd}`)
+                typeof tableID == "number" &&
+                !this.computed_tables.split(",").includes(`${tableID}`)
             ) {
-                this.selectedTabels.push(this.tableToAdd);
+                tables.push(tableID);
+                document
+                    .getElementById(`option-${tableID}`)
+                    .classList.add("selected");
+                this.selectedTabels = tables;
+            } else if (
+                typeof tableID == "number" &&
+                this.computed_tables.split(",").includes(`${tableID}`)
+            ) {
+                let indexOfTable = tables.indexOf(tableID);
+                delete tables[indexOfTable];
+                tables = tables.filter(function (el) {
+                    return el != null;
+                });
+                document
+                    .getElementById(`option-${tableID}`)
+                    .classList.remove("selected");
+                this.selectedTabels = tables;
             }
-            this.tableToAdd = "";
         },
         isAvailible(table) {
             let id = table.id;
             let result = true;
+            let startTime = new Date(this.selected_reservation?.date_start);
+            let endTime = new Date(this.selected_reservation?.date_end);
             this.reservation_data.forEach((reservation) => {
                 if (
-                    (this.selected_reservation?.date_start >
-                        reservation.date_start &&
-                        this.selected_reservation?.date_start <
-                            reservation.date_end) ||
-                    (this.selected_reservation?.date_end >
-                        reservation.date_start &&
-                        this.selected_reservation?.date_end <
-                            reservation.date_end) ||
-                    this.selectedTabels?.includes(id)
+                    startTime <= new Date(reservation.date_end) &&
+                    endTime >= new Date(reservation.date_start)
                 ) {
                     reservation.tables.forEach((rezervedTable) => {
                         if (rezervedTable.id == id) {
@@ -427,6 +421,19 @@ export default {
                 out.push(table.id);
             });
             return out.join(", ");
+        },
+        getDurationString(value) {
+            let out = "+";
+            if (Math.floor(value / 60) > 0) {
+                out += ` ${Math.floor(value / 60)} hour`;
+            }
+            if (value % 60 > 0) {
+                out += ` ${value % 60} minutes`;
+            }
+            return out;
+        },
+        isSelected(table) {
+            return this.selectedTabels?.includes(table);
         },
     },
 };
