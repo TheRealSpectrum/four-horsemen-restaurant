@@ -1,5 +1,6 @@
-Management: index
+@extends("layout.management")
 
+@section("management-content")
 @foreach($models as $model)
 
   <div>
@@ -14,3 +15,4 @@ Management: index
   <div>----</div>
 
 @endforeach
+@endsection
