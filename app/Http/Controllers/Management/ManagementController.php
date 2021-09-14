@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Management;
 
 use App\Http\Controllers\Controller;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -12,7 +13,13 @@ abstract class ManagementController extends Controller
 {
     public function index(): View
     {
-        return view("management.index");
+        $models = $this->GetModelBuilder()
+            ->orderBy("name")
+            ->get();
+
+        return view("management.index", [
+            "models" => $models,
+        ]);
     }
 
     public function create(): View
@@ -44,5 +51,12 @@ abstract class ManagementController extends Controller
         //
     }
 
-    private string $managementName;
+    protected string $managementModel = "";
+
+    private function GetModelBuilder(): Builder
+    {
+        return (new \ReflectionClass($this->managementModel))
+            ->getMethod("query")
+            ->invoke(null);
+    }
 }
