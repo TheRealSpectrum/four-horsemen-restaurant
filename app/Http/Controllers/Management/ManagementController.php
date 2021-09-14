@@ -38,7 +38,11 @@ abstract class ManagementController extends Controller
 
     public function edit($id): view
     {
-        return view("management.edit");
+        $model = $this->GetModelBuilder()
+            ->where("id", $id)
+            ->firstOrFail();
+
+        return view("management.edit", ["model" => $model]);
     }
 
     public function update(Request $request, $id): RedirectResponse
