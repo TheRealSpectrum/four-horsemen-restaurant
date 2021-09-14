@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Http\Controllers\Controller;
+use App\Models\Dish;
+
 use Illuminate\Http\Request;
 
 final class DishesController extends ManagementController
 {
+    protected string $managementModel = Dish::class;
 }
