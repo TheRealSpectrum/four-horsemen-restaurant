@@ -1,34 +1,79 @@
 <template>
-    <div>
+    <div class="table-component">
+        <div class="datetime-wrap">
+            <div
+                class="mx-auto w-1/2 flex justify-center items-center flex-wrap"
+            >
+                <label for="date" class="w-1/3 font-bold text-center"
+                    >Date</label
+                >
+                <input
+                    id="date"
+                    type="date"
+                    name="date"
+                    :min="this.date_min"
+                    class="w-1/2 border p-2 text-center"
+                    v-model="selected_date"
+                />
+            </div>
+
+            <div
+                class="
+                    mx-auto
+                    w-1/2
+                    flex
+                    justify-center
+                    items-center
+                    flex-wrap
+                    relative
+                "
+            >
+                <label for="time" class="w-1/3 font-bold text-center"
+                    >Time</label
+                >
+                <input
+                    id="time"
+                    type="time"
+                    min="00:00"
+                    max="23:59"
+                    name="time"
+                    class="w-1/2 border p-2 text-center"
+                    v-model="selected_time"
+                />
+                <div class="durationWrap">
+                    <label>duration:</label>
+                    <select
+                        name="endTime"
+                        id="endTime"
+                        v-model="selected_duration"
+                    >
+                        <option
+                            v-for="value in computed_durations"
+                            :key="value"
+                            :value="value"
+                            :default="value === duration_default ? true : false"
+                        >
+                            {{ getDurationString(value) }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
         <input type="hidden" name="table" :value="computed_tables" readonly />
         <label id="tables"
             >tables
-            <select
-                name="tableToAdd"
-                v-model="tableToAdd"
-                :value="tableToAdd"
-                v-on:change="addTable()"
-                v-on:click="updateDateTime()"
-            >
-                <option
+            <div class="custom-select-multi">
+                <div
+                    class="custom-option"
                     v-for="table in computed_table_data"
                     :key="table.id"
                     :value="table.id"
+                    v-on:click="toggleTable(table.id)"
+                    :id="`option-${table.id}`"
                 >
                     Table {{ table.id }} - {{ table.seat_count }}
                     {{ table.seat_count > 1 ? "seats" : "seat" }}
-                </option>
-            </select>
-            <div class="selectedTables flex flex-row justify-start gap-2">
-                <div
-                    class="table"
-                    v-for="(table, index) in selectedTabels"
-                    :key="index"
-                >
-                    <p>{{ table }}</p>
-                    <div class="remove" v-on:click="removeTable(index)">
-                        remove
-                    </div>
                 </div>
             </div>
         </label>
@@ -41,13 +86,21 @@ export default {
         pivot: Array,
         table_data: Array,
         reservation_data: Array,
+        date_default: String,
+        date_min: String,
+        time_default: String,
+        duration_default: Number,
     },
     data() {
         return {
+            min_duration: 60,
+            max_duration: 240,
+
             selectedTabels: [],
             tableToAdd: "",
-            selected_date: document.querySelector("input[id='date']")?.value,
-            selected_time: document.querySelector("input[id='time']")?.value,
+            selected_date: this.date_default,
+            selected_time: this.time_default,
+            selected_duration: 0,
         };
     },
     computed: {
@@ -73,6 +126,15 @@ export default {
             });
             return `total seats : ${seats}`;
         },
+        computed_durations: function () {
+            let durations = [];
+            let cur = this.min_duration;
+            do {
+                durations.push(cur);
+                cur += 15;
+            } while (cur <= this.max_duration);
+            return durations;
+        },
     },
     methods: {
         IsolateDate(datetime) {
@@ -88,40 +150,22 @@ export default {
                 "0" + datetime.getMinutes()
             ).slice(-2)}`;
         },
-        removeTable(index) {
-            delete this.selectedTabels[index];
-            this.selectedTabels = this.selectedTabels.filter(function (el) {
-                return el != null;
-            });
-        },
-        addTable() {
-            let tables = this.selectedTabels ?? [];
-            if (
-                typeof this.tableToAdd == "number" &&
-                !this.computed_tables.split(",").includes(`${this.tableToAdd}`)
-            ) {
-                tables.push(this.tableToAdd);
-            }
-            this.tableToAdd = "";
-            this.selectedTabels = tables;
+        updateTables() {
+            console.log(this.selectedTabels);
         },
         isAvailible(table) {
             let id = table.id;
-            let timeDiff = document.getElementById("endTime")?.value;
             let startDateTime = new Date(
                 `${this.selected_date}T${this.selected_time}:00.000000+02:00`
             );
             let endDateTime = new Date(
-                startDateTime.getTime() + timeDiff * 60000
+                startDateTime.getTime() + this.selected_duration * 60000
             );
             let result = true;
             this.reservation_data.forEach((reservation) => {
                 if (
-                    (startDateTime >= new Date(reservation.date_start) &&
-                        startDateTime <= new Date(reservation.date_end)) ||
-                    (endDateTime >= new Date(reservation.date_start) &&
-                        endDateTime <= new Date(reservation.date_end)) ||
-                    this.selectedTabels?.includes(id)
+                    startDateTime <= new Date(reservation.date_end) &&
+                    endDateTime >= new Date(reservation.date_start)
                 ) {
                     reservation.tables.forEach((rezervedTable) => {
                         if (rezervedTable.id == id) {
@@ -132,11 +176,42 @@ export default {
             });
             return result;
         },
-        updateDateTime() {
-            this.selected_date =
-                document.querySelector("input[id='date']")?.value;
-            this.selected_time =
-                document.querySelector("input[id='time']")?.value;
+        toggleTable(tableID) {
+            let tables = this.selectedTabels ?? [];
+            console.log(typeof tableID);
+            if (
+                typeof tableID == "number" &&
+                !this.computed_tables.split(",").includes(`${tableID}`)
+            ) {
+                tables.push(tableID);
+                document
+                    .getElementById(`option-${tableID}`)
+                    .classList.add("selected");
+                this.selectedTabels = tables;
+            } else if (
+                typeof tableID == "number" &&
+                this.computed_tables.split(",").includes(`${tableID}`)
+            ) {
+                let indexOfTable = tables.indexOf(tableID);
+                delete tables[indexOfTable];
+                tables = tables.filter(function (el) {
+                    return el != null;
+                });
+                document
+                    .getElementById(`option-${tableID}`)
+                    .classList.remove("selected");
+                this.selectedTabels = tables;
+            }
+        },
+        getDurationString(value) {
+            let out = "+";
+            if (Math.floor(value / 60) > 0) {
+                out += ` ${Math.floor(value / 60)} hour`;
+            }
+            if (value % 60 > 0) {
+                out += ` ${value % 60} minutes`;
+            }
+            return out;
         },
     },
 };
