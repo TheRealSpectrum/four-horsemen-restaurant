@@ -23,7 +23,7 @@
     </div>
     <div class="w-full h-20"></div>
 
-    <div class="bg-columnlight">
+    <div class="management-root bg-columnlight flex items-stretch">
         @yield("management-content")
     </div>
 

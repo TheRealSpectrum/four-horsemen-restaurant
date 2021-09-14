@@ -22,6 +22,8 @@ abstract class ManagementController extends Controller
             ->get();
 
         return view("management.index", [
+            "managementName" => $this->managementName,
+            "managementParameterName" => $this->managementParameterName,
             "models" => $models,
             "columns" => $this->registeredColumns,
         ]);
