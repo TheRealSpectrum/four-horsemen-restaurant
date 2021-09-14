@@ -3,32 +3,57 @@
 namespace App\Http\Controllers\Management;
 
 use App\Http\Controllers\Controller;
+use App\Management\ManagementColumn;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 abstract class ManagementController extends Controller
 {
     public function index(): View
     {
+        $this->managementInitWrapper();
         $models = $this->GetModelBuilder()
             ->orderBy("name")
             ->get();
 
         return view("management.index", [
             "models" => $models,
+            "columns" => $this->registeredColumns,
         ]);
     }
 
     public function create(): View
     {
-        return view("management.create");
+        $this->managementInitWrapper();
+        return view("management.create", [
+            "managementName" => $this->managementName,
+            "columns" => $this->registeredColumns,
+        ]);
     }
 
     public function store(Request $request): RedirectResponse
     {
+        $this->managementInitWrapper();
+
+        $validationRules = [];
+        foreach ($this->registeredColumns as $column) {
+            $validationRules[$column->name] = $column->validationRules;
+        }
+
+        $validated = $request->validate($validationRules);
+
+        $model = $this->CreateModel();
+        $model->fill($validated);
+        $model->save();
+
+        return redirect()->route("management.$this->managementName.show", [
+            $this->managementParameterName => $model->id,
+        ]);
     }
 
     public function show($id): view
@@ -64,6 +89,35 @@ abstract class ManagementController extends Controller
     }
 
     protected string $managementModel = "";
+    protected string $managementName = "";
+    protected string $managementParameterName = "";
+
+    abstract protected function managementInit(): void;
+
+    protected function RegisterColumn(
+        string $name,
+        string $display,
+        string $type,
+        array $validationRules = [],
+        bool $showInIndex = true
+    ): self {
+        $this->registeredColumns->push(
+            new ManagementColumn(
+                $name,
+                $display,
+                $type,
+                $validationRules,
+                $showInIndex
+            )
+        );
+        return $this;
+    }
+
+    private function managementInitWrapper()
+    {
+        $this->registeredColumns = new Collection();
+        $this->managementInit();
+    }
 
     private function GetModelBuilder(): Builder
     {
@@ -71,4 +125,11 @@ abstract class ManagementController extends Controller
             ->getMethod("query")
             ->invoke(null);
     }
+
+    private function CreateModel(array $filledColumns = []): Model
+    {
+        return (new \ReflectionClass($this->managementModel))->newInstance();
+    }
+
+    private Collection $registeredColumns;
 }

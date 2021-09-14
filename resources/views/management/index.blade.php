@@ -3,8 +3,13 @@ Management: index
 @foreach($models as $model)
 
   <div>
-    <div>{{$model->name}}</div>
-    <div>{{$model->priceAsString()}}</div>
+    @foreach($columns as $column)
+      @php($columnName = $column->name)
+
+      <div>Field: {{ $column->display }}</div>
+      <div>Value: {{ $model->$columnName }}</div>
+
+    @endforeach
   </div>
   <div>----</div>
 
