@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 abstract class ManagementController extends Controller
 {
@@ -28,14 +29,31 @@ abstract class ManagementController extends Controller
 
     public function create(): View
     {
+        $this->managementInitWrapper();
         return view("management.create", [
             "managementName" => $this->managementName,
+            "columns" => $this->registeredColumns,
         ]);
     }
 
     public function store(Request $request): RedirectResponse
     {
-        return redirect()->route("management.$this->managementName.index");
+        $this->managementInitWrapper();
+
+        $validationRules = [];
+        foreach ($this->registeredColumns as $column) {
+            $validationRules[$column->name] = $column->validationRules;
+        }
+
+        $validated = $request->validate($validationRules);
+
+        $model = $this->CreateModel();
+        $model->fill($validated);
+        $model->save();
+
+        return redirect()->route("management.$this->managementName.show", [
+            $this->managementParameterName => $model->id,
+        ]);
     }
 
     public function show($id): view
@@ -72,6 +90,7 @@ abstract class ManagementController extends Controller
 
     protected string $managementModel = "";
     protected string $managementName = "";
+    protected string $managementParameterName = "";
 
     abstract protected function managementInit(): void;
 
@@ -105,6 +124,11 @@ abstract class ManagementController extends Controller
         return (new \ReflectionClass($this->managementModel))
             ->getMethod("query")
             ->invoke(null);
+    }
+
+    private function CreateModel(array $filledColumns = []): Model
+    {
+        return (new \ReflectionClass($this->managementModel))->newInstance();
     }
 
     private Collection $registeredColumns;
