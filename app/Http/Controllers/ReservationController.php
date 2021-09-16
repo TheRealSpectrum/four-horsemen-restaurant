@@ -205,9 +205,10 @@ final class ReservationController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return redirect("/agenda")
+                return redirect("/agenda?showValidationErrors")
                     ->withErrors($validator)
-                    ->withInput();
+                    ->withInput()
+                    ->with("showValidationErrors", "$reservation->id");
             }
 
             $reservation->fill($data->all());

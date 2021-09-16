@@ -12,13 +12,15 @@ final class Confirmation extends Component
         string $optionBack = "Go Back",
         string $optionContinue = "Continue",
         string $form = "",
-        string $title = ""
+        string $title = "",
+        string $trigger = ""
     ) {
         $this->type = $type;
         $this->optionBackText = $optionBack;
         $this->optionContinueText = $optionContinue;
         $this->formId = $form;
         $this->title = $title;
+        $this->trigger = $trigger;
     }
 
     public function render(): View
@@ -31,4 +33,5 @@ final class Confirmation extends Component
     public string $optionContinueText = "";
     public string $formId = "";
     public string $title = "";
+    public string $trigger = "";
 }
