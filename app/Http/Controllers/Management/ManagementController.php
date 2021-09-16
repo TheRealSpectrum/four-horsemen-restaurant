@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Management;
 
 use App\Http\Controllers\Controller;
 use App\Management\ManagementColumn;
+use App\Management\Builder as ManagementBuilder;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\View\View;
@@ -125,7 +126,9 @@ abstract class ManagementController extends Controller
     protected string $managementName = "";
     protected string $managementParameterName = "";
 
-    abstract protected function managementInit(): void;
+    abstract protected function managementInit(
+        ManagementBuilder $builder
+    ): void;
 
     protected function RegisterColumn(
         string $name,
@@ -149,7 +152,8 @@ abstract class ManagementController extends Controller
     private function managementInitWrapper()
     {
         $this->registeredColumns = new Collection();
-        $this->managementInit();
+        $builder = new ManagementBuilder();
+        $this->managementInit($builder);
     }
 
     private function GetModelBuilder(): Builder
