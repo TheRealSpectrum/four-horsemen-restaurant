@@ -4,6 +4,7 @@
 @tailwind utilities;
 
 @import "components/notifier.css";
+@import "views/layout/management.css";
 
 #late_reservations .reservation,
 #upcoming_reservations .reservation {
