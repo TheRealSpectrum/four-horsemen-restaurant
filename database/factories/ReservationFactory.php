@@ -64,7 +64,7 @@ final class ReservationFactory extends Factory
             return [
                 "date_start" => $date,
                 "date_end" => $dateEnd,
-                "active" => true,
+                "active" => false,
             ];
         });
     }
@@ -79,7 +79,7 @@ final class ReservationFactory extends Factory
             return [
                 "date_start" => $date,
                 "date_end" => $dateEnd,
-                "active" => true,
+                "active" => false,
             ];
         });
     }
