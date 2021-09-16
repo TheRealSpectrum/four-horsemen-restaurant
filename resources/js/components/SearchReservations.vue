@@ -251,7 +251,7 @@ export default {
             selectedTime: undefined,
             selectedNotes: undefined,
             selected_duration: undefined,
-            selectedSort:undefined,
+            selectedSort: undefined,
             //csrf token
             csrf: document
                 .querySelector('meta[name="csrf-token"]')
@@ -260,26 +260,60 @@ export default {
     },
     computed: {
         computed_reservation_data: function () {
-            let filterd_data = this.reservation_data.filter((i) => this.isValid(i));
+            let filterd_data = this.reservation_data.filter((i) =>
+                this.isValid(i)
+            );
             switch (this.selectedSort) {
-                case 'reservation id(ascending)':
-                    return filterd_data.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0))
-                case 'reservation id(descending)':
-                    return filterd_data.sort((a,b) => (a.id > b.id) ? -1 : ((b.id > a.id) ? 1 : 0))
-                case 'name(a-z)':
-                    return filterd_data.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
-                case 'name(z-a)':
-                    return filterd_data.sort((a,b) => (a.name > b.name) ? -1 : ((b.name > a.name) ? 1 : 0))
-                case 'number of guests(ascending)':
-                    return filterd_data.sort((a,b) => (a.guest_count > b.guest_count) ? 1 : ((b.guest_count > a.guest_count) ? -1 : 0))
-                case 'number of guests(descending)':
-                    return filterd_data.sort((a,b) => (a.guest_count > b.guest_count) ? -1 : ((b.guest_count > a.guest_count) ? 1 : 0))
-                case 'start time(ascending)':
-                    return filterd_data.sort((a,b) => (a.date_start > b.date_start) ? 1 : ((b.date_start > a.date_start) ? -1 : 0))
-                case 'start time(descending)':
-                    return filterd_data.sort((a,b) => (a.date_start > b.date_start) ? -1 : ((b.date_start > a.date_start) ? 1 : 0))
+                case "reservation id(ascending)":
+                    return filterd_data.sort((a, b) =>
+                        a.id > b.id ? 1 : b.id > a.id ? -1 : 0
+                    );
+                case "reservation id(descending)":
+                    return filterd_data.sort((a, b) =>
+                        a.id > b.id ? -1 : b.id > a.id ? 1 : 0
+                    );
+                case "name(a-z)":
+                    return filterd_data.sort((a, b) =>
+                        a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                    );
+                case "name(z-a)":
+                    return filterd_data.sort((a, b) =>
+                        a.name > b.name ? -1 : b.name > a.name ? 1 : 0
+                    );
+                case "number of guests(ascending)":
+                    return filterd_data.sort((a, b) =>
+                        a.guest_count > b.guest_count
+                            ? 1
+                            : b.guest_count > a.guest_count
+                            ? -1
+                            : 0
+                    );
+                case "number of guests(descending)":
+                    return filterd_data.sort((a, b) =>
+                        a.guest_count > b.guest_count
+                            ? -1
+                            : b.guest_count > a.guest_count
+                            ? 1
+                            : 0
+                    );
+                case "start time(ascending)":
+                    return filterd_data.sort((a, b) =>
+                        a.date_start > b.date_start
+                            ? 1
+                            : b.date_start > a.date_start
+                            ? -1
+                            : 0
+                    );
+                case "start time(descending)":
+                    return filterd_data.sort((a, b) =>
+                        a.date_start > b.date_start
+                            ? -1
+                            : b.date_start > a.date_start
+                            ? 1
+                            : 0
+                    );
                 default:
-                    return filterd_data
+                    return filterd_data;
             }
         },
         computed_table_data: function () {
@@ -433,8 +467,10 @@ export default {
                     endTime >= new Date(reservation.date_start)
                 ) {
                     reservation.tables.forEach((reservedTable) => {
-                        if (reservedTable.id == id &&
-                            reservation.id != this.selectedID) {
+                        if (
+                            reservedTable.id == id &&
+                            reservation.id != this.selectedID
+                        ) {
                             result = false;
                         }
                     });
@@ -462,18 +498,18 @@ export default {
         isSelected(table) {
             return this.selectedTabels?.includes(table);
         },
-        getAvailibleSeats(){
-            let seats = 0
-            let tables = this.computed_table_data ?? []
-            tables.forEach(table=>{
-                seats+=table?.seat_count
-            })
-            if(seats<1){
-                return 'no seats availible'
-            }else if(seats==1){
-                return '1 seat availeble'
-            }else{
-                return `${seats} seats availible`
+        getAvailibleSeats() {
+            let seats = 0;
+            let tables = this.computed_table_data ?? [];
+            tables.forEach((table) => {
+                seats += table?.seat_count;
+            });
+            if (seats < 1) {
+                return "no seats availible";
+            } else if (seats == 1) {
+                return "1 seat availeble";
+            } else {
+                return `${seats} seats availible`;
             }
         },
     },

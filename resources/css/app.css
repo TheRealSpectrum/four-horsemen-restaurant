@@ -24,7 +24,7 @@ div[id="app"][class="search"] {
     position: relative;
     overflow: hidden;
 }
-#app #sorting{
+#app #sorting {
     height: 30px;
 }
 #app .container {
@@ -187,12 +187,12 @@ div[id="app"][class="search"] {
     flex-direction: column;
     gap: 10px;
 }
-#app #edit label{
+#app #edit label {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
-#app #edit #tables{
+#app #edit #tables {
     flex-direction: column;
 }
 /* vue and blade component shared styles */
@@ -220,6 +220,6 @@ input {
     height: 95%;
     overflow: auto;
 }
-textarea{
+textarea {
     resize: none;
 }
