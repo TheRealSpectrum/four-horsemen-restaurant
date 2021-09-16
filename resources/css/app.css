@@ -4,6 +4,7 @@
 @tailwind utilities;
 
 @import "components/notifier.css";
+@import "views/layout/management.css";
 
 #late_reservations .reservation,
 #upcoming_reservations .reservation {
@@ -22,6 +23,9 @@ div[id="app"][class="search"] {
     height: 90vh;
     position: relative;
     overflow: hidden;
+}
+#app #sorting {
+    height: 30px;
 }
 #app .container {
     width: 50%;
@@ -67,7 +71,7 @@ div[id="app"][class="search"] {
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: repeat(6 auto);
     grid-template-areas:
         "id phone" "name guestCount" "event date" "notes time"
         "notes tables" "notes tables" "notes btns";
@@ -142,9 +146,54 @@ div[id="app"][class="search"] {
     border-radius: 5px;
     height: 4ch;
 }
-#app .lableWrap {
+#app .extraDataWrap {
     display: flex;
     justify-content: space-between;
+}
+/* custom select styles */
+#app .custom-select-multi {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+    height: 200px;
+    overflow-y: auto;
+    border: solid 1px black;
+}
+#app .custom-option {
+    border: solid 1px black;
+    user-select: none;
+    flex-shrink: 0;
+    flex-grow: 1;
+    width: 33%;
+    height: 40px;
+}
+#app .custom-option.selected {
+    border: solid 1px black;
+    background-color: white;
+}
+#app .datetime-wrap {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+#app .durationWrap {
+    display: flex;
+    flex-direction: row;
+}
+#app .table-component {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+#app #edit label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#app #edit #tables {
+    flex-direction: column;
 }
 /* vue and blade component shared styles */
 .imgWrap {
@@ -170,4 +219,7 @@ input {
 .reservationwrapper {
     height: 95%;
     overflow: auto;
+}
+textarea {
+    resize: none;
 }

@@ -26,7 +26,7 @@ final class CreateReservationsTable extends Migration
                 ->nullable()
                 ->default(null);
             $table->text("notes")->nullable();
-
+            $table->boolean("notify_kitchen")->default(false);
             $table->timestamps();
         });
     }

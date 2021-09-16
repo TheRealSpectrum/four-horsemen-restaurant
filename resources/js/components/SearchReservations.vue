@@ -61,6 +61,16 @@
                 >
             </label>
         </div>
+        <select name="sorting" id="sorting" v-model="selectedSort">
+            <option value="reservation id(ascending)">reservation id (ascending)</option>
+            <option value="reservation id(descending)">reservation id (descending)</option>
+            <option value="name(a-z)">name (a-z)</option>
+            <option value="name(z-a)">name (z-a)</option>
+            <option value="start time(ascending)">start time (ascending)</option>
+            <option value="start time(descending)">start time (descending)</option>
+            <option value="number of guests(ascending)">number of guests (ascending)</option>
+            <option value="number of guests(descending)">number of guests (descending)</option>
+        </select>
         <div class="results flex flex-row flex-shrink-0 w-10/12 flex-wrap">
             <div 
             v-for="item in computed_reservation_data" :key="item.index"
@@ -94,25 +104,17 @@
             <input type="hidden" name="_token" :value="csrf" readonly>
             <input type="hidden" name="_method" value="PATCH" readonly>
             <input type="hidden" name="table" :value="computed_tables" readonly>
-            <div id="cancel" v-on:click="toggleEdit('hide')">X</div>
-            <p
-                id="id" 
-            >reservation id : {{selectedID}}
-                <input 
-                    type="text" 
-                    name="id"  
-                    :value="selectedID" 
-                    hidden
-                    readonly
+            <input type="hidden" name="id" :value="selectedID" readonly
                 >
-            </p>
+            <div id="cancel" v-on:click="toggleEdit('hide')">X</div>
+            <p id="id">reservation id : {{selectedID}}</p>
             <label
                 id="phone" 
             >guest phone
                 <input 
                     type="text" 
                     name="phone_number" 
-                    :value="selectedPhone"
+                    v-model="selectedPhone"
                 >
            </label>
             <label
@@ -121,16 +123,18 @@
                 <input 
                     type="text" 
                     name="name" 
-                    :value="selectedName"
+                    v-model="selectedName"
                 >
             </label>
             <label
                 id="guestCount" 
-            ><span class="lableWrap"><span class="text">guest count</span> <span class="extraData">{{total_asigned_seats}}</span></span>
+            >
+                <span>guest count</span>
+                <span>{{total_asigned_seats}}</span>
                 <input 
                     type="number" 
                     name="guest_count" 
-                    :value="selectedGuestCount"
+                    v-model="selectedGuestCount"
                 >
             </label>
             <label
@@ -139,7 +143,7 @@
                 <input 
                     type="text" 
                     name="event_type" 
-                    :value="selectedEvent"
+                    v-model="selectedEvent"
                 >
             </label>
             <label
@@ -148,7 +152,7 @@
                 <input 
                     type="date" 
                     name="date" 
-                    :value="selectedDate"
+                    v-model="selectedDate"
                     :min="IsolateDate(Date.now())"
                 >
             </label>
@@ -159,70 +163,48 @@
                 <textarea 
                     type="text" 
                     name="notes" 
-                    :value="selectedNotes"
+                    v-model="selectedNotes"
                 >
                 </textarea>
             </label>
             <label
+                class="relative"
                 id="time" 
             >Time
                 <input 
                     type="time"
                     name="time"
-                    :value="selectedTime"
+                    v-model="selectedTime"
                 >
-                <select name="endTime" id="endTime">
-                    <!-- pre made for when config gets working expected config format
-                    config:{
-                        reservation_lenghts:[
-                            {hours:int,minutes:int},
-                            {hours:int,minutes:int}
-                        ]
-                    }
-
-
-                        <option 
-                        v-for="(reservation_length,index) in config.reservation_lengths" :key="index"
-                        :value="`PT${reservation_length.hour}H${reservation_length.minutes}M`"
-                        :default="reservation_length.default"
-                    >
-                        + {{reservation_length.hours}} hour {{(reservation_length.minutes !== 0)?`and ${reservation_length.minutes} minutes `:''}}
-                    </option> -->
-                    <option value="60" default>+ 1 hour</option>
-                    <option value="75">+ 1 hour and 15 minutes</option>
-                    <option value="90">+ 1 hour and 30 minutes</option>
-                    <option value="105">+ 1 hour and 45 minutes</option>
-                    <option value="120">+ 2 hour</option>
-                    <option value="135">+ 2 hour and 15 minutes</option>
-                    <option value="150">+ 2 hour and 30 minutes</option>
-                    <option value="165">+ 2 hour and 45 minutes</option>
-                    <option value="180">+ 3 hour</option>
-                    <option value="195">+ 3 hour and 15 minutes</option>
-                    <option value="210">+ 3 hour and 30 minutes</option>
-                    <option value="225">+ 3 hour and 45 minutes</option>
-                    <option value="240">+ 4 hour</option>
-                </select>
-            </label>
-            <label
-                id="tables"
-            >tables
-                <select 
-                    name="tableToAdd"
-                    v-model="tableToAdd" 
-                    :value="tableToAdd"
-                    v-on:change="addTable()"
-                >
-                    <option :value="table.id" v-for="table in computed_table_data" :key="table.id" >
-                        Table {{table.id}} - {{table.seat_count}} {{((table.seat_count>1)?"seats":"seat")}}
-                    </option>
-                </select>
-                <div class="selectedTables flex flex-row justify-start gap-2"> 
-                    <div class="table " v-for="(table,index) in selectedTabels" :key="index">
-                        <p>{{table}}</p>
-                        <div class="remove" v-on:click="removeTable(index)">remove</div>
-                    </div>
+                <div class="durationWrap">
+                    <label>duration:</label>
+                    <select name="endTime" id="endTime" v-model="selected_duration">
+                        <option
+                        v-for="value in computed_durations" :key="value"
+                        :value="value"
+                        >
+                        {{getDurationString(value)}}
+                        </option>
+                    </select>
                 </div>
             </label>
+        <label id="tables">
+            <span class="extraDataWrap"><span>Tables</span><span>{{getAvailibleSeats()}}</span></span>
+            <div class="custom-select-multi">
+                <div class="custom-option"
+                    v-for="table in computed_table_data"
+                    :key="table.id"
+                    :value="table.id"
+                    :class="(isSelected(table.id))?'selected':''" 
+                    v-on:click="toggleTable(table.id)"
+                    :id="`option-${table.id}`"
+
+                >
+                    Table {{ table.id }} - {{ table.seat_count }}
+                    {{ table.seat_count > 1 ? "seats" : "seat" }}
+                </div>
+            </div>
+        </label>
             <div class="btnWrap">
                 <button type="submit" name="action" value="cancel" class="bg-cancel">
                     cancel
@@ -231,6 +213,7 @@
                     save
                 </button>
             </div>
+
         </form>
     </div>
 </template>
@@ -244,16 +227,19 @@ export default {
     },
     data() {
         return {
+            // config data
+            min_duration: 60,
+            max_duration: 240,
+            // search data
             searchID: "",
             searchPhone: "",
             searchName: "",
             searchEvent: "",
             searchDate: undefined,
             searchTime: undefined,
-
+            //state data
             editState: false,
-            tableToAdd: "",
-
+            // selected reservation data
             selected_reservation: undefined,
             selectedID: undefined,
             selectedPhone: undefined,
@@ -264,7 +250,9 @@ export default {
             selectedDate: undefined,
             selectedTime: undefined,
             selectedNotes: undefined,
-
+            selected_duration: undefined,
+            selectedSort: undefined,
+            //csrf token
             csrf: document
                 .querySelector('meta[name="csrf-token"]')
                 .getAttribute("content"),
@@ -272,7 +260,61 @@ export default {
     },
     computed: {
         computed_reservation_data: function () {
-            return this.reservation_data.filter((i) => this.isValid(i));
+            let filterd_data = this.reservation_data.filter((i) =>
+                this.isValid(i)
+            );
+            switch (this.selectedSort) {
+                case "reservation id(ascending)":
+                    return filterd_data.sort((a, b) =>
+                        a.id > b.id ? 1 : b.id > a.id ? -1 : 0
+                    );
+                case "reservation id(descending)":
+                    return filterd_data.sort((a, b) =>
+                        a.id > b.id ? -1 : b.id > a.id ? 1 : 0
+                    );
+                case "name(a-z)":
+                    return filterd_data.sort((a, b) =>
+                        a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                    );
+                case "name(z-a)":
+                    return filterd_data.sort((a, b) =>
+                        a.name > b.name ? -1 : b.name > a.name ? 1 : 0
+                    );
+                case "number of guests(ascending)":
+                    return filterd_data.sort((a, b) =>
+                        a.guest_count > b.guest_count
+                            ? 1
+                            : b.guest_count > a.guest_count
+                            ? -1
+                            : 0
+                    );
+                case "number of guests(descending)":
+                    return filterd_data.sort((a, b) =>
+                        a.guest_count > b.guest_count
+                            ? -1
+                            : b.guest_count > a.guest_count
+                            ? 1
+                            : 0
+                    );
+                case "start time(ascending)":
+                    return filterd_data.sort((a, b) =>
+                        a.date_start > b.date_start
+                            ? 1
+                            : b.date_start > a.date_start
+                            ? -1
+                            : 0
+                    );
+                case "start time(descending)":
+                    return filterd_data.sort((a, b) =>
+                        a.date_start > b.date_start
+                            ? -1
+                            : b.date_start > a.date_start
+                            ? 1
+                            : 0
+                    );
+                default:
+                    return filterd_data;
+            }
         },
         computed_table_data: function () {
             return this.table_data.filter((i) => this.isAvailible(i));
@@ -296,9 +338,16 @@ export default {
             });
             return `total seats : ${seats}`;
         },
+        computed_durations: function () {
+            let durations = [];
+            let cur = this.min_duration;
+            do {
+                durations.push(cur);
+                cur += 15;
+            } while (cur <= this.max_duration);
+            return durations;
+        },
     },
-    // data: () => ({
-    // }),
     methods: {
         isValid(item) {
             let name_filter = new RegExp(this.searchName, "gi");
@@ -322,7 +371,8 @@ export default {
                 (this.searchTime == this.IsolateTime(item.date_start) ||
                     this.searchTime == undefined ||
                     this.searchTime == "") &&
-                item.canceled == false
+                item.canceled == false &&
+                new Date() < new Date(item.date_end)
             )
                 return true;
         },
@@ -361,7 +411,6 @@ export default {
             ) {
                 this.editState = true;
             }
-            console.log(this.selectedTabels);
         },
         SelectReservation(item) {
             this.selected_reservation = item;
@@ -379,41 +428,49 @@ export default {
                     this.selectedTabels.push(reservations_table.table_id);
                 }
             }
-            console.log(this.selectedTabels);
             this.toggleEdit("show");
         },
-        removeTable(index) {
-            delete this.selectedTabels[index];
-            this.selectedTabels = this.selectedTabels.filter(function (el) {
-                return el != null;
-            });
-        },
-        addTable() {
+        toggleTable(tableID) {
+            let tables = this.selectedTabels ?? [];
             if (
-                typeof this.tableToAdd == "number" &&
-                !this.computed_tables.split(",").includes(`${this.tableToAdd}`)
+                typeof tableID == "number" &&
+                !this.computed_tables.split(",").includes(`${tableID}`)
             ) {
-                this.selectedTabels.push(this.tableToAdd);
+                tables.push(tableID);
+                document
+                    .getElementById(`option-${tableID}`)
+                    .classList.add("selected");
+                this.selectedTabels = tables;
+            } else if (
+                typeof tableID == "number" &&
+                this.computed_tables.split(",").includes(`${tableID}`)
+            ) {
+                let indexOfTable = tables.indexOf(tableID);
+                delete tables[indexOfTable];
+                tables = tables.filter(function (el) {
+                    return el != null;
+                });
+                document
+                    .getElementById(`option-${tableID}`)
+                    .classList.remove("selected");
+                this.selectedTabels = tables;
             }
-            this.tableToAdd = "";
         },
         isAvailible(table) {
             let id = table.id;
             let result = true;
+            let startTime = new Date(this.selected_reservation?.date_start);
+            let endTime = new Date(this.selected_reservation?.date_end);
             this.reservation_data.forEach((reservation) => {
                 if (
-                    (this.selected_reservation?.date_start >
-                        reservation.date_start &&
-                        this.selected_reservation?.date_start <
-                            reservation.date_end) ||
-                    (this.selected_reservation?.date_end >
-                        reservation.date_start &&
-                        this.selected_reservation?.date_end <
-                            reservation.date_end) ||
-                    this.selectedTabels?.includes(id)
+                    startTime <= new Date(reservation.date_end) &&
+                    endTime >= new Date(reservation.date_start)
                 ) {
-                    reservation.tables.forEach((rezervedTable) => {
-                        if (rezervedTable.id == id) {
+                    reservation.tables.forEach((reservedTable) => {
+                        if (
+                            reservedTable.id == id &&
+                            reservation.id != this.selectedID
+                        ) {
                             result = false;
                         }
                     });
@@ -427,6 +484,33 @@ export default {
                 out.push(table.id);
             });
             return out.join(", ");
+        },
+        getDurationString(value) {
+            let out = "+";
+            if (Math.floor(value / 60) > 0) {
+                out += ` ${Math.floor(value / 60)} hour`;
+            }
+            if (value % 60 > 0) {
+                out += ` ${value % 60} minutes`;
+            }
+            return out;
+        },
+        isSelected(table) {
+            return this.selectedTabels?.includes(table);
+        },
+        getAvailibleSeats() {
+            let seats = 0;
+            let tables = this.computed_table_data ?? [];
+            tables.forEach((table) => {
+                seats += table?.seat_count;
+            });
+            if (seats < 1) {
+                return "no seats availible";
+            } else if (seats == 1) {
+                return "1 seat availeble";
+            } else {
+                return `${seats} seats availible`;
+            }
         },
     },
 };
