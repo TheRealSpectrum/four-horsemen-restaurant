@@ -130,28 +130,8 @@ abstract class ManagementController extends Controller
         ManagementBuilder $builder
     ): void;
 
-    protected function RegisterColumn(
-        string $name,
-        string $display,
-        string $type,
-        array $validationRules = [],
-        bool $showInIndex = true
-    ): self {
-        $this->registeredColumns->push(
-            new ManagementColumn(
-                $name,
-                $display,
-                $type,
-                $validationRules,
-                $showInIndex
-            )
-        );
-        return $this;
-    }
-
     private function managementInitWrapper()
     {
-        $this->registeredColumns = new Collection();
         $this->builder = new ManagementBuilder();
         $this->managementInit($this->builder);
     }
@@ -168,6 +148,5 @@ abstract class ManagementController extends Controller
         return (new \ReflectionClass($this->managementModel))->newInstance();
     }
 
-    private Collection $registeredColumns;
     private ManagementBuilder $builder;
 }
