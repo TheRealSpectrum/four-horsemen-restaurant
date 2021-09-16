@@ -2,8 +2,16 @@
 
 namespace App\Management;
 
+use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
+
 final class Builder
 {
+    public function __construct()
+    {
+        $this->columns = new Collection();
+    }
+
     /*
      * This function defines a column in the index page.
      *
@@ -18,6 +26,18 @@ final class Builder
         string $header,
         ?callable $map = null
     ): self {
+        $this->columns->push(
+            new Column(
+                $column,
+                $header,
+                $map !== null
+                    ? $map
+                    : function (model $model) use ($column) {
+                        return $model->$column;
+                    }
+            )
+        );
+
         return $this;
     }
 
@@ -72,4 +92,6 @@ final class Builder
     {
         return $this;
     }
+
+    public Collection $columns;
 }

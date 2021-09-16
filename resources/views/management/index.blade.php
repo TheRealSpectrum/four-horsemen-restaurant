@@ -4,9 +4,9 @@
   <div class="flex flex-col flex-1 m-6">
     <div class="grid grid-cols-8">
       <div class="col-span-7 h-10 flex flex-row p-4">
-        @foreach($columns as $column)
+        @foreach($builder->columns as $column)
           <div class="flex-1 text-center text-lg font-bold">
-            {{ $column->display }}
+            {{ $column->header }}
           </div>
         @endforeach
       </div>
@@ -17,11 +17,10 @@
       <div class="col-span-7 p-4">
 
           <div class="flex flex-row border-2 border-dark py-2">
-          @foreach($columns as $column)
-            @php($columnName = $column->name)
+            @foreach($builder->columns as $column)
 
             <div class="flex-1 text-center text-lg">
-              {{ $model->$columnName }}
+              {{ $column->map($model) }}
             </div>
 
           @endforeach

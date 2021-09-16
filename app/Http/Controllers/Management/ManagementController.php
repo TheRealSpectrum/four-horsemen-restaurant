@@ -26,7 +26,7 @@ abstract class ManagementController extends Controller
             "managementName" => $this->managementName,
             "managementParameterName" => $this->managementParameterName,
             "models" => $models,
-            "columns" => $this->registeredColumns,
+            "builder" => $this->builder,
         ]);
     }
 
@@ -152,8 +152,8 @@ abstract class ManagementController extends Controller
     private function managementInitWrapper()
     {
         $this->registeredColumns = new Collection();
-        $builder = new ManagementBuilder();
-        $this->managementInit($builder);
+        $this->builder = new ManagementBuilder();
+        $this->managementInit($this->builder);
     }
 
     private function GetModelBuilder(): Builder
@@ -169,4 +169,5 @@ abstract class ManagementController extends Controller
     }
 
     private Collection $registeredColumns;
+    private ManagementBuilder $builder;
 }
