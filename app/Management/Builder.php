@@ -10,6 +10,8 @@ final class Builder
     public function __construct()
     {
         $this->columns = new Collection();
+        $this->fieldsLeft = new Collection();
+        $this->fieldsRight = new Collection();
     }
 
     /*
@@ -60,6 +62,7 @@ final class Builder
         string $label,
         ?callable $map = null
     ): self {
+        $this->defineField($column, $type, $label, $map, true);
         return $this;
     }
 
@@ -82,6 +85,7 @@ final class Builder
         string $label,
         ?callable $map = null
     ): self {
+        $this->defineField($column, $type, $label, $map, false);
         return $this;
     }
 
@@ -94,4 +98,27 @@ final class Builder
     }
 
     public Collection $columns;
+    public Collection $fieldsLeft;
+    public Collection $fieldsRight;
+
+    private function defineField(
+        string $column,
+        string $type,
+        string $label,
+        ?callable $map,
+        bool $isLeft
+    ): void {
+        ($isLeft ? $this->fieldsLeft : $this->fieldsRight)->push(
+            new Field(
+                $column,
+                $type,
+                $label,
+                $map !== null
+                    ? $map
+                    : function (Model $model) use ($column) {
+                        return $model->$column;
+                    }
+            )
+        );
+    }
 }

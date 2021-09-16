@@ -69,8 +69,8 @@ abstract class ManagementController extends Controller
         return view("management.show", [
             "managementName" => $this->managementName,
             "managementParameterName" => $this->managementParameterName,
-            "columns" => $this->registeredColumns,
             "model" => $model,
+            "builder" => $this->builder,
         ]);
     }
 
