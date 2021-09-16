@@ -17,6 +17,6 @@
 @endsection
 
 @section("buttons")
-  <x-button>Back</x-button>
-  <x-button level="safe">Save</x-button>
+  <a href="{{route("management.$managementName.index")}}" class="block w-full"><x-button class="w-full">Back</x-button></a>
+  <x-button level="safe" type="submit">Save</x-button>
 @endsection
