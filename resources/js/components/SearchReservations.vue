@@ -61,6 +61,16 @@
                 >
             </label>
         </div>
+        <select name="sorting" id="sorting" v-model="selectedSort">
+            <option value="reservation id(ascending)">reservation id (ascending)</option>
+            <option value="reservation id(descending)">reservation id (descending)</option>
+            <option value="name(a-z)">name (a-z)</option>
+            <option value="name(z-a)">name (z-a)</option>
+            <option value="start time(ascending)">start time (ascending)</option>
+            <option value="start time(descending)">start time (descending)</option>
+            <option value="number of guests(ascending)">number of guests (ascending)</option>
+            <option value="number of guests(descending)">number of guests (descending)</option>
+        </select>
         <div class="results flex flex-row flex-shrink-0 w-10/12 flex-wrap">
             <div 
             v-for="item in computed_reservation_data" :key="item.index"
@@ -94,25 +104,17 @@
             <input type="hidden" name="_token" :value="csrf" readonly>
             <input type="hidden" name="_method" value="PATCH" readonly>
             <input type="hidden" name="table" :value="computed_tables" readonly>
-            <div id="cancel" v-on:click="toggleEdit('hide')">X</div>
-            <p
-                id="id" 
-            >reservation id : {{selectedID}}
-                <input 
-                    type="text" 
-                    name="id"  
-                    :value="selectedID" 
-                    hidden
-                    readonly
+            <input type="hidden" name="id" :value="selectedID" readonly
                 >
-            </p>
+            <div id="cancel" v-on:click="toggleEdit('hide')">X</div>
+            <p id="id">reservation id : {{selectedID}}</p>
             <label
                 id="phone" 
             >guest phone
                 <input 
                     type="text" 
                     name="phone_number" 
-                    :value="selectedPhone"
+                    v-model="selectedPhone"
                 >
            </label>
             <label
@@ -121,16 +123,18 @@
                 <input 
                     type="text" 
                     name="name" 
-                    :value="selectedName"
+                    v-model="selectedName"
                 >
             </label>
             <label
                 id="guestCount" 
-            ><span class="lableWrap"><span class="text">guest count</span> <span class="extraData">{{total_asigned_seats}}</span></span>
+            >
+                <span>guest count</span>
+                <span>{{total_asigned_seats}}</span>
                 <input 
                     type="number" 
                     name="guest_count" 
-                    :value="selectedGuestCount"
+                    v-model="selectedGuestCount"
                 >
             </label>
             <label
@@ -139,7 +143,7 @@
                 <input 
                     type="text" 
                     name="event_type" 
-                    :value="selectedEvent"
+                    v-model="selectedEvent"
                 >
             </label>
             <label
@@ -148,7 +152,7 @@
                 <input 
                     type="date" 
                     name="date" 
-                    :value="selectedDate"
+                    v-model="selectedDate"
                     :min="IsolateDate(Date.now())"
                 >
             </label>
@@ -159,7 +163,7 @@
                 <textarea 
                     type="text" 
                     name="notes" 
-                    :value="selectedNotes"
+                    v-model="selectedNotes"
                 >
                 </textarea>
             </label>
@@ -170,7 +174,7 @@
                 <input 
                     type="time"
                     name="time"
-                    :value="selectedTime"
+                    v-model="selectedTime"
                 >
                 <div class="durationWrap">
                     <label>duration:</label>
@@ -184,8 +188,8 @@
                     </select>
                 </div>
             </label>
-        <label id="tables"
-            >tables
+        <label id="tables">
+            <span class="extraDataWrap"><span>Tables</span><span>{{getAvailibleSeats()}}</span></span>
             <div class="custom-select-multi">
                 <div class="custom-option"
                     v-for="table in computed_table_data"
@@ -235,7 +239,7 @@ export default {
             searchTime: undefined,
             //state data
             editState: false,
-            //selected reservation data
+            // selected reservation data
             selected_reservation: undefined,
             selectedID: undefined,
             selectedPhone: undefined,
@@ -247,6 +251,7 @@ export default {
             selectedTime: undefined,
             selectedNotes: undefined,
             selected_duration: undefined,
+            selectedSort: undefined,
             //csrf token
             csrf: document
                 .querySelector('meta[name="csrf-token"]')
@@ -255,7 +260,61 @@ export default {
     },
     computed: {
         computed_reservation_data: function () {
-            return this.reservation_data.filter((i) => this.isValid(i));
+            let filterd_data = this.reservation_data.filter((i) =>
+                this.isValid(i)
+            );
+            switch (this.selectedSort) {
+                case "reservation id(ascending)":
+                    return filterd_data.sort((a, b) =>
+                        a.id > b.id ? 1 : b.id > a.id ? -1 : 0
+                    );
+                case "reservation id(descending)":
+                    return filterd_data.sort((a, b) =>
+                        a.id > b.id ? -1 : b.id > a.id ? 1 : 0
+                    );
+                case "name(a-z)":
+                    return filterd_data.sort((a, b) =>
+                        a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                    );
+                case "name(z-a)":
+                    return filterd_data.sort((a, b) =>
+                        a.name > b.name ? -1 : b.name > a.name ? 1 : 0
+                    );
+                case "number of guests(ascending)":
+                    return filterd_data.sort((a, b) =>
+                        a.guest_count > b.guest_count
+                            ? 1
+                            : b.guest_count > a.guest_count
+                            ? -1
+                            : 0
+                    );
+                case "number of guests(descending)":
+                    return filterd_data.sort((a, b) =>
+                        a.guest_count > b.guest_count
+                            ? -1
+                            : b.guest_count > a.guest_count
+                            ? 1
+                            : 0
+                    );
+                case "start time(ascending)":
+                    return filterd_data.sort((a, b) =>
+                        a.date_start > b.date_start
+                            ? 1
+                            : b.date_start > a.date_start
+                            ? -1
+                            : 0
+                    );
+                case "start time(descending)":
+                    return filterd_data.sort((a, b) =>
+                        a.date_start > b.date_start
+                            ? -1
+                            : b.date_start > a.date_start
+                            ? 1
+                            : 0
+                    );
+                default:
+                    return filterd_data;
+            }
         },
         computed_table_data: function () {
             return this.table_data.filter((i) => this.isAvailible(i));
@@ -312,7 +371,8 @@ export default {
                 (this.searchTime == this.IsolateTime(item.date_start) ||
                     this.searchTime == undefined ||
                     this.searchTime == "") &&
-                item.canceled == false
+                item.canceled == false &&
+                new Date() < new Date(item.date_end)
             )
                 return true;
         },
@@ -406,8 +466,11 @@ export default {
                     startTime <= new Date(reservation.date_end) &&
                     endTime >= new Date(reservation.date_start)
                 ) {
-                    reservation.tables.forEach((rezervedTable) => {
-                        if (rezervedTable.id == id) {
+                    reservation.tables.forEach((reservedTable) => {
+                        if (
+                            reservedTable.id == id &&
+                            reservation.id != this.selectedID
+                        ) {
                             result = false;
                         }
                     });
@@ -434,6 +497,20 @@ export default {
         },
         isSelected(table) {
             return this.selectedTabels?.includes(table);
+        },
+        getAvailibleSeats() {
+            let seats = 0;
+            let tables = this.computed_table_data ?? [];
+            tables.forEach((table) => {
+                seats += table?.seat_count;
+            });
+            if (seats < 1) {
+                return "no seats availible";
+            } else if (seats == 1) {
+                return "1 seat availeble";
+            } else {
+                return `${seats} seats availible`;
+            }
         },
     },
 };

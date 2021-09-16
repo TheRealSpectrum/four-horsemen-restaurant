@@ -24,6 +24,9 @@ div[id="app"][class="search"] {
     position: relative;
     overflow: hidden;
 }
+#app #sorting {
+    height: 30px;
+}
 #app .container {
     width: 50%;
     height: 100%;
@@ -143,7 +146,7 @@ div[id="app"][class="search"] {
     border-radius: 5px;
     height: 4ch;
 }
-#app .lableWrap {
+#app .extraDataWrap {
     display: flex;
     justify-content: space-between;
 }
@@ -176,17 +179,21 @@ div[id="app"][class="search"] {
     width: 100%;
 }
 #app .durationWrap {
-    position: absolute;
-    bottom: calc(-50% - 1px);
-    right: 0;
     display: flex;
     flex-direction: row;
-    flex-shrink: 0;
 }
 #app .table-component {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+#app #edit label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#app #edit #tables {
+    flex-direction: column;
 }
 /* vue and blade component shared styles */
 .imgWrap {
@@ -212,4 +219,7 @@ input {
 .reservationwrapper {
     height: 95%;
     overflow: auto;
+}
+textarea {
+    resize: none;
 }

@@ -52,6 +52,7 @@ final class Reservation extends Model
         "cancel",
         "event_type",
         "phone_number",
+        "notify_kitchen",
         "notes",
     ];
 
