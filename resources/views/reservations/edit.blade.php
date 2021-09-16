@@ -5,8 +5,7 @@ date_default_timezone_set("Europe/Amsterdam");
 @extends("layout.reservations")
 
 @section("reservations-content")
-@if($errors->any())
-{{-- {{ dd(Request()) }} --}}
+{{-- @if($errors->any())
     <div class="bg-light">
         <ul>
             @foreach($errors->all() as $error)
@@ -14,7 +13,7 @@ date_default_timezone_set("Europe/Amsterdam");
             @endforeach
         </ul>
     </div>
-@endif
+@endif --}}
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <div id="app" class="search">
