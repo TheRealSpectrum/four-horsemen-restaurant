@@ -2,17 +2,24 @@
 
 @section("management-content")
     @isset($action)
-        <form method="post" action="{{ $action }}" class="grid grid-cols-2 flex-1 m-6">
+        <form method="post" action="{{ $action }}" class="grid grid-cols-8 flex-1 m-6">
     @else
-        <div class="grid grid-cols-2 flex-1 m-6">
+        <div class="grid grid-cols-8 flex-1 m-6">
     @endisset
 
+    <div class="grid grid-cols-2 col-span-7 w-full">
+        <div class="flex flex-col gap-4">
+            @yield("fields-left")
+        </div>
+        <div class="flex flex-col gap-4">
+            @yield("fields-right")
+        </div>
+    </div>
     <div class="flex flex-col gap-4">
-        @yield("fields-left")
+        @yield("buttons")
     </div>
-    <div>
-        @yield("fields-right")
-    </div>
+
+    @yield("fields-hidden")
 
     @isset($action)
         </form>
