@@ -43,7 +43,6 @@ date_default_timezone_set("Europe/Amsterdam");
                 @enderror
             </div>
             
-            
             {{-- Name --}}
             <div>
                 <label>Name
@@ -64,7 +63,6 @@ date_default_timezone_set("Europe/Amsterdam");
                 @enderror
             </div>
             
-
             {{-- Event --}}
             <div>
                 <label>Event
@@ -75,46 +73,9 @@ date_default_timezone_set("Europe/Amsterdam");
                 @enderror
             </div>
             
-
-            {{-- Date and Time --}}
-            <div>
-                <label>Date
-                    <input type="date" name="date" min="{{ today()->format('Y-m-d') }}" value="{{ old('date', today()->format('Y-m-d')) }}" class="border" />
-                </label>
-                @error('date_start')
-                    <p class="text-sm text-warning-high">{{ $message }}</p>
-                @enderror
-            </div>
-            <div>
-                <label>Time
-                    <input type="time" min="00:00" max="23:59" name="time" value="{{ old('time', date('H:i')) }}" class="border" />
-                </label>
-                @error('date_start')
-                    <p class="text-sm text-warning-high">{{ $message }}</p>
-                @enderror
-                <select name="endTime" id="endTime">
-                    <option value="60" {{ old('endTime') == '60' ? 'selected' : '' }}>+ 1 hour</option>
-                    <option value="75" {{ old('endTime') == '75' ? 'selected' : '' }}>+ 1 hour and 15 minutes</option>
-                    <option value="90" {{ old('endTime') == '90' ? 'selected' : '' }}>+ 1 hour and 30 minutes</option>
-                    <option value="105" {{ old('endTime') == '105' ? 'selected' : '' }}>+ 1 hour and 45 minutes</option>
-                    <option value="120" {{ old('endTime') == '120' ? 'selected' : '' }}>+ 2 hour</option>
-                    <option value="135" {{ old('endTime') == '135' ? 'selected' : '' }}>+ 2 hour and 15 minutes</option>
-                    <option value="150" {{ old('endTime') == '150' ? 'selected' : '' }}>+ 2 hour and 30 minutes</option>
-                    <option value="165" {{ old('endTime') == '165' ? 'selected' : '' }}>+ 2 hour and 45 minutes</option>
-                    <option value="180" {{ old('endTime') == '180' ? 'selected' : '' }}>+ 3 hour</option>
-                    <option value="195" {{ old('endTime') == '195' ? 'selected' : '' }}>+ 3 hour and 15 minutes</option>
-                    <option value="210" {{ old('endTime') == '210' ? 'selected' : '' }}>+ 3 hour and 30 minutes</option>
-                    <option value="225" {{ old('endTime') == '225' ? 'selected' : '' }}>+ 3 hour and 45 minutes</option>
-                    <option value="240" {{ old('endTime') == '240' ? 'selected' : '' }}>+ 4 hour</option>
-                </select>                
-                @error('date_end')
-                    <p class="text-sm text-warning-high">{{ $message }}</p>
-                @enderror
-            </div>
-
-            {{-- Tables --}}
+            {{-- Date ,Time and Tables --}}
             <div id="error">
-                <table-select-component :reservation_data="{{($data)}}" :table_data="{{($tables)}}" :pivot="{{json_encode($pivot)}}"></table-select-component>
+                <table-select-component :reservation_data="{{($data)}}" :table_data="{{($tables)}}" :pivot="{{json_encode($pivot)}}" :date_default="'{{ old('date', today()->format('Y-m-d')) }}'" :date_min="'{{ today()->format('Y-m-d') }}'" :time_default="'{{ old('time', date('H:i')) }}'" :duration_default="{{ old('endTime', 60)}}"></table-select-component>
                 @error("table")
                     <p class="text-sm text-warning-high">{{ $message }}</p>
                 @enderror
