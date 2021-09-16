@@ -44,11 +44,7 @@
         </div>
         <div class="durationWrap">
             <label>duration:</label>
-            <select
-                name="endTime"
-                id="endTime"
-                v-model="selected_duration"
-            >
+            <select name="endTime" id="endTime" v-model="selected_duration">
                 <option
                     v-for="value in computed_durations"
                     :key="value"
