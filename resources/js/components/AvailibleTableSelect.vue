@@ -61,16 +61,21 @@
         </div>
 
         <input type="hidden" name="table" :value="computed_tables" readonly />
-        <label id="tables"
-            >tables
+        <label id="tables">
+            <span class="extraDataWrap">
+                <span>Tables</span>
+                <span>{{total_asigned_seats}}</span>
+                <span>{{getAvailibleSeats()}}</span>
+            </span>
             <div class="custom-select-multi">
-                <div
-                    class="custom-option"
+                <div class="custom-option"
                     v-for="table in computed_table_data"
                     :key="table.id"
                     :value="table.id"
+                    :class="(isSelected(table.id))?'selected':''" 
                     v-on:click="toggleTable(table.id)"
                     :id="`option-${table.id}`"
+
                 >
                     Table {{ table.id }} - {{ table.seat_count }}
                     {{ table.seat_count > 1 ? "seats" : "seat" }}
@@ -212,6 +217,23 @@ export default {
                 out += ` ${value % 60} minutes`;
             }
             return out;
+        },
+        isSelected(table) {
+            return this.selectedTabels?.includes(table);
+        },
+        getAvailibleSeats(){
+            let seats = 0
+            let tables = this.computed_table_data ?? []
+            tables.forEach(table=>{
+                seats+=table?.seat_count
+            })
+            if(seats<1){
+                return 'no seats availible'
+            }else if(seats==1){
+                return '1 seat availeble'
+            }else{
+                return `${seats} seats availible`
+            }
         },
     },
 };
