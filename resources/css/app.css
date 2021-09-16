@@ -19,7 +19,7 @@
 /* vue component styles */
 div[id="app"][class="search"] {
     display: grid;
-    place-items: center;
+    justify-items: center;
     height: 90vh;
     position: relative;
     overflow: hidden;
@@ -29,11 +29,11 @@ div[id="app"][class="search"] {
 }
 #app .container {
     width: 50%;
-    height: 100%;
+    max-height: 100%;
     display: grid;
-    grid-template-rows: 100px 1fr;
+    grid-template-rows: 100px auto 1fr;
     padding: 10px 0 0 10px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 #app .search {
     position: relative;
@@ -56,9 +56,10 @@ div[id="app"][class="search"] {
 #app .results {
     display: flex;
     flex-direction: row;
+    align-content: flex-start;
     flex-wrap: wrap;
     width: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: 5px;
     gap: 5px;
 }
