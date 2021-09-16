@@ -56,7 +56,8 @@
                     <p class="text-sm text-warning-high">{{ $message }}</p>
                 @enderror
                 {{-- Save --}}
-                <div class="absolute bottom-0 -right-20">
+                <div class="absolute bottom-0 -right-20 flex flex-col gap-5">
+                    <label class="border border-textblack rounded-lg select-none p-1" >notify<br>kitchen <input type="checkbox" name="notify_kitchen" id="notify_kitchen" value="1"></label>
                     <button type="submit" class="bg-save border rounded w-min px-5 py-2">Save</button>
                 </div>
             </div>
