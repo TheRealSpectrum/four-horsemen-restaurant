@@ -4,10 +4,18 @@
     <div class="w-1/2 mx-auto border-r border-l pt-3 bg-columnlight" style="height : 90vh">
         <form method="POST" action="{{ route('reservation.store') }}" class="w-full flex flex-col my-3 py-3 space-y-5">
             @csrf
-            
+            @if(old('table'))
+            {{ "hello" }}
+            @endif
             {{-- Tables --}}
             <div id="app" class="mx-auto w-1/2 flex justify-center items-center flex-wrap">
-                <table-select-component :reservation_data="{{($data)}}" :table_data="{{($tables)}}" :pivot="{{json_encode($pivot)}}" :date_default="'{{ old('date', today()->format('Y-m-d')) }}'" :date_min="'{{ today()->format('Y-m-d') }}'" :time_default="'{{ old('time', date('H:i')) }}'" :duration_default="{{ old('endTime', 60)}}"></table-select-component>
+                <table-select-component :reservation_data="{{($data)}}" :table_data="{{($tables)}}" :pivot="{{json_encode($pivot)}}" :date_default="'{{ old('date', today()->format('Y-m-d')) }}'" :date_min="'{{ today()->format('Y-m-d') }}'" :time_default="'{{ old('time', date('H:i')) }}'" :duration_default="{{ old('endTime', 60)}}" 
+                    @if(old('table'))
+                    :table-old="'{{old('table')}}'"
+                    @else
+                    :table-old="'none'"
+                    @endif
+                ></table-select-component>
                 @error("table")
                     <p class="text-sm text-warning-high">{{ $message }}</p>
                 @enderror
