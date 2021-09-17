@@ -16,15 +16,17 @@
       @foreach($models as $model)
       <div class="col-span-7 p-2">
 
-          <div class="flex flex-row border-2 border-dark py-2">
+        <a href="{{ route("management.$managementName.show", [$managementParameterName => $model->id]) }}">
+          <div class="flex flex-row border-2 border-dark py-2 w-full h-full">
             @foreach($builder->columns as $column)
 
             <div class="flex-1 text-center">
               {{ $column->map($model) }}
             </div>
 
-          @endforeach
+            @endforeach
           </div>
+        </a>
 
       </div>
       <div class="p-2">
