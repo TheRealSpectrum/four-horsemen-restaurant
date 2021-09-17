@@ -24,6 +24,10 @@ final class DishesController extends ManagementController
             ) {
                 return $dish->priceAsString();
             });
+
+        $builder
+            ->defineChangerStore("name", ["required"])
+            ->defineChangerStore("price", ["required"]);
     }
 
     protected string $managementModel = Dish::class;
