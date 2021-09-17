@@ -40,24 +40,20 @@
                     class="w-1/2 border p-2 text-center"
                     v-model="selected_time"
                 />
-                <div class="durationWrap">
-                    <label>duration:</label>
-                    <select
-                        name="endTime"
-                        id="endTime"
-                        v-model="selected_duration"
-                    >
-                        <option
-                            v-for="value in computed_durations"
-                            :key="value"
-                            :value="value"
-                            :default="value === duration_default ? true : false"
-                        >
-                            {{ getDurationString(value) }}
-                        </option>
-                    </select>
-                </div>
             </div>
+        </div>
+        <div class="durationWrap">
+            <label>duration:</label>
+            <select name="endTime" id="endTime" v-model="selected_duration">
+                <option
+                    v-for="value in computed_durations"
+                    :key="value"
+                    :value="value"
+                    :default="value === duration_default ? true : false"
+                >
+                    {{ getDurationString(value) }}
+                </option>
+            </select>
         </div>
 
         <input type="hidden" name="table" :value="computed_tables" readonly />
