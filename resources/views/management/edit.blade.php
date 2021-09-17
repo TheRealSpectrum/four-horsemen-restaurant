@@ -1,17 +1,23 @@
-Management: edit
+@extends("layout.management.fields", ["action" => route("management.$managementName.update", [$managementParameterName => $model->id])])
 
-<form action="{{route("management.$managementName.update", [$managementParameterName => $model->id])}}" method="post">
+@section("fields-left")
+  @foreach($builder->fieldsLeft as $field)
+    <x-management.create-field name="{{$field->column}}" type="{{$field->type}}" label="{{$field->label}}" value="{{$field->mapColumn($model)}}"></x-management>
+  @endforeach
+@endsection
+
+@section("fields-right")
+  @foreach($builder->fieldsRight as $field)
+    <x-management.create-field name="{{$field->column}}" type="{{$field->type}}" label="{{$field->label}}" value="{{$field->mapColumn($model)}}"></x-management>
+  @endforeach
+@endsection
+
+@section("fields-hidden")
   @csrf
   @method("PATCH")
+@endsection
 
-  @foreach($columns as $column)
-    @php($columnName = $column->name)
-
-    <div>
-      <label for="{{$column->name}}">{{ $column->display }}</label>
-      <input id="" type="{{$column->type}}" name="{{$column->name}}" value="{{$model->$columnName}}">
-    </div>
-  @endforeach
-
-  <x-button type="submit">Update dish</x-button>
-</form>
+@section("buttons")
+  <a href="{{route("management.$managementName.index")}}" class="block w-full"><x-button class="w-full">Back</x-button></a>
+  <x-button level="safe" type="submit">Save</x-button>
+@endsection
