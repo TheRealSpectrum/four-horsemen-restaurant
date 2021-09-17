@@ -91,6 +91,7 @@ export default {
         date_min: String,
         time_default: String,
         duration_default: Number,
+        selectedId:String,
         tableOld: String,
     },
     data() {
@@ -162,9 +163,6 @@ export default {
                 "0" + datetime.getMinutes()
             ).slice(-2)}`;
         },
-        updateTables() {
-            console.log(this.selectedTabels);
-        },
         isAvailible(table) {
             let id = table.id;
             let startDateTime = new Date(
@@ -179,8 +177,10 @@ export default {
                     startDateTime <= new Date(reservation.date_end) &&
                     endDateTime >= new Date(reservation.date_start)
                 ) {
-                    reservation.tables.forEach((rezervedTable) => {
-                        if (rezervedTable.id == id) {
+                    reservation.tables.forEach((reservedTable) => {
+                        if (
+                            reservedTable.id == id &&
+                            reservation.id != this.selectedID) {
                             result = false;
                         }
                     });
@@ -189,17 +189,15 @@ export default {
             return result;
         },
         toggleTable(tableID) {
-            let tables = this.selectedTabels ?? [];
-            console.log(typeof tableID);
+            let tables = this.selectedTabels;
             if (
                 typeof tableID == "number" &&
                 !this.computed_tables.split(",").includes(`${tableID}`)
             ) {
-                tables.push(tableID);
+                this.selectedTabels.push(tableID);
                 document
                     .getElementById(`option-${tableID}`)
                     .classList.add("selected");
-                this.selectedTabels = tables;
             } else if (
                 typeof tableID == "number" &&
                 this.computed_tables.split(",").includes(`${tableID}`)
