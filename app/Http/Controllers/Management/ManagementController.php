@@ -20,7 +20,7 @@ abstract class ManagementController extends Controller
         $this->managementInitWrapper();
         $models = $this->GetModelBuilder()
             ->orderBy("name")
-            ->get();
+            ->paginate(12);
 
         return view("management.index", [
             "managementName" => $this->managementName,
