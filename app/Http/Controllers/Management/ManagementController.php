@@ -44,8 +44,8 @@ abstract class ManagementController extends Controller
         $this->managementInitWrapper();
 
         $validationRules = [];
-        foreach ($this->registeredColumns as $column) {
-            $validationRules[$column->name] = $column->validationRules;
+        foreach ($this->builder->changersStore as $changer) {
+            $validationRules[$changer->column] = $changer->validation;
         }
 
         $validated = $request->validate($validationRules);
