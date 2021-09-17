@@ -15,6 +15,9 @@ class CreateOrderDishesTable extends Migration
     {
         Schema::create("order_dishes", function (Blueprint $table) {
             $table->id();
+            $table->foreignId("order_id")->constrained();
+            $table->foreignId("dish_id")->constrained();
+            $table->text("note")->nullable();
             $table->timestamps();
         });
     }
