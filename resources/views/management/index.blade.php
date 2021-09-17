@@ -12,14 +12,14 @@
       </div>
       <div></div>
     </div>
-    <div class="grid grid-cols-8 flex-1 justify-items-stretch">
+    <div class="grid grid-cols-8 flex-none justify-items-stretch">
       @foreach($models as $model)
-      <div class="col-span-7 p-4">
+      <div class="col-span-7 p-2">
 
           <div class="flex flex-row border-2 border-dark py-2">
             @foreach($builder->columns as $column)
 
-            <div class="flex-1 text-center text-lg">
+            <div class="flex-1 text-center">
               {{ $column->map($model) }}
             </div>
 
@@ -27,14 +27,16 @@
           </div>
 
       </div>
-      <div class="p-4">
-        <a href="{{ route("management.$managementName.edit", [$managementParameterName => $model->id]) }}"><x-button level="low" class="text-lg font-bold h-full w-full">Edit</x-button></a>
+      <div class="p-2">
+        <a href="{{ route("management.$managementName.edit", [$managementParameterName => $model->id]) }}"><x-button level="low" class="font-bold h-full w-full">Edit</x-button></a>
       </div>
       @endforeach
     </div>
     <div class="grid grid-cols-8">
       <div class="col-span-7 h-10"></div>
-      <div></div>
+      <div class="p-2 h-14">
+        <a href="{{ route("management.$managementName.create") }}"><x-button class="font-bold w-full h-full" level="safe">Create</x-button></a>
+      </div>
     </div>
   </div>
 @endsection
