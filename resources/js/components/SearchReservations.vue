@@ -100,7 +100,7 @@
                 </div>
             </div>
         </div>
-        <form id="edit" class="edit" :class="((editState==false || editState==undefined)? 'hidden':'')"  action="/update" method="POST">
+        <form id="edit" class="edit" :class="((editState==false || editState==undefined)? 'hidden':'')"  action="/update" method="POST" v-if="!curentError">
             <input type="hidden" name="_token" :value="csrf" readonly>
             <input type="hidden" name="_method" value="PATCH" readonly>
             <input type="hidden" name="table" :value="computed_tables" readonly>
@@ -206,11 +206,11 @@
             </div>
         </label>
             <div class="btnWrap">
-                <button type="submit" name="action" value="cancel" class="bg-cancel">
-                    cancel
-                </button>
                 <button type="submit" name="action" value="update" class="bg-save">
                     save
+                </button>
+                <button type="submit" name="action" value="cancel" class="bg-cancel">
+                    cancel
                 </button>
             </div>
 
@@ -224,6 +224,7 @@ export default {
         pivot: Array,
         table_data: Array,
         reservation_data: Array,
+        errors:Boolean,
     },
     data() {
         return {
@@ -238,6 +239,7 @@ export default {
             searchDate: undefined,
             searchTime: undefined,
             //state data
+            curentError: this.errors,
             editState: false,
             // selected reservation data
             selected_reservation: undefined,
@@ -410,6 +412,10 @@ export default {
                 (this.editState == false && state != "hide") ||
                 state == "show"
             ) {
+                if(!document.getElementById('error')){
+                    console.log("reset")
+                    this.curentError = false
+                }
                 this.editState = true;
             }
         },
