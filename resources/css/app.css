@@ -126,8 +126,8 @@ div[id="app"][class="search"] {
 #app .edit .btnWrap {
     grid-area: btns;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
     gap: 10px;
     padding: 10px;
 }
@@ -152,7 +152,7 @@ div[id="app"][class="search"] {
     justify-content: space-between;
 }
 /* custom select styles */
-#app .custom-select-multi {
+#app .custom-select-multi ,#error .custom-select-multi{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -162,7 +162,7 @@ div[id="app"][class="search"] {
     overflow-y: auto;
     border: solid 1px black;
 }
-#app .custom-option {
+#app .custom-option ,#error .custom-option {
     border: solid 1px black;
     user-select: none;
     flex-shrink: 0;
@@ -170,21 +170,21 @@ div[id="app"][class="search"] {
     width: 33%;
     height: 40px;
 }
-#app .custom-option.selected {
+#app .custom-option.selected ,#error .custom-option.selected {
     border: solid 1px black;
     background-color: white;
 }
-#app .datetime-wrap {
+#app .datetime-wrap ,#error .datetime-wrap {
     display: flex;
     flex-direction: row;
     width: 100%;
 }
-#app .durationWrap {
+#app .durationWrap ,#error .durationWrap {
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
-#app .table-component {
+#app .table-component ,#error .table-component {
     display: flex;
     flex-direction: column;
     gap: 10px;
