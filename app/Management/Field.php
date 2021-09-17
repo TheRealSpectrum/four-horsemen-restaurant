@@ -23,6 +23,12 @@ final class Field
         return ($this->mapCallback)($model);
     }
 
+    public function mapColumn(Model $model): string
+    {
+        $column = $this->column;
+        return $model->$column;
+    }
+
     public string $column;
     public string $type;
     public string $label;
