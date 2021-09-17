@@ -18,6 +18,6 @@
 @endsection
 
 @section("buttons")
-  <a href="{{route("management.$managementName.index")}}" class="block w-full"><x-button class="w-full">Back</x-button></a>
+  <a href="{{route("management.$managementName.show", [$managementParameterName => $model->id])}}" class="block w-full"><x-button class="w-full">Back</x-button></a>
   <x-button level="safe" type="submit">Save</x-button>
 @endsection
