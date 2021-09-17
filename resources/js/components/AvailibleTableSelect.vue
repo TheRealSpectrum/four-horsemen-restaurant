@@ -91,13 +91,12 @@ export default {
         date_min: String,
         time_default: String,
         duration_default: Number,
-        tableOld:String,
+        tableOld: String,
     },
     data() {
         return {
             min_duration: 60,
             max_duration: 240,
-            
 
             selectedTabels: [],
             selected_date: this.date_default,
@@ -107,12 +106,14 @@ export default {
     },
     computed: {
         computed_old_tables: function () {
-            if(this.tableOld!=="none"){
-                let tables = this.tableOld?.split(',').map(i=>{return parseInt(i)})
-                this.selectedTabels = tables
-                return tables
-            }else{
-                return undefined
+            if (this.tableOld !== "none") {
+                let tables = this.tableOld?.split(",").map((i) => {
+                    return parseInt(i);
+                });
+                this.selectedTabels = tables;
+                return tables;
+            } else {
+                return undefined;
             }
         },
         computed_table_data: function () {
