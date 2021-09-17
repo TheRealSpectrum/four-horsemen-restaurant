@@ -91,7 +91,7 @@ export default {
         date_min: String,
         time_default: String,
         duration_default: Number,
-        selectedId:String,
+        selectedId: String,
         tableOld: String,
     },
     data() {
@@ -180,7 +180,8 @@ export default {
                     reservation.tables.forEach((reservedTable) => {
                         if (
                             reservedTable.id == id &&
-                            reservation.id != this.selectedID) {
+                            reservation.id != this.selectedID
+                        ) {
                             result = false;
                         }
                     });

@@ -224,7 +224,7 @@ export default {
         pivot: Array,
         table_data: Array,
         reservation_data: Array,
-        errors:Boolean,
+        errors: Boolean,
     },
     data() {
         return {
@@ -412,9 +412,9 @@ export default {
                 (this.editState == false && state != "hide") ||
                 state == "show"
             ) {
-                if(!document.getElementById('error')){
-                    console.log("reset")
-                    this.curentError = false
+                if (!document.getElementById("error")) {
+                    console.log("reset");
+                    this.curentError = false;
                 }
                 this.editState = true;
             }
