@@ -2,5 +2,5 @@
     <label for="{{$name}}" class="text-lg font-bold">
         {{ $label }}
     </label>
-    <input value="{{$value}}" type="{{$type}}" class="text-lg"/>
+    <input name="{{$name}}" value="{{$value}}" type="{{$type}}" class="text-lg"/>
 </div>
