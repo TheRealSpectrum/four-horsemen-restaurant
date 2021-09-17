@@ -12,6 +12,8 @@ final class Builder
         $this->columns = new Collection();
         $this->fieldsLeft = new Collection();
         $this->fieldsRight = new Collection();
+        $this->changersStore = new Collection();
+        $this->changersUpdate = new Collection();
     }
 
     /*
@@ -90,6 +92,34 @@ final class Builder
     }
 
     /*
+     * this function defines a database column that can be changed.
+     * this defines changes for `store` requests.
+     *
+     * @param $column the column in the database which should be changed.
+     * @param $validation an array of validation rules applied to the input.
+     */
+    public function defineChangerStore(string $column, array $validation): self
+    {
+        $this->changersStore->push(new Changer($column, $validation));
+
+        return $this;
+    }
+
+    /*
+     * this function defines a database column that can be changed.
+     * this defines changes for `update` requests.
+     *
+     * @param $column the column in the database which should be changed.
+     * @param $validation an array of validation rules applied to the input.
+     */
+    public function defineChangerUpdate(string $column, array $validation): self
+    {
+        $this->changersUpdate->push(new Changer($column, $validation));
+
+        return $this;
+    }
+
+    /*
      * @param $routes These routes will be excluded, as a result these routes will result in a 404 if used anyways. Additionally avoids linking to invalid routes.
      */
     public function exclude(array $routes): self
@@ -100,6 +130,8 @@ final class Builder
     public Collection $columns;
     public Collection $fieldsLeft;
     public Collection $fieldsRight;
+    public Collection $changersStore;
+    public Collection $changersUpdate;
 
     private function defineField(
         string $column,

@@ -1,14 +1,22 @@
-Management: create
+@extends("layout.management.fields", ["action" => route("management.$managementName.store")])
 
-<form action="{{route("management.$managementName.store")}}" method="post">
-  @csrf
-
-  @foreach($columns as $column)
-    <div>
-      <label for="{{$column->name}}">{{ $column->display }}</label>
-      <input id="" type="{{$column->type}}" name="{{$column->name}}">
-    </div>
+@section("fields-left")
+  @foreach($builder->fieldsLeft as $field)
+    <x-management.create-field name="{{$field->column}}" type="{{$field->type}}" label="{{$field->label}}"></x-management>
   @endforeach
+@endsection
 
-  <x-button type="submit">Create dish</x-button>
-</form>
+@section("fields-right")
+  @foreach($builder->fieldsRight as $field)
+    <x-management.create-field name="{{$field->column}}" type="{{$field->type}}" label="{{$field->label}}"></x-management>
+  @endforeach
+@endsection
+
+@section("fields-hidden")
+  @csrf
+@endsection
+
+@section("buttons")
+  <a href="{{route("management.$managementName.index")}}" class="block w-full"><x-button class="w-full">Back</x-button></a>
+  <x-button level="safe" type="submit">Save</x-button>
+@endsection

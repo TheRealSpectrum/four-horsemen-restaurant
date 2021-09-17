@@ -14,5 +14,10 @@ final class Ingredient extends Model
         return $this->stored . $this->unit;
     }
 
+    public function dishes(): BelongsToMany
+    {
+        return $this->belongsToMany(Dish::class)->using(DishIngredient::class);
+    }
+
     protected $fillable = ["name", "unit", "stored", "stored_min"];
 }

@@ -4,12 +4,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-final class CreateDishIngredientsTable extends Migration
+final class CreateDishIngredientTable extends Migration
 {
     public function up(): void
     {
-        Schema::create("dish_ingredients", function (Blueprint $table) {
-            $table->id();
+        Schema::create("dish_ingredient", function (Blueprint $table) {
             $table->foreignId("dish_id")->contrained();
             $table->foreignId("ingredient_id")->contrained();
             $table->integer("amount");

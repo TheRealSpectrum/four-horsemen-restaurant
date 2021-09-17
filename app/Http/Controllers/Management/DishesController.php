@@ -19,9 +19,15 @@ final class DishesController extends ManagementController
 
         $builder
             ->defineFieldLeft("name", "text", "Name")
-            ->defineFieldLeft("price", "text", "Price", function (Dish $dish) {
+            ->defineFieldLeft("price", "number", "Price", function (
+                Dish $dish
+            ) {
                 return $dish->priceAsString();
             });
+
+        $builder
+            ->defineChangerStore("name", ["required"])
+            ->defineChangerStore("price", ["required"]);
     }
 
     protected string $managementModel = Dish::class;

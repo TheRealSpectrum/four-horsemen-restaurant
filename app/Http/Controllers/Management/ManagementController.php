@@ -35,7 +35,7 @@ abstract class ManagementController extends Controller
         $this->managementInitWrapper();
         return view("management.create", [
             "managementName" => $this->managementName,
-            "columns" => $this->registeredColumns,
+            "builder" => $this->builder,
         ]);
     }
 
@@ -84,8 +84,8 @@ abstract class ManagementController extends Controller
         return view("management.edit", [
             "managementName" => $this->managementName,
             "managementParameterName" => $this->managementParameterName,
-            "columns" => $this->registeredColumns,
             "model" => $model,
+            "builder" => $this->builder,
         ]);
     }
 
