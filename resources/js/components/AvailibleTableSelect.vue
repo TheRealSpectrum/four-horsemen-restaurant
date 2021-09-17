@@ -91,6 +91,7 @@ export default {
         date_min: String,
         time_default: String,
         duration_default: Number,
+        tableOld: String,
     },
     data() {
         return {
@@ -98,13 +99,23 @@ export default {
             max_duration: 240,
 
             selectedTabels: [],
-            tableToAdd: "",
             selected_date: this.date_default,
             selected_time: this.time_default,
             selected_duration: 0,
         };
     },
     computed: {
+        computed_old_tables: function () {
+            if (this.tableOld !== "none") {
+                let tables = this.tableOld?.split(",").map((i) => {
+                    return parseInt(i);
+                });
+                this.selectedTabels = tables;
+                return tables;
+            } else {
+                return undefined;
+            }
+        },
         computed_table_data: function () {
             return this.table_data.filter((i) => this.isAvailible(i));
         },
@@ -215,7 +226,7 @@ export default {
             return out;
         },
         isSelected(table) {
-            return this.selectedTabels?.includes(table);
+            return this.computed_old_tables?.includes(table);
         },
         getAvailibleSeats() {
             let seats = 0;
