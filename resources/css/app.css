@@ -203,6 +203,9 @@ div[id="app"][class="search"] {
 #app #edit #tables {
     flex-direction: column;
 }
+#app .hidden{
+    display: none !important ;
+}
 /* vue and blade component shared styles */
 .imgWrap {
     width: 50px;
@@ -220,9 +223,6 @@ div[id="app"][class="search"] {
 }
 input {
     color: black;
-}
-.hidden {
-    display: none !important ;
 }
 .reservationwrapper {
     height: 95%;
