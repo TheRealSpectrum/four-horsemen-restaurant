@@ -24,7 +24,11 @@
                     />
                     <div>{{ item.unit }}</div>
                 </div>
-                <action-button>Delete</action-button>
+                <action-button
+                    v-on:click-action="removeItem(index)"
+                    level="high"
+                    >Delete</action-button
+                >
             </div>
         </div>
     </div>
@@ -45,6 +49,9 @@ export default {
     methods: {
         addItem() {
             this.items.push({ type: "next", amount: 0, unit: "l" });
+        },
+        removeItem(index) {
+            this.items.splice(index, 1);
         },
     },
 };
