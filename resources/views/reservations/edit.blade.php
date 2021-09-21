@@ -17,8 +17,7 @@ date_default_timezone_set("Europe/Amsterdam");
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <div id="app" class="search">
-    <edit-component  :reservation_data="{{($data)}}" :table_data="{{($tables)}}" :pivot="{{json_encode($pivot)}}"></example-component>
-
+    <edit-component  :reservation_data="{{($data)}}" :table_data="{{($tables)}}" :pivot="{{json_encode($pivot)}}" @if($errors->any()):errors="{{'true'}}"@endif></example-component>
 </div>
 
 
@@ -74,7 +73,13 @@ date_default_timezone_set("Europe/Amsterdam");
             
             {{-- Date ,Time and Tables --}}
             <div id="error">
-                <table-select-component :reservation_data="{{($data)}}" :table_data="{{($tables)}}" :pivot="{{json_encode($pivot)}}" :date_default="'{{ old('date', today()->format('Y-m-d')) }}'" :date_min="'{{ today()->format('Y-m-d') }}'" :time_default="'{{ old('time', date('H:i')) }}'" :duration_default="{{ old('endTime', 60)}}"></table-select-component>
+                <table-select-component :reservation_data="{{($data)}}" :table_data="{{($tables)}}" :pivot="{{json_encode($pivot)}}" :date_default="'{{ old('date', today()->format('Y-m-d')) }}'" :date_min="'{{ today()->format('Y-m-d') }}'" :time_default="'{{ old('time', date('H:i')) }}'" :duration_default="{{ old('endTime', 60)}}" :selected-id="'{{old('id')}}'"
+                    @if(old('table'))
+                    :table-old="'{{old('table')}}'"
+                    @else
+                    :table-old="'none'"
+                    @endif
+                    ></table-select-component>
                 @error("table")
                     <p class="text-sm text-warning-high">{{ $message }}</p>
                 @enderror
@@ -100,5 +105,12 @@ date_default_timezone_set("Europe/Amsterdam");
     const errReturn = new Vue({
         el: "#error",
     });
+    if(document.querySelector('button.confirmation-back')){
+        document.querySelector('button.confirmation-back').addEventListener('click',(e)=>{
+            Array.from(document.getElementById('show-validation-errors').children).forEach(element=>{
+                element.remove()
+            })
+        })
+    }
 </script>
 @endsection()

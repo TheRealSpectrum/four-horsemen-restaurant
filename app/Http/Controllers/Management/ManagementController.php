@@ -20,7 +20,7 @@ abstract class ManagementController extends Controller
         $this->managementInitWrapper();
         $models = $this->GetModelBuilder()
             ->orderBy("name")
-            ->get();
+            ->paginate(12);
 
         return view("management.index", [
             "managementName" => $this->managementName,
@@ -48,7 +48,9 @@ abstract class ManagementController extends Controller
             $validationRules[$changer->column] = $changer->validation;
         }
 
-        $validated = $request->validate($validationRules);
+        $validated = $this->transformStore(
+            $request->validate($validationRules)
+        );
 
         $model = $this->CreateModel();
         $model->fill($validated);
@@ -94,11 +96,13 @@ abstract class ManagementController extends Controller
         $this->managementInitWrapper();
 
         $validationRules = [];
-        foreach ($this->registeredColumns as $column) {
-            $validationRules[$column->name] = $column->validationRules;
+        foreach ($this->builder->changersUpdate as $changer) {
+            $validationRules[$changer->column] = $changer->validation;
         }
 
-        $validated = $request->validate($validationRules);
+        $validated = $this->transformUpdate(
+            $request->validate($validationRules)
+        );
 
         $model = $this->GetModelBuilder()
             ->where("id", $id)
@@ -129,6 +133,16 @@ abstract class ManagementController extends Controller
     abstract protected function managementInit(
         ManagementBuilder $builder
     ): void;
+
+    protected function transformStore(array $validated): array
+    {
+        return $validated;
+    }
+
+    protected function transformUpdate(array $validated): array
+    {
+        return $validated;
+    }
 
     private function managementInitWrapper()
     {
