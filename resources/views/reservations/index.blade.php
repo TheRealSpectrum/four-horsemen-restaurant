@@ -1,10 +1,14 @@
 @extends("layout.reservations")
 
 @section("reservations-content")
+@php
+    $configuredAutoRefreshTimer = 30
+@endphp
 <div id="main_wrapper" class="grid grid-cols-4 grid-rows-1 gap-5 p-10 bg-backgrounddark" style="height:91vh">
 
     <x-reservation-tab class="h-full col-start-1 col-span-1" title="Active Reservations">
         @foreach ($active as $item)
+        {{-- @dd($item) --}}
             <x-res-item :info="$item"></x-reservation-item>
         @endforeach
     </x-reservation-tab>
@@ -89,5 +93,23 @@
 <x-confirmation id="confirm-reservation-cancel" type="warningHigh" form="reservation-cancel"
     option-back="No, go back" option-continue="Yes, cancel reservation" title="Cancel the reservation?"/>
 
+<script>
+    let load = new Date()
+    let timeout = setInterval(reload,10000,load)
+
+    function reload(load){
+        if(checkTime(load) && document.getElementById("show-box-root").classList.contains("hidden")){
+        location.reload()
+    }
+    }
+
+    function checkTime(load){
+        let dif = (new Date()).getTime() - load.getTime()
+        if(Math.round(dif/1000) > {{$configuredAutoRefreshTimer}}){
+            return true
+        }
+        return false
+    }
+</script>
 
 @endsection
