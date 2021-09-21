@@ -1,7 +1,7 @@
 module.exports = {
+    important: "",
     purge: {
         content: ["./resources/**/*.blade.php", "./resources/**/*.js"],
-        safelist: ["hidden"],
     },
     darkMode: "class",
     variants: {

@@ -35,7 +35,9 @@
       @endforeach
     </div>
     <div class="grid grid-cols-8">
-      <div class="col-span-7 h-10"></div>
+      <div class="col-span-7 h-10">
+        {{$models->links('vendor.pagination.tailwind')}}
+      </div>
       <div class="p-2 h-14">
         <a href="{{ route("management.$managementName.create") }}"><x-button class="font-bold w-full h-full" level="safe">Create</x-button></a>
       </div>
