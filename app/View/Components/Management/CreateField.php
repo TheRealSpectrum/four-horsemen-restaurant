@@ -16,15 +16,24 @@ class CreateField extends Component
         $this->label = $label;
         $this->value = $value;
         $this->type = $type;
+
+        switch ($type) {
+            case "ingredient":
+                $this->display =
+                    "components.management.create-field-ingredient";
+                break;
+        }
     }
 
     public function render()
     {
-        return view("components.management.create-field");
+        return view($this->display);
     }
 
     public string $name;
     public string $label;
     public string $value;
     public string $type;
+
+    private string $display = "components.management.create-field";
 }
