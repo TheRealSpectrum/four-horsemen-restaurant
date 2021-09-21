@@ -18,7 +18,7 @@ class ResItem extends Component
     {
         $this->id = $info->id;
         $this->name = $info->name;
-        $this->numOfGuests = $info->numOfGuests;
+        $this->numOfGuests = $info->guest_count;
         $this->tables = $info->tables->pluck("id");
         $this->date = $info->date_start->format("Y-m-d");
         $this->time = $info->date_start->format("H:i");
