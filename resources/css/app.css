@@ -203,7 +203,7 @@ div[id="app"][class="search"] {
 #app #edit #tables {
     flex-direction: column;
 }
-#app .hidden{
+#app .hidden {
     display: none !important ;
 }
 /* vue and blade component shared styles */
