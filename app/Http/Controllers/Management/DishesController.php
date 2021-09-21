@@ -23,7 +23,8 @@ final class DishesController extends ManagementController
                 Dish $dish
             ) {
                 return $dish->priceAsString();
-            });
+            })
+            ->defineFieldLeft("ingredients", "ingredient", "Ingredients");
 
         $builder
             ->defineChangerStore("name", ["required"])
