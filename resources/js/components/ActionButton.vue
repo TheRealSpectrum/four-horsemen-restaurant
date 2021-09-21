@@ -1,5 +1,9 @@
 <template>
-    <button type="button" class="border-2 border-dark rounded bg-save">
+    <button
+        v-on:click="$emit('click-action')"
+        type="button"
+        class="border-2 border-dark rounded bg-save"
+    >
         <div
             class="
                 hover:bg-button-dim
