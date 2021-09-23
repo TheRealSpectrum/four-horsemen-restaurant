@@ -1,0 +1,58 @@
+<template>
+    <div>
+        <div class="grid grid-cols-3 h-6">
+            <label for="name" class="text-lg font-bold"> {{ label }} </label>
+            <action-button v-on:click-action="addItem()" level="safe"
+                >Add ingredient</action-button
+            >
+            <div v-if="error" class="font-bold text-warning-high p-1">
+                {{ error }}
+            </div>
+        </div>
+        <div class="flex flex-col py-4">
+            <div
+                v-for="(item, index) in items"
+                :key="index"
+                class="grid grid-cols-3 py-2"
+            >
+                <div class="text-lg font-bold">{{ item.type }}</div>
+                <div class="flex flex-row">
+                    <input
+                        type="number"
+                        :name="`ingredient-${index + 1}`"
+                        v-model:value="item.amount"
+                    />
+                    <div>{{ item.unit }}</div>
+                </div>
+                <action-button
+                    v-on:click-action="removeItem(index)"
+                    level="high"
+                    >Delete</action-button
+                >
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            items: this.value,
+        };
+    },
+    props: {
+        value: Array,
+        label: String,
+        error: String,
+    },
+    methods: {
+        addItem() {
+            this.items.push({ type: "next", amount: 0, unit: "l" });
+        },
+        removeItem(index) {
+            this.items.splice(index, 1);
+        },
+    },
+};
+</script>
