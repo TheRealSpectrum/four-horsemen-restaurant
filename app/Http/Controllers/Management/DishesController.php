@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\Dish;
-use App\Management\Builder;
+use App\Models\{Dish, Ingredient};
+use App\Management\Builder as ManagementBuilder;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 final class DishesController extends ManagementController
 {
-    protected function managementInit(Builder $builder): void
+    protected function managementInit(ManagementBuilder $builder): void
     {
         $builder
             ->defineColumn("name", "Name")
@@ -24,7 +25,15 @@ final class DishesController extends ManagementController
             ) {
                 return $dish->priceAsString();
             })
-            ->defineFieldLeft("ingredients", "ingredient", "Ingredients");
+            ->defineFieldLeft(
+                "ingredients",
+                "ingredient",
+                "Ingredients",
+                null,
+                function (Dish $dish) {
+                    return $dish->ingredientsAsJson();
+                }
+            );
 
         $builder
             ->defineChangerStore("name", ["required"])
@@ -33,6 +42,11 @@ final class DishesController extends ManagementController
         $builder
             ->defineChangerUpdate("name", ["filled"])
             ->defineChangerUpdate("price", ["filled", "numeric", "min:0"]);
+    }
+
+    protected function queryEdit(Builder $builder): Builder
+    {
+        return $builder->with("ingredients");
     }
 
     protected string $managementModel = Dish::class;

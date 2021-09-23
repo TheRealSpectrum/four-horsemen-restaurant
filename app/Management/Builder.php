@@ -14,6 +14,7 @@ final class Builder
         $this->fieldsRight = new Collection();
         $this->changersStore = new Collection();
         $this->changersUpdate = new Collection();
+        $this->inputQueries = new Collection();
     }
 
     /*
@@ -62,9 +63,10 @@ final class Builder
         string $column,
         string $type,
         string $label,
-        ?callable $map = null
+        ?callable $map = null,
+        ?callable $mapInput = null
     ): self {
-        $this->defineField($column, $type, $label, $map, true);
+        $this->defineField($column, $type, $label, $map, $mapInput, true);
         return $this;
     }
 
@@ -85,9 +87,10 @@ final class Builder
         string $column,
         string $type,
         string $label,
-        ?callable $map = null
+        ?callable $map = null,
+        ?callable $mapInput = null
     ): self {
-        $this->defineField($column, $type, $label, $map, false);
+        $this->defineField($column, $type, $label, $map, $mapInput, false);
         return $this;
     }
 
@@ -127,17 +130,28 @@ final class Builder
         return $this;
     }
 
+    /*
+     * @todo remove this function and use vue+api calls instead.
+     */
+    public function withInputQuery(string $name, callable $callback): self
+    {
+        $this->inputQueries->push([$name, $callback]);
+        return $this;
+    }
+
     public Collection $columns;
     public Collection $fieldsLeft;
     public Collection $fieldsRight;
     public Collection $changersStore;
     public Collection $changersUpdate;
+    public Collection $inputQueries; // todo: remove this
 
     private function defineField(
         string $column,
         string $type,
         string $label,
         ?callable $map,
+        ?callable $mapInput,
         bool $isLeft
     ): void {
         ($isLeft ? $this->fieldsLeft : $this->fieldsRight)->push(
@@ -147,6 +161,11 @@ final class Builder
                 $label,
                 $map !== null
                     ? $map
+                    : function (Model $model) use ($column) {
+                        return $model->$column;
+                    },
+                $mapInput !== null
+                    ? $mapInput
                     : function (Model $model) use ($column) {
                         return $model->$column;
                     }

@@ -14,6 +14,18 @@ final class Ingredient extends Model
         return $this->stored . $this->unit;
     }
 
+    public function asObjectString(): string
+    {
+        // prettier-ignore
+        return <<<JSON
+        {
+            id: $this->id,
+            name: '$this->name',
+            unit: '$this->unit'
+        }
+        JSON;
+    }
+
     public function dishes(): BelongsToMany
     {
         return $this->belongsToMany(Dish::class)->using(DishIngredient::class);

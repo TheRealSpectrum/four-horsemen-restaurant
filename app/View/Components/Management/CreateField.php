@@ -2,6 +2,8 @@
 
 namespace App\View\Components\Management;
 
+use App\Models\Ingredient;
+
 use Illuminate\View\Component;
 
 class CreateField extends Component
@@ -19,15 +21,28 @@ class CreateField extends Component
 
         switch ($type) {
             case "ingredient":
+                $ingredients = Ingredient::orderBy("name")->get();
+
+                $ingredientsJson = "[";
+
+                foreach ($ingredients as $ingredient) {
+                    $ingredientsJson .= $ingredient->asObjectString() . ",";
+                }
+
+                $ingredientsJson = substr($ingredientsJson, 0, -1) . "]";
+
                 $this->display =
                     "components.management.create-field-ingredient";
+                $this->displayInput = [
+                    "ingredients" => $ingredientsJson,
+                ];
                 break;
         }
     }
 
     public function render()
     {
-        return view($this->display);
+        return view($this->display, $this->displayInput);
     }
 
     public string $name;
@@ -36,4 +51,5 @@ class CreateField extends Component
     public string $type;
 
     private string $display = "components.management.create-field";
+    private array $displayInput = [];
 }

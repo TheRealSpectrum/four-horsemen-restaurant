@@ -11,18 +11,30 @@
         </div>
         <div class="flex flex-col py-4">
             <div
-                v-for="(item, index) in items"
+                v-for="(ingredient, index) in items"
                 :key="index"
                 class="grid grid-cols-3 py-2"
             >
-                <div class="text-lg font-bold">{{ item.type }}</div>
+                <select
+                    v-model="ingredient.id"
+                    class="text-lg font-bold w-1/2"
+                    :name="`ingredient-id-${index}`"
+                >
+                    <option
+                        v-for="{ id, name, unit } of ingredients"
+                        :value="id"
+                        :selected.boolean="id === ingredient.id"
+                    >
+                        {{ name }}
+                    </option>
+                </select>
                 <div class="flex flex-row">
                     <input
                         type="number"
-                        :name="`ingredient-${index + 1}`"
-                        v-model:value="item.amount"
+                        :name="`ingredient-amount-${index}`"
+                        v-model:value="ingredient.amount"
                     />
-                    <div>{{ item.unit }}</div>
+                    <div>{{ units[ingredient.id] }}</div>
                 </div>
                 <action-button
                     v-on:click-action="removeItem(index)"
@@ -37,18 +49,26 @@
 <script>
 export default {
     data() {
+        let units = {};
+
+        for (const ingredient of this.ingredients) {
+            units[ingredient.id] = ingredient.unit;
+        }
+
         return {
             items: this.value,
+            units,
         };
     },
     props: {
-        value: Array,
         label: String,
+        value: Array,
         error: String,
+        ingredients: Array,
     },
     methods: {
         addItem() {
-            this.items.push({ type: "next", amount: 0, unit: "l" });
+            this.items.push({ amount: 0, id: this.ingredients[0].id });
         },
         removeItem(index) {
             this.items.splice(index, 1);
