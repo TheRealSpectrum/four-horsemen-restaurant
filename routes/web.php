@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     AuthController,
     HomeController,
+    OrderController,
     ReservationController
 };
 
@@ -31,4 +32,9 @@ Route::name("reservation.")->middleware("auth")->group(function () {
     route::patch("/update", [ReservationController::class, "update"])->name("update");
     Route::get("/reservation/new", [ReservationController::class, "create"])->name("create");
     Route::post("/reservation/store", [ReservationController::class, "store"])->name("store");
+});
+
+Route::name("order.")->middleware("auth")->group(function(){
+    Route::get("/order/new", [OrderController::class, "index"])->name("index");
+    Route::post("/order/store", [OrderController::class, "store"])->name("store");
 });
