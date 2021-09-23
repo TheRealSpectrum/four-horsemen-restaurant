@@ -14,6 +14,7 @@ final class Builder
         $this->fieldsRight = new Collection();
         $this->changersStore = new Collection();
         $this->changersUpdate = new Collection();
+        $this->inputQueries = new Collection();
     }
 
     /*
@@ -127,11 +128,21 @@ final class Builder
         return $this;
     }
 
+    /*
+     * @todo remove this function and use vue+api calls instead.
+     */
+    public function withInputQuery(string $name, callable $callback): self
+    {
+        $this->inputQueries->push([$name, $callback]);
+        return $this;
+    }
+
     public Collection $columns;
     public Collection $fieldsLeft;
     public Collection $fieldsRight;
     public Collection $changersStore;
     public Collection $changersUpdate;
+    public Collection $inputQueries; // todo: remove this
 
     private function defineField(
         string $column,

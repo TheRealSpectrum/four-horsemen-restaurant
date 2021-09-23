@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\Dish;
+use App\Models\{Dish, Ingredient};
 use App\Management\Builder;
 
 use Illuminate\Http\Request;
