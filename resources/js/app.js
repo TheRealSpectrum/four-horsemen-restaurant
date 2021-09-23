@@ -31,7 +31,10 @@ Vue.component(
     require("./components/AvailibleTableSelect.vue").default
 );
 
-Vue.component("order-app", equire("./components/OrderApp.vue").default);
+Vue.component(
+    "order-app", 
+    require("./components/OrderApp.vue").default
+);
 
 Vue.component(
     "ingredient-input",
