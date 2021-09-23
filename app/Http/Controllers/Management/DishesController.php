@@ -38,27 +38,16 @@ final class DishesController extends ManagementController
         $builder
             ->defineChangerStore("name", ["required"])
             ->defineChangerStore("price", ["required"])
-            ->defineArrayChangerStore("ingredient-id")
-            ->defineArrayChangerStore("ingredient-amount");
+            ->defineManyChangerStore(
+                Ingredient::class,
+                "ingredients",
+                "ingredient",
+                ["amount"]
+            );
 
         $builder
             ->defineChangerUpdate("name", ["filled"])
             ->defineChangerUpdate("price", ["filled", "numeric", "min:0"]);
-    }
-
-    protected function transformStore(array $validated): array
-    {
-        $validated["ingredients"] = $validated["ingredient-id"]
-            ->zip($validated["ingredient-amount"])
-            ->map(function ($value) {
-                return [
-                    "id" => $value[0],
-                    "amount" => $value[1],
-                ];
-            });
-        unset($validated["ingredient-id"]);
-        unset($validated["ingredient-amount"]);
-        return $validated;
     }
 
     protected function queryEdit(Builder $builder): Builder

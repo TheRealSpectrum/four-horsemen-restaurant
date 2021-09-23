@@ -14,8 +14,8 @@ final class Builder
         $this->fieldsRight = new Collection();
         $this->changersStore = new Collection();
         $this->changersUpdate = new Collection();
-        $this->arrayChangersStore = new Collection();
-        $this->arrayChangersUpdate = new Collection();
+        $this->manyChangersStore = new Collection();
+        $this->manyChangersUpdate = new Collection();
         $this->inputQueries = new Collection();
     }
 
@@ -124,16 +124,28 @@ final class Builder
         return $this;
     }
 
-    public function defineArrayChangerStore(string $prefix)
-    {
-        $this->arrayChangersStore->push(new ArrayChanger($prefix));
+    public function defineManyChangerStore(
+        string $model,
+        string $relation,
+        string $prefix,
+        array $properties
+    ) {
+        $this->manyChangersStore->push(
+            new ManyChanger($model, $relation, $prefix, $properties)
+        );
 
         return $this;
     }
 
-    public function defineArrayChangerUpdate(string $prefix)
-    {
-        $this->arrayChangersUpdate->push(new ArrayChanger($prefix));
+    public function defineManyChangerUpdate(
+        string $model,
+        string $relation,
+        string $prefix,
+        array $properties
+    ) {
+        $this->manyChangersUpdate->push(
+            new ManyChanger($model, $relation, $prefix, $properties)
+        );
 
         return $this;
     }
@@ -160,8 +172,8 @@ final class Builder
     public Collection $fieldsRight;
     public Collection $changersStore;
     public Collection $changersUpdate;
-    public Collection $arrayChangersStore;
-    public Collection $arrayChangersUpdate;
+    public Collection $manyChangersStore;
+    public Collection $manyChangersUpdate;
     public Collection $inputQueries; // todo: remove this
 
     private function defineField(

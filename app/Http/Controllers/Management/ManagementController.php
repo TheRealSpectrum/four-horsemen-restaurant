@@ -48,23 +48,31 @@ abstract class ManagementController extends Controller
             $validationRules[$changer->column] = $changer->validation;
         }
 
-        $simpleValidated = $request->validate($validationRules);
-
-        foreach ($this->builder->arrayChangersStore as $changer) {
-            $nextArray = new Collection();
-            for ($i = 0; $request->filled("$changer->prefix-$i"); ++$i) {
-                $nextArray->push($request->get("$changer->prefix-$i"));
-            }
-            $simpleValidated[$changer->prefix] = $nextArray;
-        }
-
-        $validated = $this->transformStore($simpleValidated);
-
-        dd($validated);
+        $validated = $this->transformStore(
+            $request->validate($validationRules)
+        );
 
         $model = $this->CreateModel();
         $model->fill($validated);
         $model->save();
+
+        foreach ($this->builder->manyChangersStore as $changer) {
+            for ($i = 0; $request->has("$changer->prefix-id-$i"); ++$i) {
+                $id = $request->get("$changer->prefix-id-$i");
+                $properties = [];
+                foreach ($changer->properties as $name) {
+                    if (!$request->has("$changer->prefix-$name-$i")) {
+                        abort(400);
+                    }
+
+                    $properties[$name] = $request->get(
+                        "$changer->prefix-$name-$i"
+                    );
+                }
+
+                $changer->linkToModel($model, $id, $properties);
+            }
+        }
 
         return redirect()->route("management.$this->managementName.show", [
             $this->managementParameterName => $model->id,
