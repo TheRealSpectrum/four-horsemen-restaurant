@@ -16,6 +16,7 @@
                 class="grid grid-cols-3 py-2"
             >
                 <select
+                    v-model="ingredient.id"
                     class="text-lg font-bold w-1/2"
                     :name="`ingredient-id-${index}`"
                 >
