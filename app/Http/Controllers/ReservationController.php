@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Reservation;
 use App\Models\Table;
 use Carbon\Carbon;
-use DateTime;
 
 final class ReservationController extends Controller
 {
