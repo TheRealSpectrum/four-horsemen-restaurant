@@ -16,11 +16,28 @@ final class Dish extends Model
         return "€$priceString";
     }
 
+    public function ingredientsAsJson(): string
+    {
+        $result = "[";
+
+        foreach ($this->ingredients as $ingredient) {
+            // prettier-ignore
+            $result .= <<<JSON
+                    {
+                        id: $ingredient->id,
+                        amount: {$ingredient->pivot->amount}
+                    },
+                    JSON;
+        }
+
+        return substr($result, 0, -1) . "]";
+    }
+
     public function ingredients(): BelongsToMany
     {
-        return $this->belongsToMany(Ingredient::class)->using(
-            DishIngredient::class
-        );
+        return $this->belongsToMany(Ingredient::class)
+            ->withPivot("amount")
+            ->using(DishIngredient::class);
     }
 
     protected $fillable = ["name", "price"];

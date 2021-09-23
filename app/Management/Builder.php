@@ -63,9 +63,10 @@ final class Builder
         string $column,
         string $type,
         string $label,
-        ?callable $map = null
+        ?callable $map = null,
+        ?callable $mapInput = null
     ): self {
-        $this->defineField($column, $type, $label, $map, true);
+        $this->defineField($column, $type, $label, $map, $mapInput, true);
         return $this;
     }
 
@@ -86,9 +87,10 @@ final class Builder
         string $column,
         string $type,
         string $label,
-        ?callable $map = null
+        ?callable $map = null,
+        ?callable $mapInput = null
     ): self {
-        $this->defineField($column, $type, $label, $map, false);
+        $this->defineField($column, $type, $label, $map, $mapInput, false);
         return $this;
     }
 
@@ -149,6 +151,7 @@ final class Builder
         string $type,
         string $label,
         ?callable $map,
+        ?callable $mapInput,
         bool $isLeft
     ): void {
         ($isLeft ? $this->fieldsLeft : $this->fieldsRight)->push(
@@ -158,6 +161,11 @@ final class Builder
                 $label,
                 $map !== null
                     ? $map
+                    : function (Model $model) use ($column) {
+                        return $model->$column;
+                    },
+                $mapInput !== null
+                    ? $mapInput
                     : function (Model $model) use ($column) {
                         return $model->$column;
                     }

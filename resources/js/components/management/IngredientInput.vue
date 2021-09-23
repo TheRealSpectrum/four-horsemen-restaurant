@@ -11,15 +11,18 @@
         </div>
         <div class="flex flex-col py-4">
             <div
-                v-for="(item, index) in items"
+                v-for="(ingredient, index) in items"
                 :key="index"
                 class="grid grid-cols-3 py-2"
             >
-                <select class="text-lg font-bold w-1/2">
+                <select
+                    class="text-lg font-bold w-1/2"
+                    :name="`ingredient-id-${index}`"
+                >
                     <option
                         v-for="{ id, name, unit } of ingredients"
                         :value="id"
-                        :selected.boolean="id === item.ingredient"
+                        :selected.boolean="id === ingredient.id"
                     >
                         {{ name }}
                     </option>
@@ -27,10 +30,10 @@
                 <div class="flex flex-row">
                     <input
                         type="number"
-                        :name="`ingredient-${index}`"
-                        v-model:value="item.amount"
+                        :name="`ingredient-amount-${index}`"
+                        v-model:value="ingredient.amount"
                     />
-                    <div>{{ units[item.ingredient] }}</div>
+                    <div>{{ units[ingredient.id] }}</div>
                 </div>
                 <action-button
                     v-on:click-action="removeItem(index)"

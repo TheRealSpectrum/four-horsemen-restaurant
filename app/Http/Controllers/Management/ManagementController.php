@@ -79,9 +79,9 @@ abstract class ManagementController extends Controller
     public function edit($id): view
     {
         $this->managementInitWrapper();
-        $model = $this->GetModelBuilder()
-            ->where("id", $id)
-            ->firstOrFail();
+        $model = $this->queryEdit(
+            $this->GetModelBuilder()->where("id", $id)
+        )->firstOrFail();
 
         return view("management.edit", [
             "managementName" => $this->managementName,
@@ -142,6 +142,11 @@ abstract class ManagementController extends Controller
     protected function transformUpdate(array $validated): array
     {
         return $validated;
+    }
+
+    protected function queryEdit(Builder $builder): Builder
+    {
+        return $builder;
     }
 
     private function managementInitWrapper()

@@ -10,12 +10,14 @@ final class Field
         string $column,
         string $type,
         string $label,
-        callable $map
+        callable $map,
+        callable $mapInput
     ) {
         $this->column = $column;
         $this->type = $type;
         $this->label = $label;
         $this->mapCallback = $map;
+        $this->mapInputCallback = $mapInput;
     }
 
     public function map(Model $model): string
@@ -23,10 +25,9 @@ final class Field
         return ($this->mapCallback)($model);
     }
 
-    public function mapColumn(Model $model): string
+    public function mapInput(Model $model): string
     {
-        $column = $this->column;
-        return $model->$column;
+        return ($this->mapInputCallback)($model);
     }
 
     public string $column;
@@ -34,4 +35,5 @@ final class Field
     public string $label;
 
     private $mapCallback;
+    private $mapInputCallback;
 }
