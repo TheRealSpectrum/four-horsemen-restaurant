@@ -31,6 +31,10 @@ Vue.component(
     require("./components/AvailibleTableSelect.vue").default
 );
 
+Vue.component(
+    "order-app",
+    require("./components/OrderApp.vue").default
+);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
