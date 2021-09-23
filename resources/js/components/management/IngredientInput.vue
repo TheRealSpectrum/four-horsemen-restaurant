@@ -67,7 +67,7 @@ export default {
     },
     methods: {
         addItem() {
-            this.items.push({ type: "next", amount: 0, unit: "l" });
+            this.items.push({ amount: 0, id: this.ingredients[0].id });
         },
         removeItem(index) {
             this.items.splice(index, 1);
