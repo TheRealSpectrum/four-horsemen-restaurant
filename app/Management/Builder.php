@@ -14,6 +14,8 @@ final class Builder
         $this->fieldsRight = new Collection();
         $this->changersStore = new Collection();
         $this->changersUpdate = new Collection();
+        $this->arrayChangersStore = new Collection();
+        $this->arrayChangersUpdate = new Collection();
         $this->inputQueries = new Collection();
     }
 
@@ -122,6 +124,20 @@ final class Builder
         return $this;
     }
 
+    public function defineArrayChangerStore(string $prefix)
+    {
+        $this->arrayChangersStore->push(new ArrayChanger($prefix));
+
+        return $this;
+    }
+
+    public function defineArrayChangerUpdate(string $prefix)
+    {
+        $this->arrayChangersUpdate->push(new ArrayChanger($prefix));
+
+        return $this;
+    }
+
     /*
      * @param $routes These routes will be excluded, as a result these routes will result in a 404 if used anyways. Additionally avoids linking to invalid routes.
      */
@@ -144,6 +160,8 @@ final class Builder
     public Collection $fieldsRight;
     public Collection $changersStore;
     public Collection $changersUpdate;
+    public Collection $arrayChangersStore;
+    public Collection $arrayChangersUpdate;
     public Collection $inputQueries; // todo: remove this
 
     private function defineField(

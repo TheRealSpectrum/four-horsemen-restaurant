@@ -48,9 +48,19 @@ abstract class ManagementController extends Controller
             $validationRules[$changer->column] = $changer->validation;
         }
 
-        $validated = $this->transformStore(
-            $request->validate($validationRules)
-        );
+        $simpleValidated = $request->validate($validationRules);
+
+        foreach ($this->builder->arrayChangersStore as $changer) {
+            $nextArray = new Collection();
+            for ($i = 0; $request->filled("$changer->prefix-$i"); ++$i) {
+                $nextArray->push($request->get("$changer->prefix-$i"));
+            }
+            $simpleValidated[$changer->prefix] = $nextArray;
+        }
+
+        $validated = $this->transformStore($simpleValidated);
+
+        dd($validated);
 
         $model = $this->CreateModel();
         $model->fill($validated);
