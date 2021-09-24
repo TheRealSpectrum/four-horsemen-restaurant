@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Management\{
-    DishesController
+    DishesController,
+    IngredientsController
 };
 
 /*
@@ -15,3 +16,4 @@ use App\Http\Controllers\Management\{
  */
 
 Route::Resource("dishes", DishesController::class);
+Route::Resource("ingredients", IngredientsController::class);
