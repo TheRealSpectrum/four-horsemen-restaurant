@@ -12,6 +12,7 @@ final class CreateDishesTable extends Migration
             $table->id();
             $table->text("name");
             $table->integer("price");
+            $table->integer("minutes_to_prepare");
             $table->timestamps();
         });
     }

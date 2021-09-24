@@ -40,5 +40,5 @@ final class Dish extends Model
             ->using(DishIngredient::class);
     }
 
-    protected $fillable = ["name", "price"];
+    protected $fillable = ["name", "price", "minutes_to_prepare"];
 }
