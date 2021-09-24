@@ -1,8 +1,17 @@
 <template>
     <div id="order-root" class="new" v-if="state == 'new'">
+        <div class="notification" :class="showNoteification ? 'show' : ''">
+            <p>{{ norificationContent }}</p>
+        </div>
         <label class="tableSelectWrap">
             <h3>table</h3>
-            <select name="table" id="table">
+            <select
+                name="table"
+                id="table"
+                v-model="table"
+                @change="checkTable()"
+            >
+                <option value="">select</option>
                 <option
                     v-for="(table, index) in computedActiveTables"
                     :key="index"
@@ -64,6 +73,7 @@
                 :key="index"
                 @click="selectMenuItem(index)"
             >
+                <!-- TODO add src when images are availible -->
                 <img src="" :alt="`${item.name} image`" class="menuImage" />
                 <p class="menuName">{{ item.name }}</p>
             </div>
@@ -130,6 +140,8 @@ export default {
             selectedDish: undefined,
             selectedCourse: 0,
             selectedDishFilter: undefined,
+            showNoteification: false,
+            norificationContent: "",
 
             //menu item input
             selectedQuantity: 1,
@@ -137,7 +149,7 @@ export default {
 
             //curent order
             order: [],
-            table: undefined,
+            table: "",
             currentItemDetails: {},
         };
     },
@@ -162,6 +174,10 @@ export default {
             this.state = "select";
         },
         selectMenuItem(index) {
+            if (index != this.selectedDish) {
+                this.menuItemNotes = undefined;
+                this.selectedQuantity = 1;
+            }
             this.state = "details";
             this.selectedDish = index;
         },
@@ -172,6 +188,34 @@ export default {
             this.order[this.selectedCourse].push(itemToAdd);
             this.menuItemNotes = undefined;
             this.selectedQuantity = 1;
+            this.selectedDish = undefined;
+            this.selectedDishFilter = undefined;
+            this.state = "new";
+        },
+        checkTable() {
+            let related = "";
+            this.table_data[this.table - 1]?.reservations.forEach(
+                (reservation) => {
+                    if (reservation.active) {
+                        related = [];
+                        this.reservation_data[
+                            reservation.id - 1
+                        ].tables.forEach((table) => {
+                            related.push(table.id);
+                        });
+                    }
+                }
+            );
+            if (this.table != related[0]) {
+                this.table = related[0];
+                this.norificationContent = `changed table to ${related[0]} due to group assignment`;
+                this.showNoteification = true;
+                setTimeout(() => {
+                    this.showNoteification = false;
+                    console.log("timeout");
+                    this.norificationContent = "";
+                }, 2000);
+            }
         },
     },
 };
@@ -197,6 +241,19 @@ export default {
     place-content: center;
 }
 /* tab 1 styles */
+.notification {
+    position: absolute;
+    top: 0;
+    transform: translateY(-100%);
+    background-color: white;
+    border: solid 1px black;
+    border-radius: 0 0 3em 3em;
+    padding: 0 2em 2em 2em;
+}
+.notification.show {
+    transform: translateY(0);
+    transition: ease-in;
+}
 .tableSelectWrap {
     display: flex;
     flex-direction: row;
