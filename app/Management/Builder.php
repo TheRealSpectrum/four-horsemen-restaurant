@@ -14,6 +14,8 @@ final class Builder
         $this->fieldsRight = new Collection();
         $this->changersStore = new Collection();
         $this->changersUpdate = new Collection();
+        $this->manyChangersStore = new Collection();
+        $this->manyChangersUpdate = new Collection();
         $this->inputQueries = new Collection();
     }
 
@@ -122,6 +124,32 @@ final class Builder
         return $this;
     }
 
+    public function defineManyChangerStore(
+        string $model,
+        string $relation,
+        string $prefix,
+        array $properties
+    ) {
+        $this->manyChangersStore->push(
+            new ManyChanger($model, $relation, $prefix, $properties)
+        );
+
+        return $this;
+    }
+
+    public function defineManyChangerUpdate(
+        string $model,
+        string $relation,
+        string $prefix,
+        array $properties
+    ) {
+        $this->manyChangersUpdate->push(
+            new ManyChanger($model, $relation, $prefix, $properties)
+        );
+
+        return $this;
+    }
+
     /*
      * @param $routes These routes will be excluded, as a result these routes will result in a 404 if used anyways. Additionally avoids linking to invalid routes.
      */
@@ -144,6 +172,8 @@ final class Builder
     public Collection $fieldsRight;
     public Collection $changersStore;
     public Collection $changersUpdate;
+    public Collection $manyChangersStore;
+    public Collection $manyChangersUpdate;
     public Collection $inputQueries; // todo: remove this
 
     private function defineField(
