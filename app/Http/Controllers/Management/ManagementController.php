@@ -122,12 +122,36 @@ abstract class ManagementController extends Controller
             $request->validate($validationRules)
         );
 
-        $model = $this->GetModelBuilder()
-            ->where("id", $id)
-            ->firstOrFail();
+        $builder = $this->GetModelBuilder()->where("id", $id);
+
+        foreach ($this->builder->manyChangersUpdate as $changer) {
+            $builder = $builder->with($changer->relation);
+        }
+
+        $model = $builder->firstOrFail();
 
         $model->fill($validated);
         $model->save();
+
+        foreach ($this->builder->manyChangersUpdate as $changer) {
+            $changer->detachAll($model);
+
+            for ($i = 0; $request->has("$changer->prefix-id-$i"); ++$i) {
+                $id = $request->get("$changer->prefix-id-$i");
+                $properties = [];
+                foreach ($changer->properties as $name) {
+                    if (!$request->has("$changer->prefix-$name-$i")) {
+                        abort(400);
+                    }
+
+                    $properties[$name] = $request->get(
+                        "$changer->prefix-$name-$i"
+                    );
+                }
+
+                $changer->linkToModel($model, $id, $properties);
+            }
+        }
 
         return redirect()->route("management.$this->managementName.show", [
             $this->managementParameterName => $model->id,

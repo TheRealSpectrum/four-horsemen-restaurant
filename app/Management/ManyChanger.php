@@ -25,6 +25,17 @@ final class ManyChanger
         $owner->$relation()->attach($id, $properties);
     }
 
+    public function detachAll(Model $owner): void
+    {
+        $relation = $this->relation;
+        $owner->$relation->each(function (Model $model) use (
+            $owner,
+            $relation
+        ) {
+            $owner->$relation()->detach($model->id);
+        });
+    }
+
     public string $model;
     public string $relation;
     public string $prefix;

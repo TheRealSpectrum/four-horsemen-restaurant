@@ -47,7 +47,13 @@ final class DishesController extends ManagementController
 
         $builder
             ->defineChangerUpdate("name", ["filled"])
-            ->defineChangerUpdate("price", ["filled", "numeric", "min:0"]);
+            ->defineChangerUpdate("price", ["filled", "numeric", "min:0"])
+            ->defineManyChangerUpdate(
+                Ingredient::class,
+                "ingredients",
+                "ingredient",
+                ["amount"]
+            );
     }
 
     protected function queryEdit(Builder $builder): Builder
