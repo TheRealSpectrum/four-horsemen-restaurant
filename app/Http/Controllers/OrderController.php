@@ -16,8 +16,8 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $reservations = Reservation::all();
-        $tables = Table::all();
+        $reservations = Reservation::with("tables")->get();
+        $tables = Table::with("reservations")->get();
         $dishes = Dish::all();
 
         return view("order.index", [
