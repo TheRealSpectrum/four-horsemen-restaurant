@@ -15,6 +15,7 @@ final class DishFactory extends Factory
         return [
             "name" => $this->faker->words(3, true),
             "price" => $this->faker->numberBetween(1, 15) * 500 - 1,
+            "minutes_to_prepare" => 30,
         ];
     }
 }
