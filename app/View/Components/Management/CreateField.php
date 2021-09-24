@@ -21,6 +21,10 @@ class CreateField extends Component
 
         switch ($type) {
             case "ingredient":
+                if ($this->value == "") {
+                    $this->value = "[]";
+                }
+
                 $ingredients = Ingredient::orderBy("name")->get();
 
                 $ingredientsJson = "[";

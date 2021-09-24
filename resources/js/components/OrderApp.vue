@@ -178,10 +178,8 @@ export default {
 </script>
 
 <style>
-:root {
-    font-size: 3em;
-}
 #order-root {
+    font-size: 3em;
     background-color: white;
     position: relative;
     display: flex;

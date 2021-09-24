@@ -29,7 +29,9 @@ final class DishesController extends ManagementController
                 "ingredients",
                 "ingredient",
                 "Ingredients",
-                null,
+                function (Dish $dish) {
+                    return $dish->ingredientsDisplayAsJson();
+                },
                 function (Dish $dish) {
                     return $dish->ingredientsAsJson();
                 }
@@ -37,11 +39,23 @@ final class DishesController extends ManagementController
 
         $builder
             ->defineChangerStore("name", ["required"])
-            ->defineChangerStore("price", ["required"]);
+            ->defineChangerStore("price", ["required"])
+            ->defineManyChangerStore(
+                Ingredient::class,
+                "ingredients",
+                "ingredient",
+                ["amount"]
+            );
 
         $builder
             ->defineChangerUpdate("name", ["filled"])
-            ->defineChangerUpdate("price", ["filled", "numeric", "min:0"]);
+            ->defineChangerUpdate("price", ["filled", "numeric", "min:0"])
+            ->defineManyChangerUpdate(
+                Ingredient::class,
+                "ingredients",
+                "ingredient",
+                ["amount"]
+            );
     }
 
     protected function queryEdit(Builder $builder): Builder

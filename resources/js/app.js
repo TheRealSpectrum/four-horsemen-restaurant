@@ -39,6 +39,11 @@ Vue.component(
 );
 
 Vue.component(
+    "ingredient-display",
+    require("./components/management/IngredientDisplay.vue").default
+);
+
+Vue.component(
     "action-button",
     require("./components/ActionButton.vue").default
 );

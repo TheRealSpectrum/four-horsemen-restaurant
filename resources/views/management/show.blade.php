@@ -2,13 +2,13 @@
 
 @section("fields-left")
   @foreach($builder->fieldsLeft as $field)
-    <x-management.show-field label="{{$field->label}}" value="{{$field->map($model)}}"></x-management>
+    <x-management.show-field type="{{$field->type}}" label="{{$field->label}}" value="{{$field->map($model)}}"></x-management>
   @endforeach
 @endsection
 
 @section("fields-right")
   @foreach($builder->fieldsRight as $field)
-    <x-management.show-field label="{{$field->label}}" value="{{$field->map($model)}}"></x-management>
+    <x-management.show-field type="{{$field->type}}" label="{{$field->label}}" value="{{$field->map($model)}}"></x-management>
   @endforeach
 @endsection
 

@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 abstract class ManagementController extends Controller
 {
@@ -52,9 +53,31 @@ abstract class ManagementController extends Controller
             $request->validate($validationRules)
         );
 
-        $model = $this->CreateModel();
-        $model->fill($validated);
-        $model->save();
+        $model = null;
+
+        DB::transaction(function () use (&$model, $validated, $request) {
+            $model = $this->CreateModel();
+            $model->fill($validated);
+            $model->save();
+
+            foreach ($this->builder->manyChangersStore as $changer) {
+                for ($i = 0; $request->has("$changer->prefix-id-$i"); ++$i) {
+                    $id = $request->get("$changer->prefix-id-$i");
+                    $properties = [];
+                    foreach ($changer->properties as $name) {
+                        if (!$request->has("$changer->prefix-$name-$i")) {
+                            abort(400);
+                        }
+
+                        $properties[$name] = $request->get(
+                            "$changer->prefix-$name-$i"
+                        );
+                    }
+
+                    $changer->linkToModel($model, $id, $properties);
+                }
+            }
+        });
 
         return redirect()->route("management.$this->managementName.show", [
             $this->managementParameterName => $model->id,
@@ -104,12 +127,38 @@ abstract class ManagementController extends Controller
             $request->validate($validationRules)
         );
 
-        $model = $this->GetModelBuilder()
-            ->where("id", $id)
-            ->firstOrFail();
+        $builder = $this->GetModelBuilder()->where("id", $id);
 
-        $model->fill($validated);
-        $model->save();
+        foreach ($this->builder->manyChangersUpdate as $changer) {
+            $builder = $builder->with($changer->relation);
+        }
+
+        $model = $builder->firstOrFail();
+
+        DB::transaction(function () use ($model, $validated, $request) {
+            $model->fill($validated);
+            $model->save();
+
+            foreach ($this->builder->manyChangersUpdate as $changer) {
+                $changer->detachAll($model);
+
+                for ($i = 0; $request->has("$changer->prefix-id-$i"); ++$i) {
+                    $id = $request->get("$changer->prefix-id-$i");
+                    $properties = [];
+                    foreach ($changer->properties as $name) {
+                        if (!$request->has("$changer->prefix-$name-$i")) {
+                            abort(400);
+                        }
+
+                        $properties[$name] = $request->get(
+                            "$changer->prefix-$name-$i"
+                        );
+                    }
+
+                    $changer->linkToModel($model, $id, $properties);
+                }
+            }
+        });
 
         return redirect()->route("management.$this->managementName.show", [
             $this->managementParameterName => $model->id,
