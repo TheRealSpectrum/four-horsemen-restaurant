@@ -33,6 +33,23 @@ final class Dish extends Model
         return substr($result, 0, -1) . "]";
     }
 
+    public function ingredientsDisplayAsJson(): string
+    {
+        $result = "[";
+
+        foreach ($this->ingredients as $ingredient) {
+            // prettier-ignore
+            $result .= <<<JSON
+                    {
+                        name: '{$ingredient->name}',
+                        amount: '{$ingredient->storedWithUnit()}'
+                    },
+                    JSON;
+        }
+
+        return substr($result, 0, -1) . "]";
+    }
+
     public function ingredients(): BelongsToMany
     {
         return $this->belongsToMany(Ingredient::class)

@@ -29,7 +29,9 @@ final class DishesController extends ManagementController
                 "ingredients",
                 "ingredient",
                 "Ingredients",
-                null,
+                function (Dish $dish) {
+                    return $dish->ingredientsDisplayAsJson();
+                },
                 function (Dish $dish) {
                     return $dish->ingredientsAsJson();
                 }
