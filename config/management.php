@@ -11,7 +11,7 @@ return [
     // ],
     "navigation" => [
         ["Statistics", "dishes"],
-        ["Employees", "dishes"],
+        ["Employees", "employees"],
         ["Dishes", "dishes"],
         ["Tables", "dishes"],
         ["Ingredients", "ingredients"],

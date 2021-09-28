@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Management\{
     DishesController,
-    IngredientsController
+    IngredientsController,
+    UsersController,
 };
 
 /*
@@ -17,3 +18,4 @@ use App\Http\Controllers\Management\{
 
 Route::Resource("dishes", DishesController::class);
 Route::Resource("ingredients", IngredientsController::class);
+Route::Resource("employees", UsersController::class);
