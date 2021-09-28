@@ -14,5 +14,9 @@ final class UserSeeder extends Seeder
             "name" => "Admin",
             "email" => "admin@example.com",
         ]);
+
+        User::factory()
+            ->count(10)
+            ->create();
     }
 }
