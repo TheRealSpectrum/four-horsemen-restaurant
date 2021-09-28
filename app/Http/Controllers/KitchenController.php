@@ -10,4 +10,8 @@ class KitchenController extends Controller
     {
         return view("kitchen.index");
     }
+
+    public function printReceipt()
+    {
+    }
 }
