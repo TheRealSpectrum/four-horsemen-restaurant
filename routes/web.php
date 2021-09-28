@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     AuthController,
     HomeController,
+    KitchenController,
     OrderController,
     ReservationController
 };
@@ -37,4 +38,8 @@ Route::name("reservation.")->middleware("auth")->group(function () {
 Route::name("order.")->middleware("auth")->group(function(){
     Route::get("/order/new", [OrderController::class, "index"])->name("index");
     Route::post("/order/store", [OrderController::class, "store"])->name("store");
+});
+
+Route::name("kitchen")->middleware("auth")->group(function() {
+    Route::get("/kitchen", [KitchenController::class, "index"])->name("index");
 });
