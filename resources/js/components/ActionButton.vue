@@ -15,7 +15,7 @@
                 justify-center
             "
         >
-            <div>
+            <div class="inner">
                 <slot />
             </div>
         </div>

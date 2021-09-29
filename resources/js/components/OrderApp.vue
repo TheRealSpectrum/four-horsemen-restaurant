@@ -78,21 +78,33 @@
     </div>
     <div id="order-root" v-else-if="state == 'select'">
         <div class="dishCategorySelect">
-            <!-- TODO add when catogorys are made -->
+            <!-- todo: implement properly-->
+            <action-button v-for="i in 5" class="dishCategory">
+                <img src="/dishes/missing.png" />
+            </action-button>
         </div>
         <div class="filteredDishes">
-            <div
-                class="menuItem btn"
-                v-for="(item, index) in dish_data"
+            <action-button
+                v-for="(item, index) of dish_data"
                 :key="index"
-                @click="selectMenuItem(index)"
+                @click-action="selectMenuItem(index)"
+                class="menuItem"
             >
                 <!-- TODO add src when images are availible -->
-                <img src="" :alt="`${item.name} image`" class="menuImage" />
-                <p class="menuName">{{ item.name }}</p>
-            </div>
+                <div class="menuImage">
+                    <img src="/dishes/missing.png" alt="`${item.name} image`" />
+                </div>
+                <div class="menuName">
+                    <p>{{ item.name }}</p>
+                </div>
+            </action-button>
         </div>
-        <div class="backBtn btn" @click="state = 'new'">Back</div>
+        <action-button
+            level="action"
+            class="backBtn"
+            @click-action="state = 'new'"
+            >Back</action-button
+        >
     </div>
     <div id="order-root" v-else-if="state == 'details'">
         <div class="menuItemName">
@@ -431,37 +443,56 @@ export default {
 .dishCategorySelect {
     display: flex;
     flex-direction: row;
-    width: 80%;
+    align-items: center;
+    gap: 3rem;
+    padding: 0 3rem;
+    width: 100%;
     height: 15vh;
     overflow-x: auto;
     overflow-y: hidden;
+    background-color: var(--mono-darker, #000);
 }
 .filteredDishes {
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    height: 70vh;
+    display: grid;
+    width: 100%;
     overflow-x: hidden;
     overflow-y: auto;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 10rem;
+    row-gap: 3rem;
+    column-gap: 1.5rem;
+    padding: 0 1.5rem;
 }
+
 .menuItem {
-    display: flex;
-    flex-direction: row;
     width: 100%;
-    height: 4em;
     overflow-y: hidden;
     overflow-x: hidden;
 }
+
+.menuItem .inner {
+    display: grid;
+    grid-template-columns: 10rem 1fr;
+    height: 100%;
+}
 .menuImage {
-    width: 4em;
-    height: 4em;
+    padding: 1rem;
     object-fit: cover;
 }
+
+.menuName {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+.menuName > p {
+    overflow: hidden;
+}
+
 .backBtn {
-    color: white;
-    background-color: #fd0000;
-    padding: auto;
-    margin: 3em;
+    padding: 1rem;
 }
 /* tab 3 styles */
 .quantitySlector {
