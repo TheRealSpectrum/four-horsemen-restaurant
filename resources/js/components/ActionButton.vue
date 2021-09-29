@@ -49,6 +49,9 @@ export default {
                 case "neutral":
                     return "bg-light";
                     break;
+                case "action":
+                    return "bg-mono-darker text-mono-lighter";
+                    break;
             }
             return "";
         },

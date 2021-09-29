@@ -21,23 +21,36 @@
                 </option>
             </select>
         </label>
-        <div class="divider"></div>
         <div class="orderList">
             <div
                 v-for="(item, index) in order[selectedCourse]"
                 :key="index"
                 class="orderItem"
             >
-                <img class="dishImage" :src="`dishes/${item.name}.png`" />
-                <p class="dishName">{{ item.name }}</p>
+                <div class="dishImage">
+                    <!-- todo: make this dynamic with custom images -->
+                    <img src="/dishes/missing.png" />
+                </div>
+                <div class="dishName">
+                    <p>
+                        {{ item.name }}
+                    </p>
+                </div>
                 <div
                     class="noteIndicator"
-                    :class="item.note.lenght > 0 ? 'noted' : ''"
-                ></div>
-                <div class="removeDish" @click="removeDish(index)">Remove</div>
+                    :class="{ noted: item.note.length > 0 }"
+                >
+                    <div />
+                </div>
+                <div class="removeDish">
+                    <action-button
+                        @click-action="removeDish(index)"
+                        level="high"
+                        >Remove</action-button
+                    >
+                </div>
             </div>
         </div>
-        <div class="divider"></div>
         <div class="courseList">
             <label
                 class="courseItem"
@@ -56,10 +69,11 @@
             </label>
             <div class="addCourse btn" @click="addCourse()"></div>
         </div>
-        <div class="divider"></div>
         <div class="btnGroup">
-            <div class="addDish btn" @click="moveToMenuSelect()">Add Dish</div>
-            <div class="placeOrder btn">Place Order</div>
+            <action-button level="action" @click-action="moveToMenuSelect()"
+                >Add Dish</action-button
+            >
+            <action-button level="safe">Place Order</action-button>
         </div>
     </div>
     <div id="order-root" v-else-if="state == 'select'">
@@ -224,15 +238,13 @@ export default {
 <style>
 #order-root {
     font-size: 3em;
-    background-color: white;
+    background-color: var(--mono-light, #ccc);
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100vw;
     height: 100vh;
-    gap: 10px;
-    padding: 10px;
 }
 .btn {
     user-select: none;
@@ -255,10 +267,22 @@ export default {
     transition: ease-in;
 }
 .tableSelectWrap {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 80%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--mono-darker, #000);
+    width: 100%;
+    color: var(--text-light, #fff);
+    font-size: 6rem;
+    line-height: 1;
+    padding: 3rem;
+    text-align: center;
+}
+
+.tableSelectWrap select {
+    background-color: var(--mono-darker, #000);
+    text-align: center;
 }
 .divider {
     width: 80%;
@@ -269,49 +293,93 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    padding: 5px;
+    padding: 2rem;
     min-height: 40%;
     overflow-x: hidden;
     overflow-y: auto;
+    width: 100%;
+    flex: 1 1 0%;
 }
 .orderItem {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
+    display: grid;
+    grid-template-columns: 10rem minmax(0, 1fr) 3rem minmax(0, 1fr);
     padding: 5px;
+    background: var(--mono-lighter, #fff);
+    height: 10rem;
+    border: 2px solid black;
 }
+
+.orderItem * {
+    max-height: 10rem;
+    overflow: hidden;
+}
+
+.noteIndicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.noteIndicator > div {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+    border: 1px solid black;
+}
+
+.noteIndicator.noted > div {
+    background-color: black;
+}
+
 .dishImage {
+    padding: 0.5rem;
+}
+
+.dishImage > * {
     display: block;
     position: relative;
-    width: 50px;
-    height: 50px;
+    width: 100%;
+    height: 100%;
 }
-.dishImage::before {
-    content: " ";
-    display: block;
-    position: absolute;
-    height: 50px;
-    width: 50px;
-    background-image: url("/dishes/missing.png");
+
+.dishName {
+    display: flex;
+    justify-content: start;
+    align-items: center;
 }
+
 .courseList {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     pad: 10px;
-    min-height: 10%;
-    max-width: 100%;
+    height: 10%;
+    width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
     scroll-snap-type: x proximity;
+    border-top: 2px solid var(--mono-darker, #000);
+    border-bottom: 2px solid var(--mono-darker, #000);
 }
 .courseItem {
-    border: solid 0.1em black;
+    border: solid 2px var(--mono-darker, #000);
     padding: 10px;
     flex-shrink: 0;
     white-space: nowrap;
+    background-color: var(--mono-dark, #666);
 }
+
+.removeDish {
+    padding: 0.5rem 2rem;
+}
+
+.removeDish > * {
+    width: 100%;
+    height: 100%;
+}
+
 .addCourse {
     position: relative;
     order: 9999;
@@ -320,7 +388,9 @@ export default {
     flex-shrink: 0;
     border: solid 0px transparent;
     border-radius: 90%;
-    background: radial-gradient(#fff, #ddd);
+    /*background: radial-gradient(#fff, #ddd);*/
+    background-color: var(--mono-dark, #fff);
+    border: 2px solid var(--mono-darker, #000);
     scroll-snap-align: end;
 }
 .addCourse::before {
@@ -331,7 +401,7 @@ export default {
     flex-shrink: 0;
     left: calc(50% - 0.25em);
     top: calc(50% - 1em);
-    background-color: #888;
+    background-color: var(--mono-darker, #000);
 }
 .addCourse::after {
     content: " ";
@@ -341,7 +411,21 @@ export default {
     flex-shrink: 0;
     left: calc(50% - 1em);
     top: calc(50% - 0.25em);
-    background-color: #888;
+    background-color: var(--mono-darker, #000);
+}
+
+.btnGroup {
+    display: flex;
+    padding: 1.5rem;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.btnGroup button {
+    padding: 2.5rem 0;
+    line-height: 1;
+    width: 25rem;
 }
 /* tab 2 styles */
 .dishCategorySelect {
