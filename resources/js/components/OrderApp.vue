@@ -29,7 +29,7 @@
             >
                 <div class="dishImage">
                     <!-- todo: make this dynamic with custom images -->
-                    <img src="/dishes/missing.png" />
+                    <img src="/dishes/missing.png" :alt="`${item.name} image`"/>
                 </div>
                 <div class="dishName">
                     <p>
@@ -80,8 +80,8 @@
     <div id="order-root" v-else-if="state == 'select'">
         <div class="dishCategorySelect">
             <!-- todo: implement properly-->
-            <action-button v-for="i in 5" class="dishCategory">
-                <img src="/dishes/missing.png" />
+            <action-button v-for="i in 5" :key="i" class="dishCategory">
+                <img src="/dishes/missing.png" :alt="`${item.name} image`"/>
             </action-button>
         </div>
         <div class="filteredDishes">
@@ -93,7 +93,7 @@
             >
                 <!-- TODO add src when images are availible -->
                 <div class="menuImage">
-                    <img src="/dishes/missing.png" alt="`${item.name} image`" />
+                    <img src="/dishes/missing.png" :alt="`${item.name} image`" />
                 </div>
                 <div class="menuName">
                     <p>{{ item.name }}</p>
@@ -387,7 +387,7 @@ export default {
 
 .dishName {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
 }
 
