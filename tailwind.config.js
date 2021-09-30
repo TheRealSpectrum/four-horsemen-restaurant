@@ -44,6 +44,13 @@ module.exports = {
                 low: "#ffcf72",
             },
             save: "#25FD02",
+
+            mono: {
+                lighter: "#f5feff",
+                light: "#d8e1e2",
+                dark: "#a8b9bc",
+                darker: "#1d2b2c",
+            },
         },
         fontFamily: {
             sans: ["Oxygen", "sans-serif"],

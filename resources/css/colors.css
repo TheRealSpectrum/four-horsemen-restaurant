@@ -1,0 +1,27 @@
+:root {
+    --background-dark: #1d2b2c;
+
+    --column-light: #a5c0c5;
+    --column-dark: #7da4aa;
+    --column-group: #a5c0c5;
+    --column-header: #b8cdd1;
+
+    --nav: #e8fcff;
+    --nav-active: #89acb1;
+
+    --reservation: #e8fcff;
+    --reservation-event: #ffff59;
+    --reservation-late: #fd0000;
+
+    --warning-safe: #64ff50;
+    --warning-low: #ffcf72;
+    --warning-high: #fd0000;
+
+    --text-dark: #000000;
+    --text-light: #ffffff;
+
+    --mono-lighter: #f5feff;
+    --mono-light: #d8e1e2;
+    --mono-dark: #a8b9bc;
+    --mono-darker: #1d2b2c;
+}

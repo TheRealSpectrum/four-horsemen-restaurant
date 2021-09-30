@@ -6,6 +6,8 @@
 @import "components/notifier.css";
 @import "views/layout/management.css";
 
+@import "colors.css";
+
 #late_reservations .reservation,
 #upcoming_reservations .reservation {
     width: 33.33%;

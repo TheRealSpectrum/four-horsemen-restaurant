@@ -15,7 +15,7 @@
                 justify-center
             "
         >
-            <div>
+            <div class="inner">
                 <slot />
             </div>
         </div>
@@ -48,6 +48,9 @@ export default {
                     break;
                 case "neutral":
                     return "bg-light";
+                    break;
+                case "action":
+                    return "bg-mono-darker text-mono-lighter";
                     break;
             }
             return "";
