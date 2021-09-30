@@ -161,23 +161,16 @@
                 <action-button
                     level="action"
                     class="backBtn"
-                    @click="state = 'select'"
+                    @click-action="state = 'select'"
                     >Back</action-button
                 >
                 <action-button
                     level="safe"
                     class="addMenuItemBtn btn"
-                    @click="addToOrder()"
+                    @click-action="addToOrder()"
                 >
                     Add to Order
                 </action-button>
-            </div>
-        </div>
-        <div class="divider"></div>
-        <div class="btnWrap">
-            <div class="backBtn btn" @click="state = 'select'">Back</div>
-            <div class="addMenuItemBtn btn" @click="addToOrder()">
-                Add to Order
             </div>
         </div>
     </div>
