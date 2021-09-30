@@ -74,10 +74,10 @@
             <div class="addCourse btn" @click="addCourse()"></div>
         </div>
         <div class="btnGroup">
-            <action-button level="action" @click-action="moveToMenuSelect()"
+            <action-button level="action">Place Order</action-button>
+            <action-button level="safe" @click-action="moveToMenuSelect()"
                 >Add Dish</action-button
             >
-            <action-button level="safe">Place Order</action-button>
         </div>
     </div>
     <div id="order-root" v-else-if="state == 'select'">
@@ -167,23 +167,16 @@
                 <action-button
                     level="action"
                     class="backBtn"
-                    @click="state = 'select'"
+                    @click-action="state = 'select'"
                     >Back</action-button
                 >
                 <action-button
                     level="safe"
                     class="addMenuItemBtn btn"
-                    @click="addToOrder()"
+                    @click-action="addToOrder()"
                 >
                     Add to Order
                 </action-button>
-            </div>
-        </div>
-        <div class="divider"></div>
-        <div class="btnWrap">
-            <div class="backBtn btn" @click="state = 'select'">Back</div>
-            <div class="addMenuItemBtn btn" @click="addToOrder()">
-                Add to Order
             </div>
         </div>
     </div>
