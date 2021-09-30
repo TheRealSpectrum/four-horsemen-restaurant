@@ -71,10 +71,10 @@
             <div class="addCourse btn" @click="addCourse()"></div>
         </div>
         <div class="btnGroup">
-            <action-button level="action" @click-action="moveToMenuSelect()"
+            <action-button level="action">Place Order</action-button>
+            <action-button level="safe" @click-action="moveToMenuSelect()"
                 >Add Dish</action-button
             >
-            <action-button level="safe">Place Order</action-button>
         </div>
     </div>
     <div id="order-root" v-else-if="state == 'select'">
