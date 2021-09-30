@@ -56,7 +56,7 @@
                 class="courseItem"
                 v-for="(course, index) in order"
                 :key="index"
-                :class="selectedCourse == index"
+                :class="{ selected: selectedCourse == index }"
             >
                 course {{ index + 1 }}
                 <input
@@ -65,6 +65,7 @@
                     :id="`course${index}`"
                     :value="index"
                     v-model="selectedCourse"
+                    hidden
                 />
             </label>
             <div class="addCourse btn" @click="addCourse()"></div>
