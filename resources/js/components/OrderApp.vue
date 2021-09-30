@@ -52,6 +52,7 @@
                     :id="`course${index}`"
                     :value="index"
                     v-model="selectedCourse"
+                    hidden
                 />
             </label>
             <div class="addCourse btn" @click="addCourse()"></div>
