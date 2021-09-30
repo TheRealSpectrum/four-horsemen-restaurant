@@ -107,40 +107,70 @@
         >
     </div>
     <div id="order-root" v-else-if="state == 'details'">
-        <div class="menuItemName">
-            {{ dish_data[selectedDish].name }}
-        </div>
-        <div class="menuItemDetails">
-            {{ dish_data[selectedDish].details }}
-        </div>
-        <div class="menuItemAllergyDetails">
-            {{ dish_data[selectedDish].allergy }}
-        </div>
-        <textarea
-            name="note"
-            id="note"
-            cols="30"
-            rows="10"
-            class="orderItemNotes"
-            placeholder="Notes..."
-            v-model="menuItemNotes"
-        >
-        </textarea>
-        <div class="divider"></div>
-        <div class="quantitySlector">
-            <div
-                class="decQuantity btn"
-                @click="selectedQuantity > 1 ? (selectedQuantity += -1) : ''"
-            >
-                -
+        <div class="menuItemRoot">
+            <div class="menuItemName">
+                <h1>
+                    {{ dish_data[selectedDish].name }}
+                </h1>
             </div>
-            <input
-                type="text"
-                pattern="\d*"
-                class="curentQuantity"
-                v-model="selectedQuantity"
-            />
-            <div class="incQuantity btn" @click="selectedQuantity += 1">+</div>
+            <div class="menuItemDetails">
+                <h2>Dish Information</h2>
+                <p>
+                    {{ dish_data[selectedDish].details }}
+                </p>
+            </div>
+            <div class="menuItemAllergyDetails">
+                <h2>Allergy Information</h2>
+                <p>
+                    {{ dish_data[selectedDish].allergy }}
+                </p>
+            </div>
+            <div class="orderItemNotes">
+                <h2>Notes</h2>
+                <textarea
+                    name="note"
+                    id="note"
+                    cols="30"
+                    rows="4"
+                    placeholder="Notes..."
+                    v-model="menuItemNotes"
+                >
+                </textarea>
+            </div>
+            <div class="quantitySlector">
+                <div
+                    class="decQuantity btn"
+                    @click="
+                        selectedQuantity > 1 ? (selectedQuantity += -1) : ''
+                    "
+                >
+                    -
+                </div>
+                <input
+                    type="text"
+                    pattern="\d*"
+                    class="curentQuantity"
+                    v-model="selectedQuantity"
+                />
+                <div class="incQuantity btn" @click="selectedQuantity += 1">
+                    +
+                </div>
+            </div>
+            <div class="btnWrap">
+                <action-button
+                    level="action"
+                    class="backBtn"
+                    @click="state = 'select'"
+                    >Back</action-button
+                >
+                <action-button
+                    level="safe"
+                    class="addMenuItemBtn btn"
+                    @click="addToOrder()"
+                >
+                    Add to Order
+                </action-button>
+            </div>
         </div>
         <div class="divider"></div>
         <div class="btnWrap">
@@ -498,12 +528,15 @@ export default {
 .quantitySlector {
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
     gap: 1em;
-    width: 80%;
+    width: 100%;
+    padding: 0 1rem;
 }
 .curentQuantity {
     flex-shrink: 1;
     text-align: center;
+    height: 3em;
 }
 .incQuantity {
     width: 3em;
@@ -526,7 +559,68 @@ export default {
 .btnWrap {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    width: 80%;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
+.btnWrap button {
+    width: 20rem;
+}
+
+.menuItemRoot {
+    height: 100vh;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 15vh repeat(3, minmax(0, 1fr)) repeat(2, 10vh);
+}
+
+.menuItemName {
+    background-color: var(--mono-darker);
+    color: var(--mono-lighter);
+    font-size: 6rem;
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.menuItemName h1 {
+    text-align: center;
+}
+
+.menuItemDetails,
+.menuItemAllergyDetails,
+.orderItemNotes {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.menuItemDetails h2,
+.menuItemAllergyDetails h2,
+.orderItemNotes h2 {
+    font-size: 3.75rem;
+    line-height: 1;
+    text-align: center;
+    font-weight: bold;
+}
+
+.orderItemNotes textarea {
+    width: calc(100% - 2rem);
+    height: auto;
+    background-color: var(--mono-lighter);
+    border: 2px solid var(--mono-darker);
+    margin: 1rem;
+}
+
+.menuItemDetails p,
+.menuItemAllergyDetails p {
+    width: calc(100% - 2rem);
+    flex: 1 1 0%;
+    margin: 1rem;
+    background-color: var(--mono-lighter);
+    border: 2px solid var(--mono-darker);
 }
 </style>
