@@ -43,7 +43,7 @@
                 class="courseItem"
                 v-for="(course, index) in order"
                 :key="index"
-                :class="{ selected : selectedCourse == index}"
+                :class="{ selected: selectedCourse == index }"
             >
                 course {{ index + 1 }}
                 <input
