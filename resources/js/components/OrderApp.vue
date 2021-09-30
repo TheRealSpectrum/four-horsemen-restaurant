@@ -84,7 +84,7 @@
         <div class="dishCategorySelect">
             <!-- todo: implement properly-->
             <action-button v-for="i in 5" :key="i" class="dishCategory">
-                <img src="/dishes/missing.png" :alt="`${item.name} image`" />
+                <img src="/dishes/missing.png" />
             </action-button>
         </div>
         <div class="filteredDishes">
