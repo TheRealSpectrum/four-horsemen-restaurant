@@ -23,16 +23,13 @@ final class ReservationController extends Controller
         $plusOneHour = new \DateTime("+1hour");
 
         $data = Reservation::where("date_start", "<", $tomorrow)
-            ->where("date_end", ">=", $now)
+            ->where("done", false)
             ->where("canceled", false)
             ->with("tables")
             ->orderBy("date_start")
             ->get();
 
         foreach ($data as $reservation) {
-            if ($reservation->date_end < $now) {
-            }
-
             if ($reservation->date_start > $plusOneHour) {
                 array_push($later, $reservation);
                 continue;
@@ -244,9 +241,9 @@ final class ReservationController extends Controller
                     ->detach($pivot_table->getOriginal()["pivot_table_id"]);
             }
             $reservation->save();
-            return redirect()
-                ->back()
-                ->with("notifyReservationCancel", "$reservation->id");
+            return redirect(
+                "/reservation?notifyReservationCancel=$reservation->id"
+            );
         } elseif ($data->input("action") === "activate") {
             // TODO add database transaction
             $reservation->active = true;
@@ -260,6 +257,10 @@ final class ReservationController extends Controller
             }
             $reservation->save();
             return redirect("/reservation?notifyGuestUpdate=$reservation->id");
+        } elseif ($data->input("action") === "done") {
+            $reservation->done = true;
+            $reservation->save();
+            return redirect("/reservation?notifyGuestDone=$reservation->id");
         } elseif ($reservation === null) {
         }
     }
