@@ -3,7 +3,7 @@ date_default_timezone_set("Europe/Amsterdam");
 $datetime = new DateTime(date('Y-m-d H:i', strtotime("$date $time")));
 $now = new DateTime(date('Y-m-d H:i'));
 @endphp
-<div data-show-box-index="{{$id}}" class="show-box-trigger border-black border grid grid-cols-2 grid-rows-3 h-16 p-2 text-sm reservation relative bg-light dark:bg-dark">
+<div data-show-box-index="{{$id}}" class="{{ $active == 1 && $timeEnd < $now ? 'border-2 border-reservation-backgroundlate border-dashed' : 'border border-black' }} show-box-trigger grid grid-cols-2 grid-rows-3 h-16 p-2 text-sm reservation relative bg-light dark:bg-dark">
     <p class="row-start-1 col-start-1 leading-none" title="{{$name}}">{{mb_strimwidth($name,0,15,"...")}}</p>
     <p class="row-start-2 col-start-1 leading-none">{{$date}} - {{$time}}</p>
     <p class="row-start-3 col-start-1 leading-none">{{$numOfGuests}} {{ ($numOfGuests>1) ? "guests" : "guest"}}</p>
