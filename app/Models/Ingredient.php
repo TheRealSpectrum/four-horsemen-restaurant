@@ -21,7 +21,8 @@ final class Ingredient extends Model
         {
             id: $this->id,
             name: '$this->name',
-            unit: '$this->unit'
+            unit: '$this->unit',
+            purchasePrice: $this->purchase_price
         }
         JSON;
     }
