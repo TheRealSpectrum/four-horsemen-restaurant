@@ -23,6 +23,7 @@ final class ReservationController extends Controller
         $plusOneHour = new \DateTime("+1hour");
 
         $data = Reservation::where("date_start", "<", $tomorrow)
+            ->where("done", false)
             ->where("canceled", false)
             ->with("tables")
             ->orderBy("date_start")
@@ -257,6 +258,9 @@ final class ReservationController extends Controller
             $reservation->save();
             return redirect("/reservation?notifyGuestUpdate=$reservation->id");
         } elseif ($data->input("action") === "done") {
+            $reservation->done = true;
+            $reservation->save();
+            return redirect()->back();
         } elseif ($reservation === null) {
         }
     }
