@@ -7,10 +7,22 @@
 
             <div class="flex flex-row justify-between content-evenly gap-2 px-6 py-6 col-span-5">
                 @foreach(config("management.navigation") as $navigationItem)
-                    <a href="{{route("management.{$navigationItem[1]}.index")}}" class="w-full inline-block">
+                    @if($navigationItem[1] === "")
                         <x-button level="nav" class="w-full">
                             {{$navigationItem[0]}}
                         </x-button>
+                        @continue
+                    @endif
+                    <a href="{{route("management.{$navigationItem[1]}.index")}}" class="w-full inline-block">
+                        @if(str_starts_with(Route::currentRouteName(), "management.{$navigationItem[1]}"))
+                        <x-button level="nav-current" class="w-full">
+                            {{$navigationItem[0]}}
+                        </x-button>
+                        @else
+                        <x-button level="nav" class="w-full">
+                            {{$navigationItem[0]}}
+                        </x-button>
+                        @endif
                     </a>
                 @endforeach
             </div>

@@ -13,7 +13,7 @@ final class Dish extends Model
     public function priceAsString(): string
     {
         $priceString = substr_replace((string) $this->price, ",", -2, 0);
-        return "€$priceString";
+        return $this->price < 100 ? "€0$priceString" : "€$priceString";
     }
 
     public function ingredientsAsJson(): string
@@ -25,7 +25,7 @@ final class Dish extends Model
             $result .= <<<JSON
                     {
                         id: $ingredient->id,
-                        amount: {$ingredient->pivot->amount}
+                        amount: {$ingredient->pivot->amount},
                     },
                     JSON;
         }
@@ -35,19 +35,28 @@ final class Dish extends Model
 
     public function ingredientsDisplayAsJson(): string
     {
-        $result = "[";
+        $result = "";
+        $totalPrice = 0;
 
         foreach ($this->ingredients as $ingredient) {
             // prettier-ignore
             $result .= <<<JSON
                     {
                         name: '{$ingredient->name}',
-                        amount: '{$ingredient->storedWithUnit()}'
+                        amount: '{$ingredient->pivot->amount}{$ingredient->unit}'
                     },
                     JSON;
+            $totalPrice +=
+                $ingredient->pivot->amount * $ingredient->purchase_price;
         }
 
-        return substr($result, 0, -1) . "]";
+        $priceString = substr_replace((string) $totalPrice, ",", -2, 0);
+        $priceString = $this->price < 100 ? "€0$priceString" : "€$priceString";
+
+        $result =
+            "{totalPurchasePrice: '$priceString', ingredients: [" . $result;
+
+        return substr($result, 0, -1) . "]}";
     }
 
     public function ingredients(): BelongsToMany

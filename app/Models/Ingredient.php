@@ -21,9 +21,21 @@ final class Ingredient extends Model
         {
             id: $this->id,
             name: '$this->name',
-            unit: '$this->unit'
+            unit: '$this->unit',
+            purchasePrice: $this->purchase_price
         }
         JSON;
+    }
+
+    public function purchasePriceAsString(): string
+    {
+        $priceString = substr_replace(
+            (string) $this->purchase_price,
+            ",",
+            -2,
+            0
+        );
+        return $this->purchase_price < 100 ? "€0$priceString" : "€$priceString";
     }
 
     public function dishes(): BelongsToMany
@@ -31,5 +43,11 @@ final class Ingredient extends Model
         return $this->belongsToMany(Dish::class)->using(DishIngredient::class);
     }
 
-    protected $fillable = ["name", "unit", "stored", "stored_min"];
+    protected $fillable = [
+        "name",
+        "unit",
+        "stored",
+        "stored_min",
+        "purchase_price",
+    ];
 }
