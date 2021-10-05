@@ -241,9 +241,9 @@ final class ReservationController extends Controller
                     ->detach($pivot_table->getOriginal()["pivot_table_id"]);
             }
             $reservation->save();
-            return redirect()
-                ->back()
-                ->with("notifyReservationCancel", "$reservation->id");
+            return redirect(
+                "/reservation?notifyReservationCancel=$reservation->id"
+            );
         } elseif ($data->input("action") === "activate") {
             // TODO add database transaction
             $reservation->active = true;
@@ -260,7 +260,7 @@ final class ReservationController extends Controller
         } elseif ($data->input("action") === "done") {
             $reservation->done = true;
             $reservation->save();
-            return redirect()->back();
+            return redirect("/reservation?notifyGuestDone=$reservation->id");
         } elseif ($reservation === null) {
         }
     }

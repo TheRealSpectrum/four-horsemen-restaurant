@@ -96,6 +96,10 @@
     The reservation status has been updated to: <br>
     arrived
 </x-notifier>
+<x-notifier id="notify-guest-done" trigger="notifyGuestDone">
+    The reservation status has been updated to: <br>
+    done
+</x-notifier>
 <x-notifier id="notify-reservation-cancel" type="warningLow" trigger="notifyReservationCancel">The reservation has been canceled</x-notifier>
 <x-confirmation id="confirm-reservation-cancel" type="warningHigh" form="reservation-cancel"
     option-back="No, go back" option-continue="Yes, cancel reservation" title="Cancel the reservation?"/>
