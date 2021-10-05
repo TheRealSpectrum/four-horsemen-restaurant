@@ -20,7 +20,7 @@ abstract class ManagementController extends Controller
     {
         $this->managementInitWrapper();
         $models = $this->GetModelBuilder()
-            ->orderBy("name")
+            ->orderBy($this->orderByColumn)
             ->paginate(12);
 
         return view("management.index", [
@@ -28,6 +28,7 @@ abstract class ManagementController extends Controller
             "managementParameterName" => $this->managementParameterName,
             "models" => $models,
             "builder" => $this->builder,
+            "editInline" => $this->editInline,
         ]);
     }
 
@@ -178,6 +179,8 @@ abstract class ManagementController extends Controller
     protected string $managementModel = "";
     protected string $managementName = "";
     protected string $managementParameterName = "";
+    protected string $orderByColumn = "name";
+    protected bool $editInline = false;
 
     abstract protected function managementInit(
         ManagementBuilder $builder

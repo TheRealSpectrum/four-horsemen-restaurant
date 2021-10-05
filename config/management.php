@@ -13,7 +13,7 @@ return [
         ["Statistics", ""],
         ["Employees", "employees"],
         ["Dishes", "dishes"],
-        ["Tables", ""],
+        ["Tables", "tables"],
         ["Ingredients", "ingredients"],
         ["Advanced", ""],
     ],

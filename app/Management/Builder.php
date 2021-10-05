@@ -151,14 +151,6 @@ final class Builder
     }
 
     /*
-     * @param $routes These routes will be excluded, as a result these routes will result in a 404 if used anyways. Additionally avoids linking to invalid routes.
-     */
-    public function exclude(array $routes): self
-    {
-        return $this;
-    }
-
-    /*
      * @todo remove this function and use vue+api calls instead.
      */
     public function withInputQuery(string $name, callable $callback): self
