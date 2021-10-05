@@ -4,8 +4,17 @@
     <div class="w-1/2 mx-auto border-r border-l pt-3 bg-columnlight" style="height : 90vh">
         <form method="POST" action="{{ route('reservation.store') }}" class="w-full flex flex-col my-3 py-3 space-y-5">
             @csrf
+
+            {{-- Number of Guests --}}
+            <div class="mx-auto w-1/2 flex justify-center items-center flex-nowrap relative">
+                <label for="guests" class="w-1/3 font-bold text-center">Number of Guests</label>
+                <input id="guests" type="number" min="1" name="guest_count" placeholder="number of guests..." class="w-1/2 border p-2 text-center" value="{{ old('guest_count', '') }}" />
+                @error('guest_count')
+                    <label class="text-sm text-center border w-1/3 bg-light text-warning-high absolute -right-1/2">{{ $message }}</label>
+                @enderror
+            </div>
             
-            {{-- Tables --}}
+            {{-- Date, Time and Tables --}}
             <div id="app" class="mx-auto w-1/2 flex justify-center items-center flex-wrap relative">
                 <table-select-component :reservation_data="{{($data)}}" :table_data="{{($tables)}}" :pivot="{{json_encode($pivot)}}" :date_default="'{{ old('date', today()->format('Y-m-d')) }}'" :date_min="'{{ today()->format('Y-m-d') }}'" :time_default="'{{ old('time', date('H:i')) }}'" :duration_default="{{ old('endTime', 60)}}" :selected-i-d="'{{old('id')}}'"
                     @if(old('table'))
@@ -43,14 +52,6 @@
                 @enderror
             </div>
 
-            {{-- Number of Guests --}}
-            <div class="mx-auto w-1/2 flex justify-center items-center flex-nowrap relative">
-                <label for="guests" class="w-1/3 font-bold text-center">Number of Guests</label>
-                <input id="guests" type="number" min="1" name="guest_count" placeholder="number of guests..." class="w-1/2 border p-2 text-center" value="{{ old('guest_count', '') }}" />
-                @error('guest_count')
-                    <label class="text-sm text-center border w-1/3 bg-light text-warning-high absolute -right-1/2">{{ $message }}</label>
-                @enderror
-            </div>
 
             {{-- Event --}}
             <div class="mx-auto w-1/2 flex justify-center items-center flex-nowrap relative">
