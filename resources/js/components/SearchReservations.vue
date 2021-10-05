@@ -375,6 +375,7 @@ export default {
                     this.searchTime == "") &&
                 item.canceled == false &&
                 item.active == false &&
+                item.done == false &&
                 new Date() < new Date(item.date_end)
             )
                 return true;

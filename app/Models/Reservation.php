@@ -54,6 +54,7 @@ final class Reservation extends Model
         "phone_number",
         "notify_kitchen",
         "notes",
+        "done",
     ];
 
     protected $casts = [

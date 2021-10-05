@@ -180,7 +180,8 @@ export default {
                     reservation.tables.forEach((reservedTable) => {
                         if (
                             reservedTable.id == id &&
-                            reservation.id != this.selectedID
+                            reservation.id != this.selectedID &&
+                            reservation.done != true
                         ) {
                             result = false;
                         }
