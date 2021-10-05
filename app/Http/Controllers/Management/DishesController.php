@@ -26,6 +26,11 @@ final class DishesController extends ManagementController
                 return $dish->priceAsString();
             })
             ->defineFieldLeft(
+                "minutes_to_prepare",
+                "number",
+                "Minutes to Prepare"
+            )
+            ->defineFieldLeft(
                 "ingredients",
                 "ingredient",
                 "Ingredients",
@@ -40,6 +45,11 @@ final class DishesController extends ManagementController
         $builder
             ->defineChangerStore("name", ["required"])
             ->defineChangerStore("price", ["required"])
+            ->defineChangerStore("minutes_to_prepare", [
+                "required",
+                "numeric",
+                "min:1",
+            ])
             ->defineManyChangerStore(
                 Ingredient::class,
                 "ingredients",
@@ -50,6 +60,11 @@ final class DishesController extends ManagementController
         $builder
             ->defineChangerUpdate("name", ["filled"])
             ->defineChangerUpdate("price", ["filled", "numeric", "min:0"])
+            ->defineChangerUpdate("minutes_to_prepare", [
+                "filled",
+                "numeric",
+                "min:1",
+            ])
             ->defineManyChangerUpdate(
                 Ingredient::class,
                 "ingredients",

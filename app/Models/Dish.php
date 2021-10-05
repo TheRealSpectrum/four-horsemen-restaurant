@@ -13,7 +13,7 @@ final class Dish extends Model
     public function priceAsString(): string
     {
         $priceString = substr_replace((string) $this->price, ",", -2, 0);
-        return "€$priceString";
+        return $this->price < 100 ? "€0$priceString" : "€$priceString";
     }
 
     public function ingredientsAsJson(): string

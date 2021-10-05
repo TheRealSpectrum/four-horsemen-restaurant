@@ -26,10 +26,27 @@ final class Ingredient extends Model
         JSON;
     }
 
+    public function purchasePriceAsString(): string
+    {
+        $priceString = substr_replace(
+            (string) $this->purchase_price,
+            ",",
+            -2,
+            0
+        );
+        return $this->purchase_price < 100 ? "€0$priceString" : "€$priceString";
+    }
+
     public function dishes(): BelongsToMany
     {
         return $this->belongsToMany(Dish::class)->using(DishIngredient::class);
     }
 
-    protected $fillable = ["name", "unit", "stored", "stored_min"];
+    protected $fillable = [
+        "name",
+        "unit",
+        "stored",
+        "stored_min",
+        "purchase_price",
+    ];
 }
