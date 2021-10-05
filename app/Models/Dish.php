@@ -42,7 +42,7 @@ final class Dish extends Model
             $result .= <<<JSON
                     {
                         name: '{$ingredient->name}',
-                        amount: '{$ingredient->storedWithUnit()}'
+                        amount: '{$ingredient->pivot->amount}{$ingredient->unit}'
                     },
                     JSON;
         }
