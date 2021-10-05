@@ -17,19 +17,26 @@ final class IngredientsController extends ManagementController
                 Ingredient $ingredient
             ) {
                 return $ingredient->storedWithUnit();
+            })
+            ->defineColumn("purchase_price", "Purchase Price", function (
+                Ingredient $ingredient
+            ) {
+                return $ingredient->purchasePriceAsString();
             });
 
         $builder
             ->defineFieldLeft("name", "text", "Name")
             ->defineFieldLeft("unit", "text", "unit")
             ->defineFieldLeft("stored", "number", "Stock")
-            ->defineFieldLeft("stored_min", "number", "Desired Stock");
+            ->defineFieldLeft("stored_min", "number", "Desired Stock")
+            ->defineFieldLeft("purchase_price", "number", "Purchase Price");
 
         $builder
             ->defineChangerStore("name", ["required"])
             ->defineChangerStore("unit", ["present"])
             ->defineChangerStore("stored", ["required", "numeric", "min:0"])
-            ->defineChangerStore("stored_min", [
+            ->defineChangerStore("stored_min", ["required", "numeric", "min:0"])
+            ->defineChangerStore("purchase_price", [
                 "required",
                 "numeric",
                 "min:0",
@@ -39,7 +46,12 @@ final class IngredientsController extends ManagementController
             ->defineChangerUpdate("name", ["filled"])
             ->defineChangerUpdate("unit", [])
             ->defineChangerUpdate("stored", ["filled", "numeric", "min:0"])
-            ->defineChangerUpdate("stored_min", ["filled", "numeric", "min:0"]);
+            ->defineChangerUpdate("stored_min", ["filled", "numeric", "min:0"])
+            ->defineChangerUpdate("purchase_price", [
+                "filled",
+                "numeric",
+                "min:0",
+            ]);
     }
 
     protected string $managementModel = Ingredient::class;
