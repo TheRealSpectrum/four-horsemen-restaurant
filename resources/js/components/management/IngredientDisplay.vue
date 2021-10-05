@@ -3,6 +3,7 @@
         <div class="grid grid-cols-3 h-6">
             <label for="name" class="text-lg font-bold"> {{ label }} </label>
         </div>
+        <div>Total Purchase Price: {{ value.totalPurchasePrice }}</div>
         <div class="flex flex-col py-4">
             <div
                 v-for="({ name, amount }, index) in items"
@@ -20,12 +21,12 @@
 export default {
     data() {
         return {
-            items: this.value,
+            items: this.value.ingredients,
         };
     },
     props: {
         label: String,
-        value: Array,
+        value: Object,
     },
 };
 </script>
