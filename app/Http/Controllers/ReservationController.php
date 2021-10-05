@@ -256,6 +256,7 @@ final class ReservationController extends Controller
             }
             $reservation->save();
             return redirect("/reservation?notifyGuestUpdate=$reservation->id");
+        } elseif ($data->input("action") === "done") {
         } elseif ($reservation === null) {
         }
     }
