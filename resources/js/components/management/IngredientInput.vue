@@ -14,7 +14,7 @@
             <div
                 v-for="(ingredient, index) in items"
                 :key="index"
-                class="grid grid-cols-3 py-2"
+                class="grid grid-cols-4 py-2"
             >
                 <select
                     v-model="ingredient.id"
@@ -29,6 +29,13 @@
                         {{ name }}
                     </option>
                 </select>
+                <div>
+                    {{
+                        asCurrency(
+                            ingredient.amount * purchasePrices[ingredient.id]
+                        )
+                    }}
+                </div>
                 <div class="flex flex-row">
                     <input
                         type="number"
@@ -77,6 +84,14 @@ export default {
         removeItem(index) {
             this.items.splice(index, 1);
         },
+        asCurrency(amount) {
+            let result = amount.toString();
+            if (result.length < 3) {
+                result = result.padStart(3, "0");
+            }
+
+            return "€" + result.slice(0, -2) + "," + result.slice(-2);
+        },
     },
     computed: {
         totalPurchasePrice() {
@@ -85,12 +100,7 @@ export default {
                 total += ingredient.amount * this.purchasePrices[ingredient.id];
             }
 
-            let result = total.toString();
-            if (result.length < 3) {
-                result = result.padStart(3, "0");
-            }
-
-            return "€" + result.slice(0, -2) + "," + result.slice(-2);
+            return this.asCurrency(total);
         },
     },
 };
