@@ -10,11 +10,11 @@ return [
     //     ["Advanced", "advanced"],
     // ],
     "navigation" => [
-        ["Statistics", "dishes"],
+        ["Statistics", ""],
         ["Employees", "employees"],
         ["Dishes", "dishes"],
-        ["Tables", "dishes"],
+        ["Tables", ""],
         ["Ingredients", "ingredients"],
-        ["Advanced", "dishes"],
+        ["Advanced", ""],
     ],
 ];
