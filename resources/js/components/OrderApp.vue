@@ -222,15 +222,15 @@ export default {
         returnedOrder() {
             return { table: this.table, dishes: this.order };
         },
-        computed_normal_course(){
-            return this.order.filter((i)=>this.isNormalOrder(i))
+        computed_normal_course() {
+            return this.order.filter((i) => this.isNormalOrder(i));
         },
-        computed_drink_course(){
-            return this.order.filter((i)=>this.isDrinkOrder(i))
+        computed_drink_course() {
+            return this.order.filter((i) => this.isDrinkOrder(i));
         },
-        computedSelectedCourse(){
-            return this.order[this.selectedCourse]?.items ?? []
-        }
+        computedSelectedCourse() {
+            return this.order[this.selectedCourse]?.items ?? [];
+        },
     },
     methods: {
         removeDish(index) {
@@ -242,10 +242,10 @@ export default {
             });
         },
         addCourse() {
-            this.order.push({'type':'normal','items':[]});
+            this.order.push({ type: "normal", items: [] });
         },
         addDrinks() {
-            this.order.push({'type':'drinks','items':[]});
+            this.order.push({ type: "drinks", items: [] });
         },
         moveToMenuSelect() {
             this.state = "select";
@@ -294,19 +294,23 @@ export default {
                 }, 2000);
             }
         },
-        isDrinkOrder(order){
-            return order.type=='drinks'
+        isDrinkOrder(order) {
+            return order.type == "drinks";
         },
-        isNormalOrder(order){
-            return order.type=='normal'
+        isNormalOrder(order) {
+            return order.type == "normal";
         },
-        getLable(course){
-            if(course.type == 'normal'){
-                return `course ${this.computed_normal_course.indexOf(course)+1}`
-            }else{
-                return `drinks #${this.computed_drink_course.indexOf(course)+1}`
+        getLable(course) {
+            if (course.type == "normal") {
+                return `course ${
+                    this.computed_normal_course.indexOf(course) + 1
+                }`;
+            } else {
+                return `drinks #${
+                    this.computed_drink_course.indexOf(course) + 1
+                }`;
             }
-        }
+        },
     },
 };
 </script>
