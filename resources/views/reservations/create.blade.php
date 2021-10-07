@@ -92,8 +92,20 @@
         };
 
         function createDummyData() {
-            document.querySelector("input[name='name']").value = "Not a reservation";
-            document.querySelector("input[name='phone_number']").value = "0000000000";
+            let nameField = document.querySelector("input[name='name']");
+            let phoneField = document.querySelector("input[name='phone_number']");
+            
+            if (nameField.value == "") {
+                nameField.value = "Not a reservation";
+            }
+
+            if (phoneField.value == "") {
+                phoneField.value = "0000000000";
+            }
+
+
+            // document.querySelector("input[name='name']").value = "Not a reservation";
+            // document.querySelector("input[name='phone_number']").value = "0000000000";
             document.querySelector("input[name='active']").value = "1";
         }
 
