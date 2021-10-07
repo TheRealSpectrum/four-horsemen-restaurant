@@ -34,6 +34,11 @@ Vue.component(
 Vue.component("order-app", require("./components/OrderApp.vue").default);
 
 Vue.component(
+    "index-list",
+    require("./components/management/IndexList.vue").default
+);
+
+Vue.component(
     "ingredient-input",
     require("./components/management/IngredientInput.vue").default
 );

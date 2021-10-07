@@ -12,46 +12,23 @@
       </div>
       <div></div>
     </div>
-    <div class="grid grid-cols-8 flex-none justify-items-stretch">
-      @foreach($models as $model)
-      <div class="col-span-7 p-2">
 
-        @if(!$editInline)
-        <a href="{{ route("management.$managementName.show", [$managementParameterName => $model->id]) }}">
-          <div class="flex flex-row border-2 border-dark py-2 w-full h-full">
-            @foreach($builder->columns as $column)
+    @if($editInline)
+      <index-list
+        :rows="{{$rows}}"
+        :edit-inline="true"
+        route-show=""
+        route-edit=""
+        />
+    @else
+      <index-list
+        :rows="{!!$rows!!}"
+        :edit-inline="false"
+        route-show="{!! route("management.$managementName.show", [$managementParameterName => "___INSERT_ID___"]) !!}"
+        route-edit="{!! route("management.$managementName.edit", [$managementParameterName => "___INSERT_ID___"]) !!}"
+        />
+    @endif
 
-            <div class="flex-1 text-center">
-              {{ $column->map($model) }}
-            </div>
-
-            @endforeach
-          </div>
-        </a>
-        @else
-        <div>
-          <div class="flex flex-row border-2 border-dark py-2 w-full h-full">
-            @foreach($builder->columns as $column)
-
-            <div class="flex-1 text-center">
-              {{ $column->map($model) }}
-            </div>
-
-            @endforeach
-          </div>
-        </div>
-        @endif
-
-      </div>
-
-      @if(!$editInline)
-      <div class="p-2">
-        <a href="{{ route("management.$managementName.edit", [$managementParameterName => $model->id]) }}"><x-button level="low" class="font-bold h-full w-full">Edit</x-button></a>
-      </div>
-      @endif
-
-      @endforeach
-    </div>
     <div class="grid grid-cols-8">
       <div class="col-span-7 h-10">
         {{$models->links('vendor.pagination.tailwind')}}

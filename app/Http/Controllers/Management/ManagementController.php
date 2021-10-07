@@ -23,10 +23,23 @@ abstract class ManagementController extends Controller
             ->orderBy($this->orderByColumn)
             ->paginate(12);
 
+        $rows = new Collection();
+        foreach ($models as $model) {
+            $nextRow = new Collection();
+            foreach ($this->builder->columns as $column) {
+                $nextRow->push($column->map($model));
+            }
+            $rows->push([
+                "id" => $model->id,
+                "columns" => $nextRow->toArray(),
+            ]);
+        }
+
         return view("management.index", [
             "managementName" => $this->managementName,
             "managementParameterName" => $this->managementParameterName,
             "models" => $models,
+            "rows" => str_replace("\"", "'", json_encode($rows->toArray())),
             "builder" => $this->builder,
             "editInline" => $this->editInline,
         ]);
