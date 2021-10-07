@@ -188,23 +188,40 @@
                     </select>
                 </div>
             </label>
-        <label id="tables">
-            <span class="extraDataWrap"><span>Tables</span><span>{{getAvailibleSeats()}}</span></span>
-            <div class="custom-select-multi">
-                <div class="custom-option"
-                    v-for="table in computed_table_data"
-                    :key="table.id"
-                    :value="table.id"
-                    :class="(isSelected(table.id))?'selected':''" 
-                    v-on:click="toggleTable(table.id)"
-                    :id="`option-${table.id}`"
-
-                >
-                    Table {{ table.id }} - {{ table.seat_count }}
-                    {{ table.seat_count > 1 ? "seats" : "seat" }}
+            <label id="tables">
+                <span class="extraDataWrap"><span>Tables</span><span>{{getAvailibleSeats()}}</span></span>
+                <div class="availibleTables">
+                    <h3>Availible</h3>
+                    <div
+                        class="custom-option"
+                        v-for="table in computed_availible_tables"
+                        :key="table.id"
+                        :value="table.id"
+                        v-on:click="toggleTable(table.id)"
+                        :id="`option-${table.id}`"
+                    >
+                        Table {{ table.id }} - {{ table.seat_count }}
+                        {{ table.seat_count > 1 ? "seats" : "seat" }}
+                    </div>
                 </div>
-            </div>
-        </label>
+                <div class="sepatator">
+                </div>
+                <div class="selectedTables">
+                    <h3>selected</h3>
+                    <div
+                        class="custom-option"
+                        v-for="table in computed_selected_tables"
+                        :key="table.id"
+                        :value="table.id"
+                        v-on:click="toggleTable(table.id)"
+                        :id="`option-${table.id}`"
+                    >
+                        Table {{ table.id }} - {{ table.seat_count }}
+                        {{ table.seat_count > 1 ? "seats" : "seat" }}
+                    </div>
+                    
+                </div>
+            </label>
             <div class="btnWrap">
                 <button type="submit" name="action" value="update" class="bg-save">
                     save
@@ -247,7 +264,7 @@ export default {
             selectedPhone: undefined,
             selectedName: undefined,
             selectedEvent: undefined,
-            selectedTabels: undefined,
+            selectedTabels: [],
             selectedGuestCount: undefined,
             selectedDate: undefined,
             selectedTime: undefined,
@@ -320,6 +337,14 @@ export default {
         },
         computed_table_data: function () {
             return this.table_data.filter((i) => this.isAvailible(i));
+        },
+        computed_availible_tables: function () {
+            return this.computed_table_data.filter((i) =>
+                this.isNotSelected(i)
+            );
+        },
+        computed_selected_tables: function () {
+            return this.computed_table_data.filter((i) => this.isSelected(i));
         },
         computed_tables: function () {
             let out = "";
@@ -486,6 +511,12 @@ export default {
             });
             return result;
         },
+        isNotSelected(table) {
+            return !this.selectedTabels.includes(table.id);
+        },
+        isSelected(table) {
+            return this.selectedTabels.includes(table.id);
+        },
         getTables(item) {
             let out = [];
             item.tables.forEach((table) => {
@@ -502,9 +533,6 @@ export default {
                 out += ` ${value % 60} minutes`;
             }
             return out;
-        },
-        isSelected(table) {
-            return this.selectedTabels?.includes(table);
         },
         getAvailibleSeats() {
             let seats = 0;

@@ -285,7 +285,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #order-root {
     font-size: 3em;
     background-color: var(--mono-light, #ccc);
