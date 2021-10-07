@@ -5,7 +5,7 @@
         <form method="POST" action="{{ route('reservation.store') }}" class="w-full flex flex-col my-3 py-3 space-y-5">
             @csrf
 
-            <input type="hidden" name="active" value="{{ old('active', '0') }}" />
+            <input type="hidden" name="active" value="0" />
 
             {{-- Number of Guests --}}
             <div class="mx-auto w-1/2 flex justify-center items-center flex-nowrap relative">
@@ -72,7 +72,6 @@
                 @enderror
                 {{-- Save --}}
                 <div class="absolute bottom-0 -right-20 flex flex-col gap-5">
-                    <button name="walkIn" type="button" class="border rounded w-min px-5 py-2">walk in</button>
                     <label class="border border-textblack rounded-lg select-none p-1" >notify<br>kitchen <input type="checkbox" name="notify_kitchen" id="notify_kitchen" value="1"></label>
                     <button type="submit" class="bg-save border rounded w-min px-5 py-2">Save</button>
                 </div>
@@ -86,30 +85,5 @@
         const app = new Vue({
             el: "#app",
         });
-
-        const once = {
-            once : true
-        };
-
-        function createDummyData() {
-            let nameField = document.querySelector("input[name='name']");
-            let phoneField = document.querySelector("input[name='phone_number']");
-            
-            if (nameField.value == "") {
-                nameField.value = "Not a reservation";
-            }
-
-            if (phoneField.value == "") {
-                phoneField.value = "0000000000";
-            }
-
-
-            // document.querySelector("input[name='name']").value = "Not a reservation";
-            // document.querySelector("input[name='phone_number']").value = "0000000000";
-            document.querySelector("input[name='active']").value = "1";
-        }
-
-        let walkInButton = document.querySelector("button[name='walkIn']");
-        walkInButton.addEventListener('click', createDummyData, once);
     </script>
 @endsection

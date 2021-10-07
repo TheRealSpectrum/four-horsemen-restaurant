@@ -2,7 +2,7 @@
 
 @section('reservations-content')
     <div class="w-1/2 mx-auto border-r border-l pt-3 bg-columnlight" style="height : 90vh">
-        <form method="POST" action="{{ route('reservation.store') }}" class="w-full flex flex-col my-3 py-3 space-y-5">
+        <form id="walkIn" method="POST" action="{{ route('reservation.store') }}" class="w-full flex flex-col my-3 py-3 space-y-5">
             @csrf
 
             <input type="hidden" name="active" value="1" />
@@ -22,16 +22,6 @@
                 ></table-select-component>
                 @error("table")
                     <label class="text-sm text-center border w-1/3 bg-light text-warning-high absolute bottom-0 -right-1/2">{{ $message }}</label>
-                @enderror
-            </div>
-
-
-            {{-- Event --}}
-            <div class="mx-auto w-1/2 flex justify-center items-center flex-nowrap relative">
-                <label for="event" class="w-1/3 font-bold text-center">Event</label>
-                <input id="event" type="text" name="event_type" placeholder="event..." class="w-1/2 border p-2 text-center" value="{{ old('event_type', '') }}" />
-                @error('event_type')
-                    <label class="text-sm text-center border w-1/3 bg-light text-warning-high absolute -right-1/2">{{ $message }}</label>
                 @enderror
             </div>
 

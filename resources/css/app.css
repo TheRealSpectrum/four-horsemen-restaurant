@@ -236,3 +236,12 @@ input {
 textarea {
     resize: none;
 }
+
+/* Walk in reservation */
+
+#walkIn #app label[for="date"],
+#walkIn #app #date,
+#walkIn #app #time,
+#walkIn #app label[for="time"] {
+    display: none;
+}

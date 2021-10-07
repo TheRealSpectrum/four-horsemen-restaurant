@@ -78,6 +78,27 @@ final class ReservationController extends Controller
         ]);
     }
 
+    public function dummyCreate()
+    {
+        $data = Reservation::with("tables")->get();
+        $tables = Table::all();
+        $pivot = [];
+        foreach ($data as $reservation) {
+            foreach ($reservation->tables as $table) {
+                array_push($pivot, [
+                    "reservation_id" => $reservation->id,
+                    "table_id" => $table->id,
+                ]);
+            }
+        }
+
+        return view("reservations.dummy", [
+            "data" => $data,
+            "tables" => $tables,
+            "pivot" => $pivot,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $request["date_start"] = new Carbon(
