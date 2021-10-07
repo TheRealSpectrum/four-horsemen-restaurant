@@ -123,7 +123,7 @@ final class ReservationController extends Controller
                 ->withInput();
         }
 
-        $request["active"] = false;
+        // $request["active"] = false;
 
         $newReservation = Reservation::create($request->all());
 
