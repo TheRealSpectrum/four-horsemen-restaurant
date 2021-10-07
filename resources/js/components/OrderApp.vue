@@ -27,6 +27,11 @@
                 :key="index"
                 class="orderItem"
             >
+                <div class="dishQuantity">
+                    <p>
+                        {{ `${item.amount} X` }}
+                    </p>
+                </div>
                 <div class="dishImage">
                     <!-- todo: make this dynamic with custom images -->
                     <img
@@ -213,6 +218,9 @@ export default {
         computedActiveTables() {
             return this.table_data.filter((i) => i.active == 1);
         },
+        returnedOrder() {
+            return {"table":this.table , "dishes":this.order};
+        },
     },
     methods: {
         removeDish(index) {
@@ -344,8 +352,9 @@ export default {
 }
 .orderItem {
     display: grid;
-    grid-template-columns: 10rem minmax(0, 1fr) 3rem minmax(0, 1fr);
+    grid-template-columns: 6rem 10rem minmax(0, 1fr) 3rem minmax(0, 1fr);
     padding: 5px;
+    gap: 5px;
     background: var(--mono-lighter, #fff);
     height: 10rem;
     border: 2px solid black;
@@ -389,7 +398,12 @@ export default {
     justify-content: flex-start;
     align-items: center;
 }
-
+.dishQuantity{
+    display: grid;
+    place-content: center;
+    white-space: nowrap;
+    overflow: visible;
+}
 .courseList {
     display: flex;
     flex-direction: row;
