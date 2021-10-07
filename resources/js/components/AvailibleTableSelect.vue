@@ -57,25 +57,42 @@
         </div>
 
         <input type="hidden" name="table" :value="computed_tables" readonly />
+        <span class="extraDataWrap">
+            <span>Tables</span>
+            <span>{{ total_asigned_seats }}</span>
+            <span>{{ getAvailibleSeats() }}</span>
+        </span>
         <label id="tables">
-            <span class="extraDataWrap">
-                <span>Tables</span>
-                <span>{{ total_asigned_seats }}</span>
-                <span>{{ getAvailibleSeats() }}</span>
-            </span>
-            <div class="custom-select-multi">
+            <div class="availibleTables">
+                <h3>Availible</h3>
                 <div
                     class="custom-option"
-                    v-for="table in computed_table_data"
+                    v-for="table in computed_availible_tables"
                     :key="table.id"
                     :value="table.id"
-                    :class="isSelected(table.id) ? 'selected' : ''"
                     v-on:click="toggleTable(table.id)"
                     :id="`option-${table.id}`"
                 >
                     Table {{ table.id }} - {{ table.seat_count }}
                     {{ table.seat_count > 1 ? "seats" : "seat" }}
                 </div>
+            </div>
+            <div class="sepatator">
+            </div>
+            <div class="selectedTables">
+                <h3>selected</h3>
+                <div
+                    class="custom-option"
+                    v-for="table in computed_selected_tables"
+                    :key="table.id"
+                    :value="table.id"
+                    v-on:click="toggleTable(table.id)"
+                    :id="`option-${table.id}`"
+                >
+                    Table {{ table.id }} - {{ table.seat_count }}
+                    {{ table.seat_count > 1 ? "seats" : "seat" }}
+                </div>
+                
             </div>
         </label>
     </div>
@@ -120,6 +137,12 @@ export default {
         computed_table_data: function () {
             return this.table_data.filter((i) => this.isAvailible(i));
         },
+        computed_availible_tables: function () {
+            return this.computed_table_data.filter((i)=> this.isNotSelected(i))
+        },
+        computed_selected_tables: function () {
+            return this.computed_table_data.filter((i)=> this.isSelected(i))
+        },
         computed_tables: function () {
             let out = "";
             out += this.selectedTabels?.join();
@@ -137,7 +160,7 @@ export default {
             this.selectedTabels?.forEach((table) => {
                 seats += this.table_seats[table];
             });
-            return `total seats : ${seats}`;
+            return `total seats :${seats}`;
         },
         computed_durations: function () {
             let durations = [];
@@ -190,6 +213,12 @@ export default {
             });
             return result;
         },
+        isNotSelected(table){
+            return !this.selectedTabels.includes(table.id)
+        },
+        isSelected(table){
+            return this.selectedTabels.includes(table.id)
+        },
         toggleTable(tableID) {
             let tables = this.selectedTabels;
             if (
@@ -225,9 +254,6 @@ export default {
             }
             return out;
         },
-        isSelected(table) {
-            return this.computed_old_tables?.includes(table);
-        },
         getAvailibleSeats() {
             let seats = 0;
             let tables = this.computed_table_data ?? [];
@@ -246,4 +272,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+</style>
