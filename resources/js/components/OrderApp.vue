@@ -23,7 +23,7 @@
         </label>
         <div class="orderList">
             <div
-                v-for="(item, index) in order[selectedCourse]"
+                v-for="(item, index) in computedSelectedCourse"
                 :key="index"
                 class="orderItem"
             >
@@ -66,7 +66,7 @@
                 :key="index"
                 :class="{ selected: selectedCourse == index }"
             >
-                course {{ index + 1 }}
+                {{ getLable(course) }}
                 <input
                     type="radio"
                     name="course"
@@ -77,6 +77,7 @@
                 />
             </label>
             <div class="addCourse btn" @click="addCourse()"></div>
+            <div class="addCourse btn" @click="addDrinks()"></div>
         </div>
         <div class="btnGroup">
             <action-button level="action">Place Order</action-button>
@@ -221,6 +222,15 @@ export default {
         returnedOrder() {
             return { table: this.table, dishes: this.order };
         },
+        computed_normal_course(){
+            return this.order.filter((i)=>this.isNormalOrder(i))
+        },
+        computed_drink_course(){
+            return this.order.filter((i)=>this.isDrinkOrder(i))
+        },
+        computedSelectedCourse(){
+            return this.order[this.selectedCourse]?.items ?? []
+        }
     },
     methods: {
         removeDish(index) {
@@ -232,7 +242,10 @@ export default {
             });
         },
         addCourse() {
-            this.order.push([]);
+            this.order.push({'type':'normal','items':[]});
+        },
+        addDrinks() {
+            this.order.push({'type':'drinks','items':[]});
         },
         moveToMenuSelect() {
             this.state = "select";
@@ -249,7 +262,7 @@ export default {
             let itemToAdd = this.dish_data[this.selectedDish];
             itemToAdd["amount"] = this.selectedQuantity;
             itemToAdd["note"] = this.menuItemNotes ?? "";
-            this.order[this.selectedCourse].push(itemToAdd);
+            this.order[this.selectedCourse].items.push(itemToAdd);
             this.menuItemNotes = undefined;
             this.selectedQuantity = 1;
             this.selectedDish = undefined;
@@ -281,6 +294,19 @@ export default {
                 }, 2000);
             }
         },
+        isDrinkOrder(order){
+            return order.type=='drinks'
+        },
+        isNormalOrder(order){
+            return order.type=='normal'
+        },
+        getLable(course){
+            if(course.type == 'normal'){
+                return `course ${this.computed_normal_course.indexOf(course)+1}`
+            }else{
+                return `drinks #${this.computed_drink_course.indexOf(course)+1}`
+            }
+        }
     },
 };
 </script>
