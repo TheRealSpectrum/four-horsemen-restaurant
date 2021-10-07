@@ -32,6 +32,7 @@ Route::name("reservation.")->middleware("auth")->group(function () {
     route::get("/agenda", [ReservationController::class, "edit"])->name("edit");
     route::patch("/update", [ReservationController::class, "update"])->name("update");
     Route::get("/reservation/new", [ReservationController::class, "create"])->name("create");
+    Route::get("/reservation/walk-in", [ReservationController::class, "dummyCreate"])->name("dummyCreate");
     Route::post("/reservation/store", [ReservationController::class, "store"])->name("store");
 });
 
