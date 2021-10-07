@@ -339,10 +339,12 @@ export default {
             return this.table_data.filter((i) => this.isAvailible(i));
         },
         computed_availible_tables: function () {
-            return this.computed_table_data.filter((i)=> this.isNotSelected(i))
+            return this.computed_table_data.filter((i) =>
+                this.isNotSelected(i)
+            );
         },
         computed_selected_tables: function () {
-            return this.computed_table_data.filter((i)=> this.isSelected(i))
+            return this.computed_table_data.filter((i) => this.isSelected(i));
         },
         computed_tables: function () {
             let out = "";
@@ -509,11 +511,11 @@ export default {
             });
             return result;
         },
-        isNotSelected(table){
-            return !this.selectedTabels.includes(table.id)
+        isNotSelected(table) {
+            return !this.selectedTabels.includes(table.id);
         },
-        isSelected(table){
-            return this.selectedTabels.includes(table.id)
+        isSelected(table) {
+            return this.selectedTabels.includes(table.id);
         },
         getTables(item) {
             let out = [];

@@ -77,8 +77,7 @@
                     {{ table.seat_count > 1 ? "seats" : "seat" }}
                 </div>
             </div>
-            <div class="sepatator">
-            </div>
+            <div class="sepatator"></div>
             <div class="selectedTables">
                 <h3>selected</h3>
                 <div
@@ -92,7 +91,6 @@
                     Table {{ table.id }} - {{ table.seat_count }}
                     {{ table.seat_count > 1 ? "seats" : "seat" }}
                 </div>
-                
             </div>
         </label>
     </div>
@@ -138,10 +136,12 @@ export default {
             return this.table_data.filter((i) => this.isAvailible(i));
         },
         computed_availible_tables: function () {
-            return this.computed_table_data.filter((i)=> this.isNotSelected(i))
+            return this.computed_table_data.filter((i) =>
+                this.isNotSelected(i)
+            );
         },
         computed_selected_tables: function () {
-            return this.computed_table_data.filter((i)=> this.isSelected(i))
+            return this.computed_table_data.filter((i) => this.isSelected(i));
         },
         computed_tables: function () {
             let out = "";
@@ -213,11 +213,11 @@ export default {
             });
             return result;
         },
-        isNotSelected(table){
-            return !this.selectedTabels.includes(table.id)
+        isNotSelected(table) {
+            return !this.selectedTabels.includes(table.id);
         },
-        isSelected(table){
-            return this.selectedTabels.includes(table.id)
+        isSelected(table) {
+            return this.selectedTabels.includes(table.id);
         },
         toggleTable(tableID) {
             let tables = this.selectedTabels;
@@ -272,5 +272,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
