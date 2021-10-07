@@ -80,6 +80,13 @@
                     <input class="show-box-insert-id" type="hidden" name="id" value="">
                     <x-button level="high" data-confirmation-id="confirm-reservation-cancel" class="confirmation-trigger w-full">Cancel reservation</x-button>
                 </form>
+                <form action="/update" method="POST">
+                    @csrf
+                    @method("PATCH")
+                    <input type="hidden" name="action" value="done">
+                    <input class="show-box-insert-id" type="hidden" name="id" value="">
+                    <x-button level="low" type="submit" class="w-full">Guest is done</x-button>
+                </form>
             </div>
         </div>
     </div>
@@ -88,6 +95,10 @@
 <x-notifier id="notify-guest-update" trigger="notifyGuestUpdate">
     The reservation status has been updated to: <br>
     arrived
+</x-notifier>
+<x-notifier id="notify-guest-done" trigger="notifyGuestDone">
+    The reservation status has been updated to: <br>
+    done
 </x-notifier>
 <x-notifier id="notify-reservation-cancel" type="warningLow" trigger="notifyReservationCancel">The reservation has been canceled</x-notifier>
 <x-confirmation id="confirm-reservation-cancel" type="warningHigh" form="reservation-cancel"

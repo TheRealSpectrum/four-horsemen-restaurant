@@ -10,10 +10,11 @@
             </div>
         </div>
         <div class="flex flex-col py-4">
+            <div>Total purchase price: {{ totalPurchasePrice }}</div>
             <div
                 v-for="(ingredient, index) in items"
                 :key="index"
-                class="grid grid-cols-3 py-2"
+                class="grid grid-cols-4 py-2"
             >
                 <select
                     v-model="ingredient.id"
@@ -28,6 +29,13 @@
                         {{ name }}
                     </option>
                 </select>
+                <div>
+                    {{
+                        asCurrency(
+                            ingredient.amount * purchasePrices[ingredient.id]
+                        )
+                    }}
+                </div>
                 <div class="flex flex-row">
                     <input
                         type="number"
@@ -50,14 +58,17 @@
 export default {
     data() {
         let units = {};
+        let purchasePrices = {};
 
         for (const ingredient of this.ingredients) {
             units[ingredient.id] = ingredient.unit;
+            purchasePrices[ingredient.id] = ingredient.purchasePrice;
         }
 
         return {
             items: this.value,
             units,
+            purchasePrices,
         };
     },
     props: {
@@ -72,6 +83,24 @@ export default {
         },
         removeItem(index) {
             this.items.splice(index, 1);
+        },
+        asCurrency(amount) {
+            let result = amount.toString();
+            if (result.length < 3) {
+                result = result.padStart(3, "0");
+            }
+
+            return "€" + result.slice(0, -2) + "," + result.slice(-2);
+        },
+    },
+    computed: {
+        totalPurchasePrice() {
+            let total = 0;
+            for (const ingredient of this.items) {
+                total += ingredient.amount * this.purchasePrices[ingredient.id];
+            }
+
+            return this.asCurrency(total);
         },
     },
 };

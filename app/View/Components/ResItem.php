@@ -12,7 +12,15 @@ class ResItem extends Component
      * @return void
      */
 
-    public $id, $name, $numOfGuests, $tables, $date, $time, $eventType, $active;
+    public $id,
+        $name,
+        $numOfGuests,
+        $tables,
+        $date,
+        $time,
+        $timeEnd,
+        $eventType,
+        $active;
 
     public function __construct($info)
     {
@@ -22,6 +30,7 @@ class ResItem extends Component
         $this->tables = $info->tables->pluck("id");
         $this->date = $info->date_start->format("Y-m-d");
         $this->time = $info->date_start->format("H:i");
+        $this->timeEnd = $info->date_end;
         $this->eventType = $info->event_type;
         $this->active = $info->active;
     }

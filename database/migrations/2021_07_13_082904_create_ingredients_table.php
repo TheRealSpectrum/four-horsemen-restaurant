@@ -14,6 +14,7 @@ final class CreateIngredientsTable extends Migration
             $table->text("unit");
             $table->integer("stored");
             $table->integer("stored_min");
+            $table->integer("purchase_price");
             $table->timestamps();
         });
     }
