@@ -219,7 +219,7 @@ export default {
             return this.table_data.filter((i) => i.active == 1);
         },
         returnedOrder() {
-            return {"table":this.table , "dishes":this.order};
+            return { table: this.table, dishes: this.order };
         },
     },
     methods: {
@@ -398,7 +398,7 @@ export default {
     justify-content: flex-start;
     align-items: center;
 }
-.dishQuantity{
+.dishQuantity {
     display: grid;
     place-content: center;
     white-space: nowrap;
