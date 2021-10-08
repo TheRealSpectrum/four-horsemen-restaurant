@@ -19,14 +19,14 @@
         :edit-inline="true"
         route-show=""
         route-edit=""
-        />
+        ></index-list>
     @else
       <index-list
         :rows="{!!$rows!!}"
         :edit-inline="false"
         route-show="{!! route("management.$managementName.show", [$managementParameterName => "___INSERT_ID___"]) !!}"
         route-edit="{!! route("management.$managementName.edit", [$managementParameterName => "___INSERT_ID___"]) !!}"
-        />
+        ></index-list>
     @endif
 
     <div class="grid grid-cols-8">
