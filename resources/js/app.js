@@ -39,6 +39,11 @@ Vue.component(
 );
 
 Vue.component(
+    "index-list-inline-edit",
+    require("./components/management/IndexListInlineEdit.vue").default
+);
+
+Vue.component(
     "ingredient-input",
     require("./components/management/IngredientInput.vue").default
 );
