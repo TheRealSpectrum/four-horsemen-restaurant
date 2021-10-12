@@ -6,6 +6,7 @@
                     <index-list-inline-edit
                         :editing="index === currentIndex"
                         :previousColumns="oldRows[index].columns"
+                        :types="columnInputTypes"
                         v-model="columns"
                     ></index-list-inline-edit>
                 </div>
@@ -75,6 +76,7 @@ export default {
         routeEdit: String,
         routeUpdate: String,
         columnNames: Array,
+        columnInputTypes: Array,
     },
     methods: {
         insertedRouteShow(id) {

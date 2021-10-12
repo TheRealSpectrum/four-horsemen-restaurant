@@ -13,8 +13,13 @@ class TablesController extends ManagementController
     protected function managementInit(ManagementBuilder $builder): void
     {
         $builder
-            ->defineColumn("id", "Table Number")
-            ->defineColumn("seat_count", "Available Seats");
+            ->defineInlineColumn("id", "Table Number", "number", function () {})
+            ->defineInlineColumn(
+                "seat_count",
+                "Available Seats",
+                "number",
+                function () {}
+            );
 
         $builder
             ->defineChangerStore("id", ["required", "numeric", "min:1"])

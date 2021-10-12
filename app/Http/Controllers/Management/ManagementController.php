@@ -22,6 +22,11 @@ abstract class ManagementController extends Controller
     public function index(): View
     {
         $this->managementInitWrapper();
+
+        $columns = $this->editInline
+            ? $this->builder->inlineColumns
+            : $this->builder->columns;
+
         $models = $this->GetModelBuilder()
             ->orderBy($this->orderByColumn)
             ->paginate(PAGINATION_PER_PAGE);
@@ -29,7 +34,7 @@ abstract class ManagementController extends Controller
         $rows = new Collection();
         foreach ($models as $model) {
             $nextRow = new Collection();
-            foreach ($this->builder->columns as $column) {
+            foreach ($columns as $column) {
                 $nextRow->push($column->map($model));
             }
             $rows->push([
@@ -38,7 +43,10 @@ abstract class ManagementController extends Controller
             ]);
         }
 
-        $columnNames = $this->builder->columns->pluck("column");
+        $columnNames = $columns->pluck("column");
+        $columnInputTypes = $this->editInline
+            ? $columns->pluck("inputType")
+            : [];
 
         $modelsRemaining = $models->total();
         $pageAfterCreate = 1;
@@ -58,6 +66,11 @@ abstract class ManagementController extends Controller
                 "\"",
                 "'",
                 json_encode($columnNames->toArray())
+            ),
+            "columnInputTypes" => str_replace(
+                "\"",
+                "'",
+                json_encode($columnInputTypes->toArray())
             ),
             "pageAfterCreate" => $pageAfterCreate,
         ]);
