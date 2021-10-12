@@ -315,7 +315,7 @@ export default {
         },
         placeOrder() {
             try {
-                axios.post("/reservation/store", this.returnedOrder);
+                axios.post("/order/store", this.returnedOrder);
                 location.reload(true);
             } catch (error) {
                 console.error(error); // todo: This is shit, properly implement errors handling
