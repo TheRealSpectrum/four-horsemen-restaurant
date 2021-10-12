@@ -80,7 +80,9 @@
             <div class="addCourse btn" @click="addDrinks()"></div>
         </div>
         <div class="btnGroup">
-            <action-button level="action">Place Order</action-button>
+            <action-button level="action" @click-action="placeOrder()"
+                >Place Order</action-button
+            >
             <action-button level="safe" @click-action="moveToMenuSelect()"
                 >Add Dish</action-button
             >
@@ -309,6 +311,14 @@ export default {
                 return `drinks #${
                     this.computed_drink_course.indexOf(course) + 1
                 }`;
+            }
+        },
+        placeOrder() {
+            try {
+                axios.post("/reservation/store", this.returnedOrder);
+                location.reload(true);
+            } catch (error) {
+                console.error(error); // todo: This is shit, properly implement errors handling
             }
         },
     },
