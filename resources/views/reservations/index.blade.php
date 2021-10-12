@@ -107,10 +107,12 @@
 <script>
     let load = new Date()
     let timeout = setInterval(reload,10000,load)
+    
 
     function reload(load){
         if(checkTime(load) && document.getElementById("show-box-root").classList.contains("hidden")){
-        location.reload()
+        // location.reload()
+        window.location = window.location.pathname
     }
     }
 

@@ -263,7 +263,7 @@ final class ReservationController extends Controller
             }
             $reservation->save();
             return redirect(
-                "/reservation?notifyReservationCancel=$reservation->id"
+                "/reservations?notifyReservationCancel=$reservation->id"
             );
         } elseif ($data->input("action") === "activate") {
             // TODO add database transaction
@@ -277,11 +277,11 @@ final class ReservationController extends Controller
                 $table->save();
             }
             $reservation->save();
-            return redirect("/reservation?notifyGuestUpdate=$reservation->id");
+            return redirect("/reservations?notifyGuestUpdate=$reservation->id");
         } elseif ($data->input("action") === "done") {
             $reservation->done = true;
             $reservation->save();
-            return redirect("/reservation?notifyGuestDone=$reservation->id");
+            return redirect("/reservations?notifyGuestDone=$reservation->id");
         } elseif ($reservation === null) {
         }
     }
