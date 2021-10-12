@@ -15,6 +15,18 @@ class TablesController extends ManagementController
         $builder
             ->defineColumn("id", "Table Number")
             ->defineColumn("seat_count", "Available Seats");
+
+        $builder
+            ->defineChangerStore("id", ["required", "numeric", "min:1"])
+            ->defineChangerStore("seat_count", [
+                "required",
+                "numeric",
+                "min:1",
+            ]);
+
+        $builder
+            ->defineChangerUpdate("id", ["filled", "numeric", "min:1"])
+            ->defineChangerUpdate("seat_count", ["filled", "numeric", "min:1"]);
     }
 
     protected string $managementModel = Table::class;

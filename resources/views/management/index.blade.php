@@ -19,6 +19,8 @@
         :edit-inline="true"
         route-show=""
         route-edit=""
+        route-update="{!! route("management.$managementName.update", [$managementParameterName => "___INSERT_ID___"]) !!}"
+        :column-names="{!! $columnNames !!}"
         ></index-list>
     @else
       <index-list
@@ -26,6 +28,8 @@
         :edit-inline="false"
         route-show="{!! route("management.$managementName.show", [$managementParameterName => "___INSERT_ID___"]) !!}"
         route-edit="{!! route("management.$managementName.edit", [$managementParameterName => "___INSERT_ID___"]) !!}"
+        route-update="{!! route("management.$managementName.update", [$managementParameterName => "___INSERT_ID___"]) !!}"
+        :column-names="{!! $columnNames !!}"
         ></index-list>
     @endif
 

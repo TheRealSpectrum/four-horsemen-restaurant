@@ -35,7 +35,7 @@
                     <action-button
                         v-if="index === currentIndex"
                         level="safe"
-                        @click-action="saveRow(index, columns)"
+                        @click-action="saveRow(index, columns, id)"
                         class="font-bold h-full w-full"
                         >Save</action-button
                     >
@@ -73,6 +73,8 @@ export default {
         editInline: Boolean,
         routeShow: String,
         routeEdit: String,
+        routeUpdate: String,
+        columnNames: Array,
     },
     methods: {
         insertedRouteShow(id) {
@@ -81,11 +83,26 @@ export default {
         insertedRouteEdit(id) {
             return this.routeEdit.replace("___INSERT_ID___", id);
         },
+        insertedRouteUpdate(id) {
+            return this.routeUpdate.replace("___INSERT_ID___", id);
+        },
         editRow(index) {
             this.currentIndex = index;
         },
-        saveRow(index, columns) {
-            console.log("saved", index, columns);
+        async saveRow(index, columns, id) {
+            const data = {};
+            for (let i = 0; i < this.columnNames.length; ++i) {
+                const columnName = this.columnNames[i];
+                data[columnName] = columns[i];
+            }
+            const result = await axios.patch(
+                this.insertedRouteUpdate(id),
+                data
+            );
+
+            if (result.data.success) {
+                location.reload(true);
+            }
         },
     },
 };

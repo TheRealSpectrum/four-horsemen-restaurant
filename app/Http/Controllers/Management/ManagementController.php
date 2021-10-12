@@ -9,6 +9,7 @@ use App\Management\Builder as ManagementBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -35,6 +36,8 @@ abstract class ManagementController extends Controller
             ]);
         }
 
+        $columnNames = $this->builder->columns->pluck("column");
+
         return view("management.index", [
             "managementName" => $this->managementName,
             "managementParameterName" => $this->managementParameterName,
@@ -42,6 +45,11 @@ abstract class ManagementController extends Controller
             "rows" => str_replace("\"", "'", json_encode($rows->toArray())),
             "builder" => $this->builder,
             "editInline" => $this->editInline,
+            "columnNames" => str_replace(
+                "\"",
+                "'",
+                json_encode($columnNames->toArray())
+            ),
         ]);
     }
 
@@ -128,7 +136,7 @@ abstract class ManagementController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, $id): RedirectResponse|JsonResponse
     {
         $this->managementInitWrapper();
 
@@ -173,6 +181,13 @@ abstract class ManagementController extends Controller
                 }
             }
         });
+
+        if ($this->editInline) {
+            if ($request->expectsJson()) {
+                return response()->json(["success" => true]);
+            }
+            return redirect()->route("management.$this->managementName.index");
+        }
 
         return redirect()->route("management.$this->managementName.show", [
             $this->managementParameterName => $model->id,
