@@ -74,7 +74,7 @@ div[id="app"][class="search"] {
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: repeat(6 auto);
+    grid-template-rows: repeat(6, auto);
     grid-template-areas:
         "id phone" "name guestCount" "event date" "notes time"
         "notes tables" "notes tables" "notes btns";
@@ -115,6 +115,10 @@ div[id="app"][class="search"] {
 }
 #app #tables {
     grid-area: tables;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-items: space-between;
 }
 #app #notes {
     grid-area: notes;
@@ -171,7 +175,6 @@ div[id="app"][class="search"] {
     user-select: none;
     flex-shrink: 0;
     flex-grow: 1;
-    width: 33%;
     height: 40px;
 }
 #app .custom-option.selected,
@@ -232,4 +235,13 @@ input {
 }
 textarea {
     resize: none;
+}
+
+/* Walk in reservation */
+
+#walkIn #app label[for="date"],
+#walkIn #app #date,
+#walkIn #app #time,
+#walkIn #app label[for="time"] {
+    display: none;
 }

@@ -5,6 +5,8 @@
         <form method="POST" action="{{ route('reservation.store') }}" class="w-full flex flex-col my-3 py-3 space-y-5">
             @csrf
 
+            <input type="hidden" name="active" value="0" />
+
             {{-- Number of Guests --}}
             <div class="mx-auto w-1/2 flex justify-center items-center flex-nowrap relative">
                 <label for="guests" class="w-1/3 font-bold text-center">Number of Guests</label>
