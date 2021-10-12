@@ -15,6 +15,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+const PAGINATION_PER_PAGE = 12;
+
 abstract class ManagementController extends Controller
 {
     public function index(): View
@@ -22,7 +24,7 @@ abstract class ManagementController extends Controller
         $this->managementInitWrapper();
         $models = $this->GetModelBuilder()
             ->orderBy($this->orderByColumn)
-            ->paginate(12);
+            ->paginate(PAGINATION_PER_PAGE);
 
         $rows = new Collection();
         foreach ($models as $model) {
@@ -38,6 +40,13 @@ abstract class ManagementController extends Controller
 
         $columnNames = $this->builder->columns->pluck("column");
 
+        $modelsRemaining = $models->total();
+        $pageAfterCreate = 1;
+        while ($modelsRemaining >= PAGINATION_PER_PAGE) {
+            ++$pageAfterCreate;
+            $modelsRemaining -= PAGINATION_PER_PAGE;
+        }
+
         return view("management.index", [
             "managementName" => $this->managementName,
             "managementParameterName" => $this->managementParameterName,
@@ -50,6 +59,7 @@ abstract class ManagementController extends Controller
                 "'",
                 json_encode($columnNames->toArray())
             ),
+            "pageAfterCreate" => $pageAfterCreate,
         ]);
     }
 
@@ -62,7 +72,7 @@ abstract class ManagementController extends Controller
         ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request): RedirectResponse|JsonResponse
     {
         $this->managementInitWrapper();
 
@@ -100,6 +110,13 @@ abstract class ManagementController extends Controller
                 }
             }
         });
+
+        if ($this->editInline) {
+            if ($request->expectsJson()) {
+                return response()->json(["success" => true]);
+            }
+            return redirect()->route("management.$this->managementName.index");
+        }
 
         return redirect()->route("management.$this->managementName.show", [
             $this->managementParameterName => $model->id,

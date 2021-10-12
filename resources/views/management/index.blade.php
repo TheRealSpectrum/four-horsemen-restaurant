@@ -37,7 +37,14 @@
       <div class="col-span-7 h-10">
         {{$models->links('vendor.pagination.tailwind')}}
       </div>
-      @if(!$editInline)
+      @if($editInline)
+        <index-new
+          route-index="{!! route("management.$managementName.index") !!}"
+          route-store="{!! route("management.$managementName.store") !!}"
+          page-after-create="{{$pageAfterCreate}}"
+          :column-data="{id: 28, seat_count: 1}"
+          >Create</index-new>
+      @else
       <div class="p-2 h-14">
         <a href="{{ route("management.$managementName.create") }}"><x-button class="font-bold w-full h-full" level="safe">Create</x-button></a>
       </div>

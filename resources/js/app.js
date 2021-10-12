@@ -39,6 +39,11 @@ Vue.component(
 );
 
 Vue.component(
+    "index-new",
+    require("./components/management/IndexNew.vue").default
+);
+
+Vue.component(
     "index-list-inline-edit",
     require("./components/management/IndexListInlineEdit.vue").default
 );
