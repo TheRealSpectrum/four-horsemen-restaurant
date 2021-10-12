@@ -9,10 +9,13 @@ use App\Management\Builder as ManagementBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+
+const PAGINATION_PER_PAGE = 12;
 
 abstract class ManagementController extends Controller
 {
@@ -20,14 +23,43 @@ abstract class ManagementController extends Controller
     {
         $this->managementInitWrapper();
         $models = $this->GetModelBuilder()
-            ->orderBy("name")
-            ->paginate(12);
+            ->orderBy($this->orderByColumn)
+            ->paginate(PAGINATION_PER_PAGE);
+
+        $rows = new Collection();
+        foreach ($models as $model) {
+            $nextRow = new Collection();
+            foreach ($this->builder->columns as $column) {
+                $nextRow->push($column->map($model));
+            }
+            $rows->push([
+                "id" => $model->id,
+                "columns" => $nextRow->toArray(),
+            ]);
+        }
+
+        $columnNames = $this->builder->columns->pluck("column");
+
+        $modelsRemaining = $models->total();
+        $pageAfterCreate = 1;
+        while ($modelsRemaining >= PAGINATION_PER_PAGE) {
+            ++$pageAfterCreate;
+            $modelsRemaining -= PAGINATION_PER_PAGE;
+        }
 
         return view("management.index", [
             "managementName" => $this->managementName,
             "managementParameterName" => $this->managementParameterName,
             "models" => $models,
+            "rows" => str_replace("\"", "'", json_encode($rows->toArray())),
             "builder" => $this->builder,
+            "editInline" => $this->editInline,
+            "columnNames" => str_replace(
+                "\"",
+                "'",
+                json_encode($columnNames->toArray())
+            ),
+            "pageAfterCreate" => $pageAfterCreate,
         ]);
     }
 
@@ -40,7 +72,7 @@ abstract class ManagementController extends Controller
         ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request): RedirectResponse|JsonResponse
     {
         $this->managementInitWrapper();
 
@@ -79,6 +111,13 @@ abstract class ManagementController extends Controller
             }
         });
 
+        if ($this->editInline) {
+            if ($request->expectsJson()) {
+                return response()->json(["success" => true]);
+            }
+            return redirect()->route("management.$this->managementName.index");
+        }
+
         return redirect()->route("management.$this->managementName.show", [
             $this->managementParameterName => $model->id,
         ]);
@@ -114,7 +153,7 @@ abstract class ManagementController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, $id): RedirectResponse|JsonResponse
     {
         $this->managementInitWrapper();
 
@@ -160,6 +199,13 @@ abstract class ManagementController extends Controller
             }
         });
 
+        if ($this->editInline) {
+            if ($request->expectsJson()) {
+                return response()->json(["success" => true]);
+            }
+            return redirect()->route("management.$this->managementName.index");
+        }
+
         return redirect()->route("management.$this->managementName.show", [
             $this->managementParameterName => $model->id,
         ]);
@@ -178,6 +224,8 @@ abstract class ManagementController extends Controller
     protected string $managementModel = "";
     protected string $managementName = "";
     protected string $managementParameterName = "";
+    protected string $orderByColumn = "name";
+    protected bool $editInline = false;
 
     abstract protected function managementInit(
         ManagementBuilder $builder

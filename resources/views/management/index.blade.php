@@ -12,35 +12,43 @@
       </div>
       <div></div>
     </div>
-    <div class="grid grid-cols-8 flex-none justify-items-stretch">
-      @foreach($models as $model)
-      <div class="col-span-7 p-2">
 
-        <a href="{{ route("management.$managementName.show", [$managementParameterName => $model->id]) }}">
-          <div class="flex flex-row border-2 border-dark py-2 w-full h-full">
-            @foreach($builder->columns as $column)
+    @if($editInline)
+      <index-list
+        :rows="{{$rows}}"
+        :edit-inline="true"
+        route-show=""
+        route-edit=""
+        route-update="{!! route("management.$managementName.update", [$managementParameterName => "___INSERT_ID___"]) !!}"
+        :column-names="{!! $columnNames !!}"
+        ></index-list>
+    @else
+      <index-list
+        :rows="{!!$rows!!}"
+        :edit-inline="false"
+        route-show="{!! route("management.$managementName.show", [$managementParameterName => "___INSERT_ID___"]) !!}"
+        route-edit="{!! route("management.$managementName.edit", [$managementParameterName => "___INSERT_ID___"]) !!}"
+        route-update="{!! route("management.$managementName.update", [$managementParameterName => "___INSERT_ID___"]) !!}"
+        :column-names="{!! $columnNames !!}"
+        ></index-list>
+    @endif
 
-            <div class="flex-1 text-center">
-              {{ $column->map($model) }}
-            </div>
-
-            @endforeach
-          </div>
-        </a>
-
-      </div>
-      <div class="p-2">
-        <a href="{{ route("management.$managementName.edit", [$managementParameterName => $model->id]) }}"><x-button level="low" class="font-bold h-full w-full">Edit</x-button></a>
-      </div>
-      @endforeach
-    </div>
     <div class="grid grid-cols-8">
       <div class="col-span-7 h-10">
         {{$models->links('vendor.pagination.tailwind')}}
       </div>
+      @if($editInline)
+        <index-new
+          route-index="{!! route("management.$managementName.index") !!}"
+          route-store="{!! route("management.$managementName.store") !!}"
+          page-after-create="{{$pageAfterCreate}}"
+          :column-data="{id: 28, seat_count: 1}"
+          >Create</index-new>
+      @else
       <div class="p-2 h-14">
         <a href="{{ route("management.$managementName.create") }}"><x-button class="font-bold w-full h-full" level="safe">Create</x-button></a>
       </div>
+      @endif
     </div>
   </div>
 @endsection
