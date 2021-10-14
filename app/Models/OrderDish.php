@@ -20,5 +20,5 @@ class OrderDish extends Model
         return $this->belongsTo(Dish::class);
     }
 
-    protected $fillable = ["note"];
+    protected $fillable = ["note", "amount"];
 }
