@@ -5,9 +5,16 @@
     <div class="grid grid-cols-8">
       <div class="col-span-7 h-10 flex flex-row p-4">
         @foreach($editInline ? $builder->inlineColumns : $builder->columns as $column)
-          <div class="flex-1 text-center text-lg font-bold">
-            {{ $column->header }}
+          <div class="flex-1 flex flex-row justify-center">
+            <div class="text-center text-lg font-bold">
+              {{ $column->header }}
+            </div>
+            <div class="flex flex-col">
+              <a href="{{route("management.$managementName.index")."?page={$models->currentPage()}&sort=$column->column&sort-desc=0"}}" class="sort-arrow-up bg-mono-darker text-sm text-mono-lighter">up</a>
+              <a href="{{route("management.$managementName.index")."?page={$models->currentPage()}&sort=$column->column&sort-desc=1"}}" class="sort-arrow-up bg-mono-darker text-sm text-mono-lighter">down</a>
+            </div>
           </div>
+
         @endforeach
       </div>
       <div></div>
