@@ -18,7 +18,7 @@ final class IngredientsController extends ManagementController
             ) {
                 return $ingredient->storedWithUnit();
             })
-            ->defineColumn("purchase_price", "Purchase Price", false, function (
+            ->defineColumn("purchase_price", "Purchase Price", true, function (
                 Ingredient $ingredient
             ) {
                 return $ingredient->purchasePriceAsString();

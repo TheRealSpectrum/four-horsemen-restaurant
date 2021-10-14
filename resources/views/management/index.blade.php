@@ -10,8 +10,10 @@
               {{ $column->header }}
             </div>
             <div class="grid grid-rows-2 h-full">
+              @if($column->shouldSort)
               <a href="{{route("management.$managementName.index")."?page={$models->currentPage()}&sort=$column->column&sort-desc=0"}}" class="sort-arrow-up bg-mono-darker block flex-0"></a>
               <a href="{{route("management.$managementName.index")."?page={$models->currentPage()}&sort=$column->column&sort-desc=1"}}" class="sort-arrow-down bg-mono-darker bloc flex-0"></a>
+              @endif
             </div>
           </div>
 
