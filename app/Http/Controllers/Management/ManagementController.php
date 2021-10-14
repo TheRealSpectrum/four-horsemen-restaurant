@@ -88,15 +88,22 @@ abstract class ManagementController extends Controller
     public function store(Request $request): RedirectResponse|JsonResponse
     {
         $this->managementInitWrapper();
+        $validated = [];
 
-        $validationRules = [];
-        foreach ($this->builder->changersStore as $changer) {
-            $validationRules[$changer->column] = $changer->validation;
+        if ($this->editInline) {
+            foreach ($this->builder->inlineColumns as $column) {
+                $validated[$column->column] = $column->defaultValue();
+            }
+        } else {
+            $validationRules = [];
+            foreach ($this->builder->changersStore as $changer) {
+                $validationRules[$changer->column] = $changer->validation;
+            }
+
+            $validated = $this->transformStore(
+                $request->validate($validationRules)
+            );
         }
-
-        $validated = $this->transformStore(
-            $request->validate($validationRules)
-        );
 
         $model = null;
 

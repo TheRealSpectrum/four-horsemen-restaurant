@@ -16,6 +16,7 @@ final class InlineColumn
         $this->column = $column;
         $this->header = $header;
         $this->inputType = $inputType;
+        $this->defaultValueCallback = $defaultValue;
         $this->mapCallback = $map;
     }
 
@@ -24,8 +25,14 @@ final class InlineColumn
         return ($this->mapCallback)($model);
     }
 
+    public function defaultValue()
+    {
+        return ($this->defaultValueCallback)();
+    }
+
     public string $column;
     public string $header;
     public string $inputType;
+    private $defaultValueCallback;
     private $mapCallback;
 }

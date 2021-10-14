@@ -13,12 +13,20 @@ class TablesController extends ManagementController
     protected function managementInit(ManagementBuilder $builder): void
     {
         $builder
-            ->defineInlineColumn("id", "Table Number", "number", function () {})
+            ->defineInlineColumn("id", "Table Number", "number", function () {
+                if (Table::count() == 0) {
+                    return 1;
+                }
+
+                return Table::orderBy("id", "desc")->value("id") + 1;
+            })
             ->defineInlineColumn(
                 "seat_count",
                 "Available Seats",
                 "number",
-                function () {}
+                function () {
+                    return 1;
+                }
             );
 
         $builder
