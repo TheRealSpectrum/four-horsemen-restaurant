@@ -217,7 +217,7 @@ export default {
             menuItemNotes: undefined,
 
             //curent order
-            order: [],
+            order: [{ type: "normal", items: [] }],
             table: "",
             currentItemDetails: {},
         };
