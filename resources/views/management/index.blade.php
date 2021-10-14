@@ -22,6 +22,7 @@
         route-update="{!! route("management.$managementName.update", [$managementParameterName => "___INSERT_ID___"]) !!}"
         :column-names="{!! $columnNames !!}"
         :column-input-types="{!! $columnInputTypes !!}"
+        :edit-last="{{Request::input("edit-last", "0") === "1" ? "true" : "false"}}"
         ></index-list>
     @else
       <index-list
