@@ -28,7 +28,7 @@ export default {
         orderNum: Number,
         status: String,
         course: Number,
-        orders: Array,
+        dishes: Array,
         time: String,
     },
 };
