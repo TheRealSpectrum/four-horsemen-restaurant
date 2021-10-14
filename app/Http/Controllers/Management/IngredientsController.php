@@ -57,4 +57,5 @@ final class IngredientsController extends ManagementController
     protected string $managementModel = Ingredient::class;
     protected string $managementName = "ingredients";
     protected string $managementParameterName = "ingredient";
+    protected array $orderByColumns = ["name", "purchase_price"];
 }

@@ -29,4 +29,5 @@ class UsersController extends ManagementController
     protected string $managementModel = User::class;
     protected string $managementName = "employees";
     protected string $managementParameterName = "employee";
+    protected array $orderByColumns = ["name", "email"];
 }

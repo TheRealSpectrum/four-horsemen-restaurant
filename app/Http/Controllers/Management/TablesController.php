@@ -45,6 +45,6 @@ class TablesController extends ManagementController
     protected string $managementModel = Table::class;
     protected string $managementName = "tables";
     protected string $managementParameterName = "table";
-    protected string $orderByColumn = "id";
+    protected array $orderByColumns = ["id", "seat_count"];
     protected bool $editInline = true;
 }

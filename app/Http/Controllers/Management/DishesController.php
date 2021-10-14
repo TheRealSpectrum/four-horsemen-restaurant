@@ -81,4 +81,5 @@ final class DishesController extends ManagementController
     protected string $managementModel = Dish::class;
     protected string $managementName = "dishes";
     protected string $managementParameterName = "dish";
+    protected array $orderByColumns = ["name", "price"];
 }
