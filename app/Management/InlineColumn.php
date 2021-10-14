@@ -11,12 +11,14 @@ final class InlineColumn
         string $header,
         string $inputType,
         callable $defaultValue,
+        bool $shouldSort,
         callable $map
     ) {
         $this->column = $column;
         $this->header = $header;
         $this->inputType = $inputType;
         $this->defaultValueCallback = $defaultValue;
+        $this->shouldSort = $shouldSort;
         $this->mapCallback = $map;
     }
 
@@ -33,6 +35,8 @@ final class InlineColumn
     public string $column;
     public string $header;
     public string $inputType;
+    public bool $shouldSort;
+
     private $defaultValueCallback;
     private $mapCallback;
 }
