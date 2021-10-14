@@ -5,6 +5,7 @@
                 <input
                     class="input block text-center w-1/2"
                     v-model="columns[i]"
+                    :type="types[i]"
                 />
             </div>
             <div v-else class="flex-1 text-center">
@@ -30,6 +31,7 @@ export default {
         editing: Boolean,
         columns: Array,
         previousColumns: Array,
+        types: Array,
     },
 };
 </script>

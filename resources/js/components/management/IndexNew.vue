@@ -27,7 +27,11 @@ export default {
                     this.columnData
                 );
 
-                location = this.routeIndex + "?page=" + this.pageAfterCreate;
+                location =
+                    this.routeIndex +
+                    "?page=" +
+                    this.pageAfterCreate +
+                    "&edit-last=1";
             } catch (error) {
                 console.log(error.response);
             }
