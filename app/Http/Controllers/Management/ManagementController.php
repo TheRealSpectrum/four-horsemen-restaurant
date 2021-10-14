@@ -31,8 +31,12 @@ abstract class ManagementController extends Controller
         if (!in_array($orderByColumn, $this->orderByColumns)) {
             $orderByColumn = $this->orderByColumns[0];
         }
+
+        $orderDirection =
+            $request->input("sort-desc", "0") === "1" ? "desc" : "asc";
+
         $models = $this->GetModelBuilder()
-            ->orderBy($orderByColumn)
+            ->orderBy($orderByColumn, $orderDirection)
             ->paginate(PAGINATION_PER_PAGE);
 
         $rows = new Collection();
