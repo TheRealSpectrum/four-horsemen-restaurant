@@ -1,15 +1,17 @@
 <template>
     <div class="bg-mono-light p-2 grid grid-cols-3 grid-rows-5 gap-1">
         <div class="flex flex-col justify-center">
-            <div class="text-4xl font-bold text-center">Order N</div>
+            <div class="text-4xl font-bold text-center">
+                Order {{ orderNum }}
+            </div>
         </div>
 
-        <kitchen-item-box>Status</kitchen-item-box>
-        <kitchen-item-box>Course 1</kitchen-item-box>
+        <kitchen-item-box>{{ status }}</kitchen-item-box>
+        <kitchen-item-box>Course {{ course }}</kitchen-item-box>
         <kitchen-item-box class="col-span-2 row-span-3"
             >Orders here :)</kitchen-item-box
         >
-        <kitchen-item-box>13:00</kitchen-item-box>
+        <kitchen-item-box>{{ time }}</kitchen-item-box>
         <kitchen-item-box>Course 2</kitchen-item-box>
         <div></div>
         <action-button
@@ -21,5 +23,13 @@
     </div>
 </template>
 <script>
-export default {};
+export default {
+    props: {
+        orderNum: Number,
+        status: String,
+        course: Number,
+        orders: Array,
+        time: String,
+    },
+};
 </script>
