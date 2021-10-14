@@ -11,7 +11,10 @@ use App\Models\Table;
 use App\Models\Order;
 use App\Models\OrderDish;
 use App\Models\Dish;
+use App\Models\Course;
 use Carbon\Carbon;
+
+use function PHPUnit\Framework\isNull;
 
 class OrderController extends Controller
 {
@@ -37,64 +40,29 @@ class OrderController extends Controller
         $order->table()->associate($table);
         $order->user()->associate($user);
 
-        // $order->save();
+        $order->save();
 
-        $i = 1;
         foreach ($request["dishes"] as $course) {
-            // $newCourse = new Course;
-            session(["test" . $i => $course]);
-            $i++;
-        }
+            $newCourse = new Course();
 
-        // array:2 [▼
-        //     "table" => 2
-        //     "dishes" => array:3 [▼
-        //         0 => array:2 [▼
-        //             "type" => "normal"
-        //             "items" => array:1 [▼
-        //                 0 => array:8 [▼
-        //                     "id" => 4
-        //                     "name" => "minus odit harum"
-        //                     "price" => 3999
-        //                     "minutes_to_prepare" => 30
-        //                     "created_at" => "2021-10-14T10:11:32.000000Z"
-        //                     "updated_at" => "2021-10-14T10:11:32.000000Z"
-        //                     "amount" => 1
-        //                     "note" => "gghjghj"
-        //                 ]
-        //             ]
-        //         ]
-        //         1 => array:2 [▼
-        //             "type" => "drinks"
-        //             "items" => array:1 [▼
-        //                 0 => array:8 [▼
-        //                     "id" => 5
-        //                     "name" => "voluptas aut nisi"
-        //                     "price" => 5499
-        //                     "minutes_to_prepare" => 30
-        //                     "created_at" => "2021-10-14T10:11:32.000000Z"
-        //                     "updated_at" => "2021-10-14T10:11:32.000000Z"
-        //                     "amount" => 1
-        //                     "note" => null
-        //                 ]
-        //             ]
-        //         ]
-        //         2 => array:2 [▼
-        //             "type" => "drinks"
-        //             "items" => array:1 [▼
-        //                 0 => array:8 [▼
-        //                     "id" => 6
-        //                     "name" => "occaecati inventore fugiat"
-        //                     "price" => 1499
-        //                     "minutes_to_prepare" => 30
-        //                     "created_at" => "2021-10-14T10:11:32.000000Z"
-        //                     "updated_at" => "2021-10-14T10:11:32.000000Z"
-        //                     "amount" => 1
-        //                     "note" => null
-        //                 ]
-        //             ]
-        //         ]
-        //     ]
-        // ]
+            $newCourse->order()->associate($order);
+            $newCourse->type = $course["type"];
+
+            $newCourse->save();
+
+            foreach ($course["items"] as $dish) {
+                $dishModel = Dish::find($dish["id"]);
+                $newOrderDish = new OrderDish();
+
+                $newOrderDish->dish()->associate($dishModel);
+                $newOrderDish->course()->associate($newCourse);
+                $newOrderDish->amount = $dish["amount"];
+                if (!isNull($dish["note"])) {
+                    $newOrderDish->note = $dish["note"];
+                }
+
+                $newOrderDish->save();
+            }
+        }
     }
 }
