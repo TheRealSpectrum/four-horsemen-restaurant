@@ -37,7 +37,14 @@ class OrderController extends Controller
         $order->table()->associate($table);
         $order->user()->associate($user);
 
-        $order->save();
+        // $order->save();
+
+        $i = 1;
+        foreach ($request["dishes"] as $course) {
+            // $newCourse = new Course;
+            session(["test" . $i => $course]);
+            $i++;
+        }
 
         // array:2 [▼
         //     "table" => 2
