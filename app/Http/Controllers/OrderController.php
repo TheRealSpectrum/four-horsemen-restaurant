@@ -30,20 +30,59 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        // array:2 [
-        //     "table" => 9
-        //     "dishes" => array:1 [▼
+        $table = Table::find($request["table"]);
+        $user = auth()->user();
+
+        $order = new Order();
+        $order->table()->associate($table);
+        $order->user()->associate($user);
+
+        $order->save();
+
+        // array:2 [▼
+        //     "table" => 2
+        //     "dishes" => array:3 [▼
         //         0 => array:2 [▼
         //             "type" => "normal"
         //             "items" => array:1 [▼
         //                 0 => array:8 [▼
-        //                     "id" => 1
-        //                     "name" => "quas molestias nam"
-        //                     "price" => 6999
+        //                     "id" => 4
+        //                     "name" => "minus odit harum"
+        //                     "price" => 3999
         //                     "minutes_to_prepare" => 30
-        //                     "created_at" => "2021-10-12T07:49:37.000000Z"
-        //                     "updated_at" => "2021-10-12T07:49:37.000000Z"
-        //                     "amount" => 2
+        //                     "created_at" => "2021-10-14T10:11:32.000000Z"
+        //                     "updated_at" => "2021-10-14T10:11:32.000000Z"
+        //                     "amount" => 1
+        //                     "note" => "gghjghj"
+        //                 ]
+        //             ]
+        //         ]
+        //         1 => array:2 [▼
+        //             "type" => "drinks"
+        //             "items" => array:1 [▼
+        //                 0 => array:8 [▼
+        //                     "id" => 5
+        //                     "name" => "voluptas aut nisi"
+        //                     "price" => 5499
+        //                     "minutes_to_prepare" => 30
+        //                     "created_at" => "2021-10-14T10:11:32.000000Z"
+        //                     "updated_at" => "2021-10-14T10:11:32.000000Z"
+        //                     "amount" => 1
+        //                     "note" => null
+        //                 ]
+        //             ]
+        //         ]
+        //         2 => array:2 [▼
+        //             "type" => "drinks"
+        //             "items" => array:1 [▼
+        //                 0 => array:8 [▼
+        //                     "id" => 6
+        //                     "name" => "occaecati inventore fugiat"
+        //                     "price" => 1499
+        //                     "minutes_to_prepare" => 30
+        //                     "created_at" => "2021-10-14T10:11:32.000000Z"
+        //                     "updated_at" => "2021-10-14T10:11:32.000000Z"
+        //                     "amount" => 1
         //                     "note" => null
         //                 ]
         //             ]
