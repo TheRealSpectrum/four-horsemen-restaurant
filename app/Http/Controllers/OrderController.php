@@ -59,6 +59,8 @@ class OrderController extends Controller
                 $newOrderDish->amount = $dish["amount"];
                 if (!isNull($dish["note"])) {
                     $newOrderDish->note = $dish["note"];
+                } else {
+                    $newOrderDish->note = "";
                 }
 
                 $newOrderDish->save();
