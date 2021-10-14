@@ -10,6 +10,7 @@ final class Builder
     public function __construct()
     {
         $this->columns = new Collection();
+        $this->inlineColumns = new Collection();
         $this->fieldsLeft = new Collection();
         $this->fieldsRight = new Collection();
         $this->changersStore = new Collection();
@@ -37,6 +38,39 @@ final class Builder
             new Column(
                 $column,
                 $header,
+                $map !== null
+                    ? $map
+                    : function (model $model) use ($column) {
+                        return $model->$column;
+                    }
+            )
+        );
+
+        return $this;
+    }
+
+    /*
+     * This function defines a column in the index page, but for use with inline edits.
+     *
+     * @param $column The same column used in the database, used for sorting the results.
+     * @param $header Displayed at the top of the index page, only descriptive.
+     *
+     * @param $map if set then this function will be used to determine the value that is displayed.
+     * If not set the database column will be used.
+     */
+    public function defineInlineColumn(
+        string $column,
+        string $header,
+        string $inputType,
+        callable $defaultValue,
+        ?callable $map = null
+    ): self {
+        $this->inlineColumns->push(
+            new InlineColumn(
+                $column,
+                $header,
+                $inputType,
+                $defaultValue,
                 $map !== null
                     ? $map
                     : function (model $model) use ($column) {
@@ -160,6 +194,7 @@ final class Builder
     }
 
     public Collection $columns;
+    public Collection $inlineColumns;
     public Collection $fieldsLeft;
     public Collection $fieldsRight;
     public Collection $changersStore;

@@ -4,7 +4,7 @@
   <div class="flex flex-col flex-1 m-6">
     <div class="grid grid-cols-8">
       <div class="col-span-7 h-10 flex flex-row p-4">
-        @foreach($builder->columns as $column)
+        @foreach($editInline ? $builder->inlineColumns : $builder->columns as $column)
           <div class="flex-1 text-center text-lg font-bold">
             {{ $column->header }}
           </div>
@@ -21,6 +21,8 @@
         route-edit=""
         route-update="{!! route("management.$managementName.update", [$managementParameterName => "___INSERT_ID___"]) !!}"
         :column-names="{!! $columnNames !!}"
+        :column-input-types="{!! $columnInputTypes !!}"
+        :edit-last="{{Request::input("edit-last", "0") === "1" ? "true" : "false"}}"
         ></index-list>
     @else
       <index-list

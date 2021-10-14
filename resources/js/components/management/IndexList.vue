@@ -6,6 +6,7 @@
                     <index-list-inline-edit
                         :editing="index === currentIndex"
                         :previousColumns="oldRows[index].columns"
+                        :types="columnInputTypes"
                         v-model="columns"
                     ></index-list-inline-edit>
                 </div>
@@ -62,6 +63,11 @@
 
 <script>
 export default {
+    created() {
+        if (this.editLast) {
+            this.currentIndex = this.rows.length - 1;
+        }
+    },
     data() {
         return {
             currentIndex: -1,
@@ -75,6 +81,8 @@ export default {
         routeEdit: String,
         routeUpdate: String,
         columnNames: Array,
+        columnInputTypes: Array,
+        editLast: Boolean,
     },
     methods: {
         insertedRouteShow(id) {
@@ -101,7 +109,9 @@ export default {
             );
 
             if (result.data.success) {
-                location.reload(true);
+                location = location
+                    .toString()
+                    .replace("edit-last=1", "edit-last=0");
             }
         },
     },
