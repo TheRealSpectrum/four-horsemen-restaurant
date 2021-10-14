@@ -313,7 +313,7 @@ export default {
                     this.computed_normal_course.indexOf(course) + 1
                 }`;
             } else {
-                return `drinks #${
+                return `drinks ${
                     this.computed_drink_course.indexOf(course) + 1
                 }`;
             }
