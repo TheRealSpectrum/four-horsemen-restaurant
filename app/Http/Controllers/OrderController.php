@@ -14,8 +14,6 @@ use App\Models\Dish;
 use App\Models\Course;
 use Carbon\Carbon;
 
-use function PHPUnit\Framework\isNull;
-
 class OrderController extends Controller
 {
     public function index()
@@ -57,11 +55,7 @@ class OrderController extends Controller
                 $newOrderDish->dish()->associate($dishModel);
                 $newOrderDish->course()->associate($newCourse);
                 $newOrderDish->amount = $dish["amount"];
-                if (!isNull($dish["note"])) {
-                    $newOrderDish->note = $dish["note"];
-                } else {
-                    $newOrderDish->note = "";
-                }
+                $newOrderDish->note = $dish["note"];
 
                 $newOrderDish->save();
             }
