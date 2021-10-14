@@ -74,6 +74,11 @@ Vue.component(
 );
 
 Vue.component(
+    "kitchen-page",
+    require("./components/kitchen/KitchenPage.vue").default
+);
+
+Vue.component(
     "action-button",
     require("./components/ActionButton.vue").default
 );

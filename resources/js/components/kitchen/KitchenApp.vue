@@ -1,6 +1,13 @@
 <template>
     <div class="kitchen-app grid w-full h-full">
-        <div class="flex flex-row"></div>
+        <div class="flex flex-row py-4 justify-center gap-4">
+            <kitchen-page
+                v-for="page in pages"
+                @select="index = page"
+                :page="page"
+                :current="page === index"
+            ></kitchen-page>
+        </div>
         <div class="grid grid-cols-3 grid-rows-2 gap-6 p-6">
             <kitchen-item
                 v-for="order in orders[index]"
@@ -26,6 +33,7 @@ export default {
         return {
             pollInterval: null,
             orders: [],
+            pages: [],
             index: 0,
         };
     },
@@ -91,8 +99,10 @@ export default {
             ]; // todo: implement axios request
 
             this.orders = [];
-            while (allOrders.length > 0) {
+            this.pages = [];
+            for (let i = 0; allOrders.length > 0; ++i) {
                 this.orders.push(allOrders.splice(0, 6));
+                this.pages.push(i);
             }
         },
     },
