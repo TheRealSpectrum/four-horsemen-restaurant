@@ -10,9 +10,9 @@ class OrderDish extends Model
 {
     use HasFactory;
 
-    public function order(): BelongsTo
+    public function course(): BelongsTo
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Course::class);
     }
 
     public function dish(): BelongsTo
@@ -20,5 +20,5 @@ class OrderDish extends Model
         return $this->belongsTo(Dish::class);
     }
 
-    protected $fillable = ["note"];
+    protected $fillable = ["note", "amount"];
 }
