@@ -13,8 +13,8 @@ final class DishesController extends ManagementController
     protected function managementInit(ManagementBuilder $builder): void
     {
         $builder
-            ->defineColumn("name", "Name")
-            ->defineColumn("price", "Price", function (Dish $dish) {
+            ->defineColumn("name", "Name", true)
+            ->defineColumn("price", "Price", true, function (Dish $dish) {
                 return $dish->priceAsString();
             });
 
@@ -81,5 +81,4 @@ final class DishesController extends ManagementController
     protected string $managementModel = Dish::class;
     protected string $managementName = "dishes";
     protected string $managementParameterName = "dish";
-    protected array $orderByColumns = ["name", "price"];
 }

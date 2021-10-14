@@ -13,20 +13,27 @@ class TablesController extends ManagementController
     protected function managementInit(ManagementBuilder $builder): void
     {
         $builder
-            ->defineInlineColumn("id", "Table Number", "number", function () {
-                if (Table::count() == 0) {
-                    return 1;
-                }
+            ->defineInlineColumn(
+                "id",
+                "Table Number",
+                "number",
+                function () {
+                    if (Table::count() == 0) {
+                        return 1;
+                    }
 
-                return Table::orderBy("id", "desc")->value("id") + 1;
-            })
+                    return Table::orderBy("id", "desc")->value("id") + 1;
+                },
+                true
+            )
             ->defineInlineColumn(
                 "seat_count",
                 "Available Seats",
                 "number",
                 function () {
                     return 1;
-                }
+                },
+                true
             );
 
         $builder
@@ -45,6 +52,6 @@ class TablesController extends ManagementController
     protected string $managementModel = Table::class;
     protected string $managementName = "tables";
     protected string $managementParameterName = "table";
-    protected array $orderByColumns = ["id", "seat_count"];
+    protected string $defaultOrderColumn = "id";
     protected bool $editInline = true;
 }

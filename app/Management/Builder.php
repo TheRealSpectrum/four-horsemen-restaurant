@@ -32,12 +32,14 @@ final class Builder
     public function defineColumn(
         string $column,
         string $header,
+        bool $shouldSort = true,
         ?callable $map = null
     ): self {
         $this->columns->push(
             new Column(
                 $column,
                 $header,
+                $shouldSort,
                 $map !== null
                     ? $map
                     : function (model $model) use ($column) {
@@ -63,6 +65,7 @@ final class Builder
         string $header,
         string $inputType,
         callable $defaultValue,
+        bool $shouldSort = true,
         ?callable $map = null
     ): self {
         $this->inlineColumns->push(
@@ -71,6 +74,7 @@ final class Builder
                 $header,
                 $inputType,
                 $defaultValue,
+                $shouldSort,
                 $map !== null
                     ? $map
                     : function (model $model) use ($column) {

@@ -12,13 +12,13 @@ final class IngredientsController extends ManagementController
     protected function managementInit(ManagementBuilder $builder): void
     {
         $builder
-            ->defineColumn("name", "Name")
-            ->defineColumn("stored", "In Stock", function (
+            ->defineColumn("name", "Name", true)
+            ->defineColumn("stored", "In Stock", false, function (
                 Ingredient $ingredient
             ) {
                 return $ingredient->storedWithUnit();
             })
-            ->defineColumn("purchase_price", "Purchase Price", function (
+            ->defineColumn("purchase_price", "Purchase Price", false, function (
                 Ingredient $ingredient
             ) {
                 return $ingredient->purchasePriceAsString();
@@ -57,5 +57,4 @@ final class IngredientsController extends ManagementController
     protected string $managementModel = Ingredient::class;
     protected string $managementName = "ingredients";
     protected string $managementParameterName = "ingredient";
-    protected array $orderByColumns = ["name", "purchase_price"];
 }

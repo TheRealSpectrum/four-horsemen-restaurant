@@ -11,7 +11,9 @@ class UsersController extends ManagementController
 {
     protected function managementInit(ManagementBuilder $builder): void
     {
-        $builder->defineColumn("name", "Name")->defineColumn("email", "Email");
+        $builder
+            ->defineColumn("name", "Name", true)
+            ->defineColumn("email", "Email", true);
 
         $builder
             ->defineFieldLeft("name", "text", "Name")
@@ -29,5 +31,4 @@ class UsersController extends ManagementController
     protected string $managementModel = User::class;
     protected string $managementName = "employees";
     protected string $managementParameterName = "employee";
-    protected array $orderByColumns = ["name", "email"];
 }

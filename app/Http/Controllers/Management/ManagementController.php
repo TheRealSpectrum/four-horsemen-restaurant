@@ -27,9 +27,17 @@ abstract class ManagementController extends Controller
             ? $this->builder->inlineColumns
             : $this->builder->columns;
 
-        $orderByColumn = $request->input("sort", $this->orderByColumns[0]);
-        if (!in_array($orderByColumn, $this->orderByColumns)) {
-            $orderByColumn = $this->orderByColumns[0];
+        $possibleOrderColumns = new Collection();
+
+        foreach ($columns as $column) {
+            if ($column->shouldSort) {
+                $possibleOrderColumns->push($column->column);
+            }
+        }
+
+        $orderByColumn = $request->input("sort", $this->defaultOrderColumn);
+        if (!$possibleOrderColumns->contains($orderByColumn)) {
+            $orderByColumn = $this->defaultOrderColumn;
         }
 
         $orderDirection =
@@ -252,7 +260,7 @@ abstract class ManagementController extends Controller
     protected string $managementModel = "";
     protected string $managementName = "";
     protected string $managementParameterName = "";
-    protected array $orderByColumns = ["name"];
+    protected string $defaultOrderColumn = "name";
     protected bool $editInline = false;
 
     abstract protected function managementInit(

@@ -6,10 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 final class Column
 {
-    public function __construct(string $column, string $header, callable $map)
-    {
+    public function __construct(
+        string $column,
+        string $header,
+        bool $shouldSort,
+        callable $map
+    ) {
         $this->column = $column;
         $this->header = $header;
+        $this->shouldSort = $shouldSort;
         $this->mapCallback = $map;
     }
 
@@ -20,5 +25,6 @@ final class Column
 
     public string $column;
     public string $header;
+    public bool $shouldSort;
     private $mapCallback;
 }
