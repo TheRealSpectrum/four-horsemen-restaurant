@@ -24,6 +24,17 @@ final class TableSeeder extends Seeder
                 ->attach($tables[($index + $startAtIndex) % 10]);
         };
 
+        $reservationAndActivateCallback = function (
+            Reservation $reservation,
+            int $index
+        ) use ($tables, &$startAtIndex) {
+            $reservation
+                ->tables()
+                ->attach($tables[($index + $startAtIndex) % 10]);
+            $tables[($index + $startAtIndex) % 10]->active = true;
+            $tables[($index + $startAtIndex) % 10]->save();
+        };
+
         Reservation::factory()
             ->count(50)
             ->create()
@@ -45,7 +56,7 @@ final class TableSeeder extends Seeder
             ->count(8)
             ->beforeNow()
             ->create()
-            ->each($reservationCallback);
+            ->each($reservationAndActivateCallback);
 
         $startAtIndex = 8;
 

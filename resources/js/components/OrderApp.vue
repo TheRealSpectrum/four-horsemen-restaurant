@@ -59,25 +59,30 @@
                 </div>
             </div>
         </div>
-        <div class="courseList">
-            <label
-                class="courseItem"
-                v-for="(course, index) in order"
-                :key="index"
-                :class="{ selected: selectedCourse == index }"
-            >
-                {{ getLable(course) }}
-                <input
-                    type="radio"
-                    name="course"
-                    :id="`course${index}`"
-                    :value="index"
-                    v-model="selectedCourse"
-                    hidden
-                />
-            </label>
-            <div class="addCourse btn" @click="addCourse()"></div>
-            <div class="addCourse btn" @click="addDrinks()"></div>
+        <div class="courseListWrapper">
+            <div class="courseList">
+                <label
+                    class="courseItem"
+                    v-for="(course, index) in order"
+                    :key="index"
+                    :class="{ selected: selectedCourse == index }"
+                >
+                    {{ getLable(course) }}
+                    <input
+                        type="radio"
+                        name="course"
+                        :id="`course${index}`"
+                        :value="index"
+                        v-model="selectedCourse"
+                        hidden
+                    />
+                </label>
+            </div>
+
+            <div class="courseListAdd">
+                <div class="addCourse btn" @click="addCourse()"></div>
+                <div class="addDrinks btn" @click="addDrinks()"></div>
+            </div>
         </div>
         <div class="btnGroup">
             <action-button level="action" @click-action="placeOrder()"
@@ -212,7 +217,7 @@ export default {
             menuItemNotes: undefined,
 
             //curent order
-            order: [],
+            order: [{ type: "normal", items: [] }],
             table: "",
             currentItemDetails: {},
         };
@@ -308,7 +313,7 @@ export default {
                     this.computed_normal_course.indexOf(course) + 1
                 }`;
             } else {
-                return `drinks #${
+                return `drinks ${
                     this.computed_drink_course.indexOf(course) + 1
                 }`;
             }
@@ -444,27 +449,46 @@ export default {
     white-space: nowrap;
     overflow: visible;
 }
-.courseList {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    pad: 10px;
-    height: 10%;
+
+.courseListWrapper {
+    display: grid;
     width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x proximity;
+    grid-template-columns: 1fr 10rem;
+    height: 20%;
     border-top: 2px solid var(--mono-darker, #000);
     border-bottom: 2px solid var(--mono-darker, #000);
 }
+
+.courseList {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: start;
+    gap: 10px;
+    pad: 10px;
+    padding: 1rem;
+    width: 100%;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    flex-wrap: wrap;
+}
+
+.courseListAdd {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
 .courseItem {
     border: solid 2px var(--mono-darker, #000);
     padding: 10px;
     flex-shrink: 0;
     white-space: nowrap;
     background-color: var(--mono-dark, #666);
+}
+
+.courseItem.selected {
+    background-color: var(--nav-active, #666);
 }
 
 .removeDish {
@@ -508,6 +532,40 @@ export default {
     left: calc(50% - 1em);
     top: calc(50% - 0.25em);
     background-color: var(--mono-darker, #000);
+}
+
+.addDrinks {
+    position: relative;
+    order: 9999;
+    height: 3em;
+    width: 3em;
+    flex-shrink: 0;
+    border: solid 0px transparent;
+    border-radius: 90%;
+    /*background: radial-gradient(#fff, #ddd);*/
+    background-color: var(--mono-dark, #fff);
+    border: 2px solid var(--mono-darker, #000);
+    scroll-snap-align: end;
+}
+.addDrinks::before {
+    content: " ";
+    position: absolute;
+    width: 1.5em;
+    height: 2em;
+    flex-shrink: 0;
+    left: calc(50% - 0.75em);
+    top: calc(50% - 1em);
+    background-color: var(--mono-darker, #000);
+}
+.addDrinks::after {
+    content: " ";
+    position: absolute;
+    width: 1.3em;
+    height: 2em;
+    flex-shrink: 0;
+    left: calc(50% - 0.65em);
+    top: calc(50% - 1.1em);
+    background-color: var(--mono-dark, #000);
 }
 
 .btnGroup {
@@ -554,7 +612,7 @@ export default {
     overflow-x: hidden;
 }
 
-.menuItem .inner {
+.menuItem /deep/ .inner {
     display: grid;
     grid-template-columns: 10rem 1fr;
     height: 100%;
