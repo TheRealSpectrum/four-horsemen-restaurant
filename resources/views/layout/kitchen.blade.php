@@ -1,7 +1,7 @@
 @extends("layout.app")
 
 @section("content")
-    <div id="app">
+    <div id="app" class="h-screen">
         @yield("kitchen-content")
     </div>
     <script src="{{ mix('/js/app.js') }}"></script>

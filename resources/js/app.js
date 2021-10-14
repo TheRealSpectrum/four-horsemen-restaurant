@@ -64,6 +64,16 @@ Vue.component(
 );
 
 Vue.component(
+    "kitchen-item",
+    require("./components/kitchen/KitchenItem.vue").default
+);
+
+Vue.component(
+    "kitchen-item-box",
+    require("./components/kitchen/KitchenItemBox.vue").default
+);
+
+Vue.component(
     "action-button",
     require("./components/ActionButton.vue").default
 );
