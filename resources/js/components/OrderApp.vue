@@ -487,6 +487,10 @@ export default {
     background-color: var(--mono-dark, #666);
 }
 
+.courseItem.selected {
+    background-color: var(--nav-active, #666);
+}
+
 .removeDish {
     padding: 0.5rem 2rem;
 }
