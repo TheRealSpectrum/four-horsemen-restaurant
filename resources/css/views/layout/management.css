@@ -1,3 +1,15 @@
 .management-root {
     height: calc(100vh - 5rem);
 }
+
+.sort-arrow-up {
+    width: 1rem;
+    height: 1rem;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.sort-arrow-down {
+    width: 1rem;
+    height: 1rem;
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+}
