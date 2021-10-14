@@ -608,7 +608,7 @@ export default {
     overflow-x: hidden;
 }
 
-.menuItem .inner {
+.menuItem /deep/ .inner {
     display: grid;
     grid-template-columns: 10rem 1fr;
     height: 100%;
