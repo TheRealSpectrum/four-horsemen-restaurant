@@ -19,7 +19,7 @@ const PAGINATION_PER_PAGE = 12;
 
 abstract class ManagementController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
         $this->managementInitWrapper();
 
@@ -27,8 +27,24 @@ abstract class ManagementController extends Controller
             ? $this->builder->inlineColumns
             : $this->builder->columns;
 
+        $possibleOrderColumns = new Collection();
+
+        foreach ($columns as $column) {
+            if ($column->shouldSort) {
+                $possibleOrderColumns->push($column->column);
+            }
+        }
+
+        $orderByColumn = $request->input("sort", $this->defaultOrderColumn);
+        if (!$possibleOrderColumns->contains($orderByColumn)) {
+            $orderByColumn = $this->defaultOrderColumn;
+        }
+
+        $orderDirection =
+            $request->input("sort-desc", "0") === "1" ? "desc" : "asc";
+
         $models = $this->GetModelBuilder()
-            ->orderBy($this->orderByColumn)
+            ->orderBy($orderByColumn, $orderDirection)
             ->paginate(PAGINATION_PER_PAGE);
 
         $rows = new Collection();
@@ -46,7 +62,7 @@ abstract class ManagementController extends Controller
         $columnNames = $columns->pluck("column");
         $columnInputTypes = $this->editInline
             ? $columns->pluck("inputType")
-            : [];
+            : new Collection();
 
         $modelsRemaining = $models->total();
         $pageAfterCreate = 1;
@@ -244,7 +260,7 @@ abstract class ManagementController extends Controller
     protected string $managementModel = "";
     protected string $managementName = "";
     protected string $managementParameterName = "";
-    protected string $orderByColumn = "name";
+    protected string $defaultOrderColumn = "name";
     protected bool $editInline = false;
 
     abstract protected function managementInit(
