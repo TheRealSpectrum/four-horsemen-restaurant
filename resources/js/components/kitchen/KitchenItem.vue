@@ -2,7 +2,7 @@
     <div class="bg-mono-light p-2 grid grid-cols-3 grid-rows-5 gap-1">
         <div class="flex flex-col justify-center">
             <div class="text-4xl font-bold text-center">
-                Order {{ orderNum }}
+                Table {{ orderNum }}
             </div>
         </div>
 
