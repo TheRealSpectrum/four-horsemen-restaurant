@@ -16,7 +16,7 @@ use App\Http\Controllers\{
  * middleware: 'web'
  */
 
-Route::get("/", HomeController::class)->name("home");
+Route::get("/", HomeController::class)->name("home")->middleware("auth");
 
 Route::name("auth.")->group(function () {
     Route::get("/login", [AuthController::class, "login"])->name("login");
