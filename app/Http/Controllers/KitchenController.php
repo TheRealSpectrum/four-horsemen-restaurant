@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\{Order, OrderDish};
+
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class KitchenController extends Controller
 {
@@ -23,8 +26,30 @@ class KitchenController extends Controller
     }
 
     // Get route to poll new orders
-    public function pollOrder()
+    public function orders(): JsonResponse
     {
+        $orders = Order::where("done", false)
+            ->with("firstOpenCourse")
+            ->get();
+        return response()->json([
+            "orders" => $orders->map(function (Order $order) {
+                return [
+                    "orderNum" => $order->id,
+                    "status" => "Ongoing",
+                    "course" => 1,
+                    "dishes" => $order->firstOpenCourse->dishes->map(function (
+                        OrderDish $dish
+                    ) {
+                        return [
+                            "name" => $dish->dish->name,
+                            "amount" => $dish->amount,
+                            "note" => $dish->note,
+                        ];
+                    }),
+                    "time" => "11:00",
+                ];
+            }),
+        ]);
     }
 
     // View to edit ingredient in stock

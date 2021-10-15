@@ -29,6 +29,9 @@
 
 <script>
 export default {
+    props: {
+        ordersRoute: String,
+    },
     data() {
         return {
             pollInterval: null,
@@ -38,65 +41,8 @@ export default {
         };
     },
     methods: {
-        poll() {
-            const allOrders = [
-                {
-                    orderNum: 1,
-                    status: "Ongoing",
-                    course: 2,
-                    dishes: [],
-                    time: "11:00",
-                },
-                {
-                    orderNum: 2,
-                    status: "New",
-                    course: 3,
-                    dishes: [],
-                    time: "12:00",
-                },
-                {
-                    orderNum: 3,
-                    status: "New",
-                    course: 3,
-                    dishes: [],
-                    time: "13:00",
-                },
-                {
-                    orderNum: 4,
-                    status: "New",
-                    course: 3,
-                    dishes: [],
-                    time: "14:00",
-                },
-                {
-                    orderNum: 5,
-                    status: "Ongoing",
-                    course: 2,
-                    dishes: [],
-                    time: "11:00",
-                },
-                {
-                    orderNum: 6,
-                    status: "New",
-                    course: 3,
-                    dishes: [],
-                    time: "12:00",
-                },
-                {
-                    orderNum: 7,
-                    status: "New",
-                    course: 3,
-                    dishes: [],
-                    time: "13:00",
-                },
-                {
-                    orderNum: 8,
-                    status: "New",
-                    course: 3,
-                    dishes: [],
-                    time: "14:00",
-                },
-            ]; // todo: implement axios request
+        async poll() {
+            const allOrders = (await axios.get(this.ordersRoute)).data.orders;
 
             this.orders = [];
             this.pages = [];
