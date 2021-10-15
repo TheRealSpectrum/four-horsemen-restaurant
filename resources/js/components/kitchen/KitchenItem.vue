@@ -8,9 +8,10 @@
 
         <kitchen-item-box>{{ status }}</kitchen-item-box>
         <kitchen-item-box>Course {{ course }}</kitchen-item-box>
-        <kitchen-item-box class="col-span-2 row-span-3"
-            >Orders here :)</kitchen-item-box
-        >
+        <kitchen-dishes
+            class="col-span-2 row-span-3"
+            :dishes="dishes"
+        ></kitchen-dishes>
         <kitchen-item-box>{{ time }}</kitchen-item-box>
         <kitchen-item-box>Course 2</kitchen-item-box>
         <div></div>

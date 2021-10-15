@@ -69,6 +69,11 @@ Vue.component(
 );
 
 Vue.component(
+    "kitchen-dishes",
+    require("./components/kitchen/KitchenDishes.vue").default
+);
+
+Vue.component(
     "kitchen-item-box",
     require("./components/kitchen/KitchenItemBox.vue").default
 );
