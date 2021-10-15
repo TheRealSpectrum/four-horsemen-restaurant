@@ -11,7 +11,7 @@ final class AuthController extends Controller
     public function login(): View|RedirectResponse
     {
         if (Auth::check()) {
-            return redirect()->route("reservations.index");
+            return redirect()->route("home");
         }
         return view("auth.login");
     }
@@ -26,7 +26,7 @@ final class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->route("reservations.index");
+            return redirect()->intended();
         }
 
         return back()

@@ -16,7 +16,7 @@ use App\Http\Controllers\{
  * middleware: 'web'
  */
 
-Route::get("/", HomeController::class)->name("home");
+Route::get("/", HomeController::class)->name("home")->middleware("auth");
 
 Route::name("auth.")->group(function () {
     Route::get("/login", [AuthController::class, "login"])->name("login");
@@ -41,6 +41,6 @@ Route::name("order.")->middleware("auth")->group(function(){
     Route::post("/order/store", [OrderController::class, "store"])->name("store");
 });
 
-Route::name("kitchen")->middleware("auth")->group(function() {
+Route::name("kitchen.")->middleware("auth")->group(function() {
     Route::get("/kitchen", [KitchenController::class, "index"])->name("index");
 });
