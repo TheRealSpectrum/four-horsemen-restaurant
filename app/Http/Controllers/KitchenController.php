@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class KitchenController extends Controller
 {
@@ -23,8 +24,19 @@ class KitchenController extends Controller
     }
 
     // Get route to poll new orders
-    public function pollOrder()
+    public function orders(): JsonResponse
     {
+        return response()->json([
+            "orders" => [
+                [
+                    "orderNum" => 2,
+                    "status" => "onGoing",
+                    "course" => 2,
+                    "dishes" => [],
+                    "time" => "11:00",
+                ],
+            ],
+        ]);
     }
 
     // View to edit ingredient in stock

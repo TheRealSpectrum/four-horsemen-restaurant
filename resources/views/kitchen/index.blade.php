@@ -1,6 +1,8 @@
 @extends("layout.kitchen")
 
 @section("kitchen-content")
-    <kitchen-app>
+    <kitchen-app
+        orders-route="{{route("kitchen.orders")}}"
+        >
     </kitchen-app>
 @endsection
