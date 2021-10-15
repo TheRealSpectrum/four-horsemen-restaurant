@@ -30,11 +30,12 @@ class KitchenController extends Controller
     {
         $orders = Order::where("done", false)
             ->with("firstOpenCourse")
+            ->with("table")
             ->get();
         return response()->json([
             "orders" => $orders->map(function (Order $order) {
                 return [
-                    "orderNum" => $order->id,
+                    "orderNum" => $order->table->id,
                     "status" => "Ongoing",
                     "course" => 1,
                     "dishes" => $order->firstOpenCourse->dishes->map(function (
