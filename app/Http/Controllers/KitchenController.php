@@ -28,7 +28,7 @@ class KitchenController extends Controller
     // Get route to poll new orders
     public function orders(): JsonResponse
     {
-        $orders = Order::where("done", false)
+        $orders = Order::has("firstOpenCourse")
             ->with("firstOpenCourse")
             ->with("table")
             ->get();
