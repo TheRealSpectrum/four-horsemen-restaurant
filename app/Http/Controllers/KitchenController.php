@@ -24,7 +24,7 @@ class KitchenController extends Controller
     public function closeCourse(Request $request)
     {
         $course = Course::find($request->id);
-        $course->done = 1;
+        $course->done = true;
         $course->save();
         return "Course " . $request->id . " is successfully set as done";
     }
