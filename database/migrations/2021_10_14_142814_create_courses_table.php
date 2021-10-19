@@ -10,6 +10,7 @@ final class CreateCoursesTable extends Migration
     {
         Schema::create("courses", function (Blueprint $table) {
             $table->id();
+            $table->integer("index");
             $table->foreignId("order_id")->constrained();
             $table->boolean("done")->default(false);
             $table->string("type");
