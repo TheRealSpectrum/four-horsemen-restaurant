@@ -16,6 +16,7 @@
                 :course="order.course"
                 :dishes="order.dishes"
                 :time="order.time"
+                :courseId="order.courseId"
                 :completeRoute="
                     completeRoute.replace('___INSERT_ID___', order.courseId)
                 "

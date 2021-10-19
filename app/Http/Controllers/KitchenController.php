@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Order, OrderDish};
+use App\Models\{Order, OrderDish, Course};
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -23,7 +23,10 @@ class KitchenController extends Controller
     // Post route to close orders
     public function closeCourse(Request $request)
     {
-        dd($request);
+        $course = Course::find($request->id);
+        $course->done = 1;
+        $course->save();
+        return "Course " . $request->id . " is successfully set as done";
     }
 
     // Get route to poll new orders

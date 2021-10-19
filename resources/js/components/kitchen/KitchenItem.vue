@@ -33,10 +33,18 @@ export default {
         course: Number,
         dishes: Array,
         time: String,
+        courseId: Number,
     },
     methods: {
         async completeCourse() {
-            await axios.patch(this.completeRoute);
+            await axios
+                .post(this.completeRoute, {
+                    id: this.courseId,
+                    _method: "patch",
+                })
+                .then((response) => {
+                    console.log(response.data);
+                });
         },
     },
 };
