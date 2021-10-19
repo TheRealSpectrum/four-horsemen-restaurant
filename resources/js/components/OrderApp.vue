@@ -318,9 +318,13 @@ export default {
                 }`;
             }
         },
-        placeOrder() {
+        async placeOrder() {
+            if (this.table === "") {
+                return;
+            }
+
             try {
-                axios.post("/order/store", this.returnedOrder);
+                await axios.post("/order/store", this.returnedOrder);
                 location.reload(true);
             } catch (error) {
                 console.error(error); // todo: This is shit, properly implement errors handling
