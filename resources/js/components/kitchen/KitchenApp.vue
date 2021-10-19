@@ -13,6 +13,7 @@
             <kitchen-item
                 v-for="(order, i) in orders[index]"
                 :key="i"
+                @marked-as-done="poll()"
                 :order-num="order.orderNum"
                 :status="order.status"
                 :course="order.course"
