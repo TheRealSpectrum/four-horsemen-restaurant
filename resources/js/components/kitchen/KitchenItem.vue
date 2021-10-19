@@ -18,6 +18,7 @@
         <action-button
             class="col-span-2 mx-16 my-2 text-2xl font-bold"
             level="safe"
+            @click-action="completeCourse"
             >mark course as done</action-button
         >
         <kitchen-item-box>Print receipt</kitchen-item-box>
@@ -26,11 +27,17 @@
 <script>
 export default {
     props: {
+        completeRoute: String,
         orderNum: Number,
         status: String,
         course: Number,
         dishes: Array,
         time: String,
+    },
+    methods: {
+        async completeCourse() {
+            await axios.patch(this.completeRoute);
+        },
     },
 };
 </script>
