@@ -466,8 +466,8 @@ export default {
 .courseList {
     display: flex;
     flex-direction: row;
-    align-items: start;
-    justify-content: start;
+    align-items: flex-start;
+    justify-content: flex-start;
     gap: 10px;
     pad: 10px;
     padding: 1rem;
