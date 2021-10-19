@@ -40,12 +40,12 @@ class OrderController extends Controller
 
         $order->save();
 
-        foreach ($request["dishes"] as $course) {
+        foreach ($request["dishes"] as $i => $course) {
             $newCourse = new Course();
 
             $newCourse->order()->associate($order);
             $newCourse->type = $course["type"];
-
+            $newCourse->index = $i + 1;
             $newCourse->save();
 
             foreach ($course["items"] as $dish) {
