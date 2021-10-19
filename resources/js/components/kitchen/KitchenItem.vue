@@ -13,7 +13,7 @@
             :dishes="dishes"
         ></kitchen-dishes>
         <kitchen-item-box>{{ time }}</kitchen-item-box>
-        <kitchen-item-box>Course 2</kitchen-item-box>
+        <div></div>
         <div></div>
         <action-button
             class="col-span-2 mx-16 my-2 text-2xl font-bold"
