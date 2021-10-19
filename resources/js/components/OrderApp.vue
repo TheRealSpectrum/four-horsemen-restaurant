@@ -241,10 +241,10 @@ export default {
     },
     methods: {
         removeDish(index) {
-            delete this.order[this.selectedCourse][index];
-            this.order[this.selectedCourse] = this.order[
+            delete this.order[this.selectedCourse].items[index];
+            this.order[this.selectedCourse].items = this.order[
                 this.selectedCourse
-            ].filter((i) => {
+            ].items.filter((i) => {
                 return i;
             });
         },
