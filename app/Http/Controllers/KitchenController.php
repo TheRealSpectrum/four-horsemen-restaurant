@@ -21,8 +21,9 @@ class KitchenController extends Controller
     }
 
     // Post route to close orders
-    public function closeOrder()
+    public function closeOrder(Request $request)
     {
+        dd($request);
     }
 
     // Get route to poll new orders

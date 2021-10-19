@@ -20,5 +20,5 @@ class Course extends Model
         return $this->hasMany(OrderDish::class);
     }
 
-    protected $fillable = ["type"];
+    protected $fillable = ["type", "done"];
 }
