@@ -26,6 +26,7 @@ final class IngredientFactory extends Factory
             "stored" => $this->faker->numberBetween(0, 100),
             "stored_min" => $this->faker->numberBetween(50, 100),
             "purchase_price" => $this->faker->numberBetween(1, 5) * 50,
+            "purchase_price_per" => $this->faker->numberBetween(1, 10) * 100,
         ];
     }
 }

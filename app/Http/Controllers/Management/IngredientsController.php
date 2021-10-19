@@ -21,7 +21,8 @@ final class IngredientsController extends ManagementController
             ->defineColumn("purchase_price", "Purchase Price", true, function (
                 Ingredient $ingredient
             ) {
-                return $ingredient->purchasePriceAsString();
+                return $ingredient->purchasePriceAsString() .
+                    " / {$ingredient->purchase_price_per}{$ingredient->unit}";
             });
 
         $builder
@@ -29,7 +30,12 @@ final class IngredientsController extends ManagementController
             ->defineFieldLeft("unit", "text", "unit")
             ->defineFieldLeft("stored", "number", "Stock")
             ->defineFieldLeft("stored_min", "number", "Desired Stock")
-            ->defineFieldLeft("purchase_price", "number", "Purchase Price");
+            ->defineFieldLeft("purchase_price", "number", "Purchase Price")
+            ->defineFieldLeft(
+                "purchase_price_per",
+                "number",
+                "Purchase Price Per"
+            );
 
         $builder
             ->defineChangerStore("name", ["required"])
@@ -37,6 +43,11 @@ final class IngredientsController extends ManagementController
             ->defineChangerStore("stored", ["required", "numeric", "min:0"])
             ->defineChangerStore("stored_min", ["required", "numeric", "min:0"])
             ->defineChangerStore("purchase_price", [
+                "required",
+                "numeric",
+                "min:0",
+            ])
+            ->defineChangerStore("purchase_price_per", [
                 "required",
                 "numeric",
                 "min:0",
