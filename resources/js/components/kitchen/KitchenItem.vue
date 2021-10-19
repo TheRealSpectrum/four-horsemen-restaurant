@@ -43,7 +43,7 @@ export default {
                     _method: "patch",
                 })
                 .then((response) => {
-                    console.log(response.data);
+                    this.$emit("marked-as-done");
                 });
         },
     },
