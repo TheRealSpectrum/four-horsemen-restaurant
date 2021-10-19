@@ -44,5 +44,5 @@ Route::name("order.")->middleware("auth")->group(function(){
 Route::prefix("kitchen")->name("kitchen.")->middleware("auth")->group(function() {
     Route::get("/", [KitchenController::class, "index"])->name("index");
     Route::get("orders", [KitchenController::class, "orders"])->name("orders");
-    Route::patch("complete", [KitchenController::class, "closeOrder"])->name("closeOrder");
+    Route::patch("{order}", [KitchenController::class, "closeCourse"])->name("closeCourse");
 });
