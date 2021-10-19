@@ -2,7 +2,8 @@
     <div class="kitchen-app grid w-full h-full">
         <div class="flex flex-row py-4 justify-center gap-4">
             <kitchen-page
-                v-for="page in pages"
+                v-for="(page, i) in pages"
+                :key="i"
                 @select="index = page"
                 :page="page"
                 :current="page === index"
@@ -10,7 +11,8 @@
         </div>
         <div class="grid grid-cols-3 grid-rows-2 gap-6 p-6">
             <kitchen-item
-                v-for="order in orders[index]"
+                v-for="(order, i) in orders[index]"
+                :key="i"
                 :order-num="order.orderNum"
                 :status="order.status"
                 :course="order.course"
