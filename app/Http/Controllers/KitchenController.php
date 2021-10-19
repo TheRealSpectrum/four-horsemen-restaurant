@@ -37,6 +37,7 @@ class KitchenController extends Controller
             "orders" => $orders->map(function (Order $order) {
                 return [
                     "orderNum" => $order->table->id,
+                    "courseId" => $order->firstOpenCourse->id,
                     "status" => "Ongoing",
                     "course" => 1,
                     "dishes" => $order->firstOpenCourse->dishes->map(function (

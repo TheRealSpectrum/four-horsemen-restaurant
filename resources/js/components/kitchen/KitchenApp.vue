@@ -16,6 +16,9 @@
                 :course="order.course"
                 :dishes="order.dishes"
                 :time="order.time"
+                :completeRoute="
+                    completeRoute.replace('___INSERT_ID___', order.courseId)
+                "
             ></kitchen-item>
         </div>
     </div>
@@ -31,6 +34,7 @@
 export default {
     props: {
         ordersRoute: String,
+        completeRoute: String,
     },
     data() {
         return {
