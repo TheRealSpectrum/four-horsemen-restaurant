@@ -13,9 +13,9 @@ final class DishSeeder extends Seeder
         $cheese = Ingredient::factory()->create([
             "name" => "Cheese",
             "unit" => "g",
-            "stored" => 1000,
-            "stored_min" => 1000,
-            "purchase_price" => 250,
+            "stored" => 1500,
+            "stored_min" => 3000,
+            "purchase_price" => 1000,
             "purchase_price_per" => 1000,
         ])->id;
 
@@ -32,8 +32,8 @@ final class DishSeeder extends Seeder
             "unit" => "g",
             "stored" => 500,
             "stored_min" => 500,
-            "purchase_price" => 500,
-            "purchase_price_per" => 600,
+            "purchase_price" => 900,
+            "purchase_price_per" => 1000,
         ])->id;
         $steak = Ingredient::factory()->create([
             "name" => "Steak",
@@ -64,7 +64,7 @@ final class DishSeeder extends Seeder
             "unit" => "g",
             "stored" => 1000,
             "stored_min" => 2000,
-            "purchase_price" => 500,
+            "purchase_price" => 2500,
             "purchase_price_per" => 500,
         ])->id;
         $pinenut = Ingredient::factory()->create([
@@ -72,7 +72,7 @@ final class DishSeeder extends Seeder
             "unit" => "g",
             "stored" => 2000,
             "stored_min" => 2000,
-            "purchase_price" => 1500,
+            "purchase_price" => 3200,
             "purchase_price_per" => 1000,
         ])->id;
         $egg = Ingredient::factory()->create([
@@ -80,7 +80,7 @@ final class DishSeeder extends Seeder
             "unit" => "",
             "stored" => 200,
             "stored_min" => 300,
-            "purchase_price" => 5,
+            "purchase_price" => 50,
             "purchase_price_per" => 50,
         ])->id;
         $flour = Ingredient::factory()->create([
@@ -96,7 +96,7 @@ final class DishSeeder extends Seeder
             "unit" => "g",
             "stored" => 5000,
             "stored_min" => 6500,
-            "purchase_price" => 200,
+            "purchase_price" => 3000,
             "purchase_price_per" => 500,
         ])->id;
         $oregano = Ingredient::factory()->create([
@@ -104,16 +104,16 @@ final class DishSeeder extends Seeder
             "unit" => "g",
             "stored" => 4000,
             "stored_min" => 5000,
-            "purchase_price" => 150,
+            "purchase_price" => 3000,
             "purchase_price_per" => 500,
         ])->id;
         $tomato = Ingredient::factory()->create([
             "name" => "Tomato",
-            "unit" => "kg",
-            "stored" => 10,
-            "stored_min" => 15,
+            "unit" => "g",
+            "stored" => 2000,
+            "stored_min" => 2500,
             "purchase_price" => 200,
-            "purchase_price_per" => 1,
+            "purchase_price_per" => 1000,
         ])->id;
 
         $ingredients = Ingredient::all();
@@ -121,54 +121,51 @@ final class DishSeeder extends Seeder
         $this->createDish(
             [
                 "name" => "Pasta Pesto",
-                "price" => 1999,
+                "price" => 4499,
                 "minutes_to_prepare" => 30,
             ],
-            [[$flour, 500], [$basil, 400], [$pinenut, 100], [$cheese, 150]]
+            [
+                [$flour, 500],
+                [$basil, 400],
+                [$pinenut, 200],
+                [$cheese, 150],
+                [$egg, 2],
+            ]
         );
         $this->createDish(
             [
                 "name" => "Pasta Fish",
-                "price" => 2499,
+                "price" => 2999,
                 "minutes_to_prepare" => 40,
             ],
             [
                 [$flour, 500],
                 [$cheese, 150],
                 [$fish, 1],
-                [$thyme, 60],
-                [$oregano, 100],
-                [$basil, 200],
-                [$tomato, 6],
+                [$thyme, 20],
+                [$oregano, 50],
+                [$basil, 80],
+                [$tomato, 200],
+                [$egg, 2],
             ]
         );
         $this->createDish(
             [
                 "name" => "Pasta with steak",
-                "price" => 3499,
+                "price" => 4499,
                 "minutes_to_prepare" => 50,
             ],
             [
                 [$flour, 500],
-                [$basil, 200],
+                [$basil, 90],
                 [$pinenut, 50],
                 [$walnut, 80],
-                [$oregano, 80],
-                [$thyme, 40],
+                [$oregano, 50],
+                [$thyme, 35],
+                [$steak, 1],
+                [$egg, 2],
             ]
         );
-
-        Dish::factory()
-            ->count(10)
-            ->create()
-            ->each(function (Dish $dish) use ($ingredients) {
-                $count = rand(4, 12);
-                for ($i = 0; $i < $count; ++$i) {
-                    $dish->ingredients()->attach($ingredients->random(), [
-                        "amount" => rand(10, 20),
-                    ]);
-                }
-            });
     }
 
     private function createDish(array $attributes, array $ingredients): void

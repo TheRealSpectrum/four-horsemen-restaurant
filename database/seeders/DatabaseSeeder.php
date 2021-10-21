@@ -10,7 +10,6 @@ final class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
-            IngredientSeeder::class,
             DishSeeder::class,
             TableSeeder::class,
             //ReservationSeeder::class,
