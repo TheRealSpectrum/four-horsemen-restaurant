@@ -40,14 +40,18 @@ final class Dish extends Model
 
         foreach ($this->ingredients as $ingredient) {
             $currentPriceString = substr_replace(
-                (string) ($ingredient->pivot->amount *
-                    $ingredient->purchase_price),
+                (string) round(
+                    ($ingredient->pivot->amount * $ingredient->purchase_price) /
+                        $ingredient->purchase_price_per
+                ),
                 ",",
                 -2,
                 0
             );
             $currentPriceString =
-                $this->price < 100
+                ($ingredient->pivot->amount * $ingredient->purchase_price) /
+                    $ingredient->purchase_price_per <
+                100
                     ? "€0$currentPriceString"
                     : "€$currentPriceString";
             // prettier-ignore
@@ -58,12 +62,14 @@ final class Dish extends Model
                         purchasePrice: '$currentPriceString'
                     },
                     JSON;
-            $totalPrice +=
-                $ingredient->pivot->amount * $ingredient->purchase_price;
+            $totalPrice += round(
+                ($ingredient->pivot->amount * $ingredient->purchase_price) /
+                    $ingredient->purchase_price_per
+            );
         }
 
         $priceString = substr_replace((string) $totalPrice, ",", -2, 0);
-        $priceString = $this->price < 100 ? "€0$priceString" : "€$priceString";
+        $priceString = $totalPrice < 100 ? "€0$priceString" : "€$priceString";
 
         $result =
             "{totalPurchasePrice: '$priceString', ingredients: [" . $result;
