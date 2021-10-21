@@ -189,12 +189,12 @@
                 </div>
             </label>
             <label id="tables">
-                <span class="extraDataWrap"><span>Tables</span><span>{{getAvailibleSeats()}}</span></span>
-                <div class="availibleTables">
-                    <h3>Availible</h3>
+                <span class="extraDataWrap"><span>Tables</span><span>{{getAvailableSeats()}}</span></span>
+                <div class="availableTables">
+                    <h3>Available</h3>
                     <div
                         class="custom-option"
-                        v-for="table in computed_availible_tables"
+                        v-for="table in computed_available_tables"
                         :key="table.id"
                         :value="table.id"
                         v-on:click="toggleTable(table.id)"
@@ -336,9 +336,9 @@ export default {
             }
         },
         computed_table_data: function () {
-            return this.table_data.filter((i) => this.isAvailible(i));
+            return this.table_data.filter((i) => this.isAvailable(i));
         },
-        computed_availible_tables: function () {
+        computed_available_tables: function () {
             return this.computed_table_data.filter((i) =>
                 this.isNotSelected(i)
             );
@@ -489,7 +489,7 @@ export default {
                 this.selectedTabels = tables;
             }
         },
-        isAvailible(table) {
+        isAvailable(table) {
             let id = table.id;
             let result = true;
             let startTime = new Date(this.selected_reservation?.date_start);
@@ -534,18 +534,18 @@ export default {
             }
             return out;
         },
-        getAvailibleSeats() {
+        getAvailableSeats() {
             let seats = 0;
             let tables = this.computed_table_data ?? [];
             tables.forEach((table) => {
                 seats += table?.seat_count;
             });
             if (seats < 1) {
-                return "no seats availible";
+                return "no seats available";
             } else if (seats == 1) {
-                return "1 seat availeble";
+                return "1 seat available";
             } else {
-                return `${seats} seats availible`;
+                return `${seats} seats available`;
             }
         },
     },

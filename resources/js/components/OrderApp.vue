@@ -107,7 +107,7 @@
                 @click-action="selectMenuItem(index)"
                 class="menuItem"
             >
-                <!-- TODO add src when images are availible -->
+                <!-- TODO add src when images are available -->
                 <div class="menuImage">
                     <img
                         src="/dishes/missing.png"
