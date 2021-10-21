@@ -204,7 +204,7 @@
                         {{ table.seat_count > 1 ? "seats" : "seat" }}
                     </div>
                 </div>
-                <div class="sepatator">
+                <div class="separator">
                 </div>
                 <div class="selectedTables">
                     <h3>selected</h3>
