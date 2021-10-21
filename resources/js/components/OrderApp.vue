@@ -1,6 +1,6 @@
 <template>
     <div id="order-root" class="new" v-if="state == 'new'">
-        <div class="notification" :class="showNoteification ? 'show' : ''">
+        <div class="notification" :class="showNotification ? 'show' : ''">
             <p>{{ norificationContent }}</p>
         </div>
         <label class="tableSelectWrap">
@@ -209,7 +209,7 @@ export default {
             selectedDish: undefined,
             selectedCourse: 0,
             selectedDishFilter: undefined,
-            showNoteification: false,
+            showNotification: false,
             norificationContent: "",
 
             //menu item input
@@ -293,9 +293,9 @@ export default {
             if (this.table != related[0]) {
                 this.table = related[0];
                 this.norificationContent = `changed table to ${related[0]} due to group assignment`;
-                this.showNoteification = true;
+                this.showNotification = true;
                 setTimeout(() => {
-                    this.showNoteification = false;
+                    this.showNotification = false;
                     console.log("timeout");
                     this.norificationContent = "";
                 }, 2000);
