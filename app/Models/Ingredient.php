@@ -51,5 +51,6 @@ final class Ingredient extends Model
         "stored",
         "stored_min",
         "purchase_price",
+        "purchase_price_per",
     ];
 }
