@@ -28,7 +28,7 @@ Vue.component(
 
 Vue.component(
     "table-select-component",
-    require("./components/AvailibleTableSelect.vue").default
+    require("./components/AvailableTableSelect.vue").default
 );
 
 Vue.component("order-app", require("./components/OrderApp.vue").default);
