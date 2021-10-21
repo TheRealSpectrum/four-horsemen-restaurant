@@ -1,7 +1,7 @@
 <template>
     <div id="order-root" class="new" v-if="state == 'new'">
         <div class="notification" :class="showNotification ? 'show' : ''">
-            <p>{{ norificationContent }}</p>
+            <p>{{ notificationContent }}</p>
         </div>
         <label class="tableSelectWrap">
             <h3>table</h3>
@@ -67,7 +67,7 @@
                     :key="index"
                     :class="{ selected: selectedCourse == index }"
                 >
-                    {{ getLable(course) }}
+                    {{ getLabel(course) }}
                     <input
                         type="radio"
                         name="course"
@@ -210,7 +210,7 @@ export default {
             selectedCourse: 0,
             selectedDishFilter: undefined,
             showNotification: false,
-            norificationContent: "",
+            notificationContent: "",
 
             //menu item input
             selectedQuantity: 1,
@@ -292,12 +292,12 @@ export default {
             );
             if (this.table != related[0]) {
                 this.table = related[0];
-                this.norificationContent = `changed table to ${related[0]} due to group assignment`;
+                this.notificationContent = `changed table to ${related[0]} due to group assignment`;
                 this.showNotification = true;
                 setTimeout(() => {
                     this.showNotification = false;
                     console.log("timeout");
-                    this.norificationContent = "";
+                    this.notificationContent = "";
                 }, 2000);
             }
         },
@@ -307,7 +307,7 @@ export default {
         isNormalOrder(order) {
             return order.type == "normal";
         },
-        getLable(course) {
+        getLabel(course) {
             if (course.type == "normal") {
                 return `course ${
                     this.computed_normal_course.indexOf(course) + 1
