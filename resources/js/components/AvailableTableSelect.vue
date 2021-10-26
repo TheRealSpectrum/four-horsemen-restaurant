@@ -60,14 +60,14 @@
         <span class="extraDataWrap">
             <span>Tables</span>
             <span>{{ total_asigned_seats }}</span>
-            <span>{{ getAvailibleSeats() }}</span>
+            <span>{{ getAvailableSeats() }}</span>
         </span>
         <label id="tables">
-            <div class="availibleTables">
-                <h3>Availible</h3>
+            <div class="availableTables">
+                <h3>Available</h3>
                 <div
                     class="custom-option"
-                    v-for="table in computed_availible_tables"
+                    v-for="table in computed_available_tables"
                     :key="table.id"
                     :value="table.id"
                     v-on:click="toggleTable(table.id)"
@@ -77,7 +77,7 @@
                     {{ table.seat_count > 1 ? "seats" : "seat" }}
                 </div>
             </div>
-            <div class="sepatator"></div>
+            <div class="separator"></div>
             <div class="selectedTables">
                 <h3>selected</h3>
                 <div
@@ -133,9 +133,9 @@ export default {
             }
         },
         computed_table_data: function () {
-            return this.table_data.filter((i) => this.isAvailible(i));
+            return this.table_data.filter((i) => this.isAvailable(i));
         },
-        computed_availible_tables: function () {
+        computed_available_tables: function () {
             return this.computed_table_data.filter((i) =>
                 this.isNotSelected(i)
             );
@@ -186,7 +186,7 @@ export default {
                 "0" + datetime.getMinutes()
             ).slice(-2)}`;
         },
-        isAvailible(table) {
+        isAvailable(table) {
             let id = table.id;
             let startDateTime = new Date(
                 `${this.selected_date}T${this.selected_time}:00.000000+02:00`
@@ -254,18 +254,18 @@ export default {
             }
             return out;
         },
-        getAvailibleSeats() {
+        getAvailableSeats() {
             let seats = 0;
             let tables = this.computed_table_data ?? [];
             tables.forEach((table) => {
                 seats += table?.seat_count;
             });
             if (seats < 1) {
-                return "no seats availible";
+                return "no seats available";
             } else if (seats == 1) {
-                return "1 seat availeble";
+                return "1 seat available";
             } else {
-                return `${seats} seats availible`;
+                return `${seats} seats available`;
             }
         },
     },
