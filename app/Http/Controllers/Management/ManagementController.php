@@ -159,7 +159,7 @@ abstract class ManagementController extends Controller
         ]);
     }
 
-    public function show($id): view
+    public function show($id): View
     {
         $this->managementInitWrapper();
         $model = $this->GetModelBuilder()
@@ -174,7 +174,7 @@ abstract class ManagementController extends Controller
         ]);
     }
 
-    public function edit($id): view
+    public function edit($id): View
     {
         $this->managementInitWrapper();
         $model = $this->queryEdit(

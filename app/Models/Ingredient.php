@@ -17,13 +17,15 @@ final class Ingredient extends Model
 
     public function asObjectString(): string
     {
+        $purchasePrice = $this->purchase_price / $this->purchase_price_per;
+
         // prettier-ignore
         return <<<JSON
         {
             id: $this->id,
             name: '$this->name',
             unit: '$this->unit',
-            purchasePrice: $this->purchase_price
+            purchasePrice: $purchasePrice
         }
         JSON;
     }
@@ -50,5 +52,6 @@ final class Ingredient extends Model
         "stored",
         "stored_min",
         "purchase_price",
+        "purchase_price_per",
     ];
 }

@@ -62,6 +62,11 @@ final class IngredientsController extends ManagementController
                 "filled",
                 "numeric",
                 "min:0",
+            ])
+            ->defineChangerUpdate("purchase_price_per", [
+                "filled",
+                "numeric",
+                "min:0",
             ]);
     }
 

@@ -85,7 +85,7 @@ export default {
             this.items.splice(index, 1);
         },
         asCurrency(amount) {
-            let result = amount.toString();
+            let result = Math.round(amount).toString();
             if (result.length < 3) {
                 result = result.padStart(3, "0");
             }
