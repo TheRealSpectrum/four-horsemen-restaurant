@@ -82,7 +82,6 @@
 
             <div class="courseListAdd">
                 <div class="addCourse btn" @click="$emit('add-course')"></div>
-                <div class="addDrinks btn" @click="$emit('add-drinks')"></div>
             </div>
         </div>
         <div class="btnGroup">
@@ -269,7 +268,7 @@ export default {
     display: grid;
     width: 100%;
     grid-template-columns: 1fr 10rem;
-    height: 20%;
+    height: 10%;
     border-top: 2px solid var(--mono-darker, #000);
     border-bottom: 2px solid var(--mono-darker, #000);
 }
@@ -277,7 +276,7 @@ export default {
 .courseList {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
     gap: 10px;
     pad: 10px;
@@ -347,40 +346,6 @@ export default {
     left: calc(50% - 1em);
     top: calc(50% - 0.25em);
     background-color: var(--mono-darker, #000);
-}
-
-.addDrinks {
-    position: relative;
-    order: 9999;
-    height: 3em;
-    width: 3em;
-    flex-shrink: 0;
-    border: solid 0px transparent;
-    border-radius: 90%;
-    /*background: radial-gradient(#fff, #ddd);*/
-    background-color: var(--mono-dark, #fff);
-    border: 2px solid var(--mono-darker, #000);
-    scroll-snap-align: end;
-}
-.addDrinks::before {
-    content: " ";
-    position: absolute;
-    width: 1.5em;
-    height: 2em;
-    flex-shrink: 0;
-    left: calc(50% - 0.75em);
-    top: calc(50% - 1em);
-    background-color: var(--mono-darker, #000);
-}
-.addDrinks::after {
-    content: " ";
-    position: absolute;
-    width: 1.3em;
-    height: 2em;
-    flex-shrink: 0;
-    left: calc(50% - 0.65em);
-    top: calc(50% - 1.1em);
-    background-color: var(--mono-dark, #000);
 }
 
 .btnGroup {
