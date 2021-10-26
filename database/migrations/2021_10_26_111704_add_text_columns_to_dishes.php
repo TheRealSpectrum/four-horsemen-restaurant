@@ -14,9 +14,9 @@ class AddTextColumnsToDishes extends Migration
     public function up()
     {
         Schema::table("dishes", function (Blueprint $table) {
-            $table->text("allergies")->nullable();
-            $table->text("variations")->nullable();
-            $table->text("recipe")->nullable();
+            $table->text("allergies")->default("");
+            $table->text("variations")->default("");
+            $table->text("recipe")->default("");
         });
     }
 

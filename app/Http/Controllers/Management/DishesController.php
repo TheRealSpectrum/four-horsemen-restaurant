@@ -40,7 +40,10 @@ final class DishesController extends ManagementController
                 function (Dish $dish) {
                     return $dish->ingredientsAsJson();
                 }
-            );
+            )
+            ->defineFieldRight("allergies", "textarea", "Allergy Information")
+            ->defineFieldRight("variations", "textarea", "Dish Variations")
+            ->defineFieldRight("recipe", "textarea", "Dish Recipe");
 
         $builder
             ->defineChangerStore("name", ["required"])
