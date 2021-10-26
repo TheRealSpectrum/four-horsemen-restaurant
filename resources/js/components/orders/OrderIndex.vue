@@ -60,7 +60,7 @@
                 </div>
             </div>
         </div>
-        <div class="courseListWrapper">
+        <div v-if="!isDrinks" class="courseListWrapper">
             <div class="courseList">
                 <label
                     class="courseItem"
@@ -86,10 +86,28 @@
             </div>
         </div>
         <div class="btnGroup">
+            <action-button
+                v-if="isDrinks"
+                level="action"
+                @click-action="$emit('swap')"
+                >Courses</action-button
+            >
+            <action-button v-else level="action" @click-action="$emit('swap')"
+                >Drinks</action-button
+            >
+
             <action-button level="action" @click-action="$emit('place-order')"
                 >Place Order</action-button
             >
+
             <action-button
+                v-if="isDrinks"
+                level="safe"
+                @click-action="$emit('move-to-menu-select')"
+                >Add Drink</action-button
+            >
+            <action-button
+                v-else
                 level="safe"
                 @click-action="$emit('move-to-menu-select')"
                 >Add Dish</action-button
@@ -106,6 +124,7 @@ export default {
         };
     },
     props: {
+        isDrinks: Boolean,
         showNotification: Boolean,
         notificationContent: String,
         tableValue: String,

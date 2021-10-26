@@ -1,6 +1,7 @@
 <template>
     <order-index
         v-if="state === 'new'"
+        :is-drinks="false"
         :showNotification="showNotification"
         :notificationContent="notificationContent"
         :table="table"
@@ -10,6 +11,29 @@
         :computed_drink_course="computed_drink_course"
         :order="order"
         :selectedCourse="selectedCourse"
+        @swap="setState('drinks')"
+        @table-changed="table = $event.target.value"
+        @check-table="checkTable()"
+        @remove-dish="removeDish"
+        @add-course="addCourse()"
+        @add-drinks="addDrinks()"
+        @place-order="placeOrder()"
+        @move-to-menu-select="moveToMenuSelect()"
+    />
+
+    <order-index
+        v-else-if="state === 'drinks'"
+        :is-drinks="true"
+        :showNotification="showNotification"
+        :notificationContent="notificationContent"
+        :table="table"
+        :computedActiveTables="computedActiveTables"
+        :computedSelectedCourse="computedSelectedCourse"
+        :computed_normal_course="computed_normal_course"
+        :computed_drink_course="computed_drink_course"
+        :order="order"
+        :selectedCourse="selectedCourse"
+        @swap="setState('new')"
         @table-changed="table = $event.target.value"
         @check-table="checkTable()"
         @remove-dish="removeDish"
@@ -182,6 +206,9 @@ export default {
         },
         moveToMenuSelect() {
             this.state = "select";
+        },
+        setState(newState) {
+            this.state = newState;
         },
         selectMenuItem(index) {
             if (index != this.selectedDish) {
