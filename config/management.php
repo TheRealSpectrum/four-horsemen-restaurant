@@ -15,6 +15,6 @@ return [
         ["Dishes", "dishes"],
         ["Tables", "tables"],
         ["Ingredients", "ingredients"],
-        ["Advanced", ""],
+        ["Advanced", "advanced"],
     ],
 ];
