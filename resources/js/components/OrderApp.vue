@@ -1,98 +1,48 @@
 <template>
-    <div id="order-root" class="new" v-if="state == 'new'">
-        <div class="notification" :class="showNotification ? 'show' : ''">
-            <p>{{ notificationContent }}</p>
-        </div>
-        <label class="tableSelectWrap">
-            <h3>table</h3>
-            <select
-                name="table"
-                id="table"
-                v-model="table"
-                @change="checkTable()"
-            >
-                <option value="">select</option>
-                <option
-                    v-for="(table, index) in computedActiveTables"
-                    :key="index"
-                    :value="table.id"
-                >
-                    {{ table.id }}
-                </option>
-            </select>
-        </label>
-        <div class="orderList">
-            <div
-                v-for="(item, index) in computedSelectedCourse"
-                :key="index"
-                class="orderItem"
-            >
-                <div class="dishQuantity">
-                    <p>
-                        {{ `${item.amount} X` }}
-                    </p>
-                </div>
-                <div class="dishImage">
-                    <!-- todo: make this dynamic with custom images -->
-                    <img
-                        src="/dishes/missing.png"
-                        :alt="`${item.name} image`"
-                    />
-                </div>
-                <div class="dishName">
-                    <p>
-                        {{ item.name }}
-                    </p>
-                </div>
-                <div
-                    class="noteIndicator"
-                    :class="{ noted: item.note.length > 0 }"
-                >
-                    <div />
-                </div>
-                <div class="removeDish">
-                    <action-button
-                        @click-action="removeDish(index)"
-                        level="high"
-                        >Remove</action-button
-                    >
-                </div>
-            </div>
-        </div>
-        <div class="courseListWrapper">
-            <div class="courseList">
-                <label
-                    class="courseItem"
-                    v-for="(course, index) in order"
-                    :key="index"
-                    :class="{ selected: selectedCourse == index }"
-                >
-                    {{ getLabel(course) }}
-                    <input
-                        type="radio"
-                        name="course"
-                        :id="`course${index}`"
-                        :value="index"
-                        v-model="selectedCourse"
-                        hidden
-                    />
-                </label>
-            </div>
+    <order-index
+        v-if="state === 'new'"
+        :is-drinks="false"
+        :showNotification="showNotification"
+        :notificationContent="notificationContent"
+        :table="table"
+        :computedActiveTables="computedActiveTables"
+        :computedSelectedCourse="computedSelectedCourse"
+        :computed_normal_course="computed_normal_course"
+        :computed_drink_course="computed_drink_course"
+        :order="order"
+        :selectedCourse="selectedCourse"
+        @swap="setState('drinks')"
+        @table-changed="table = $event.target.value"
+        @check-table="checkTable()"
+        @remove-dish="removeDish"
+        @add-course="addCourse()"
+        @add-drinks="addDrinks()"
+        @place-order="placeOrder()"
+        @move-to-menu-select="moveToMenuSelect()"
+    />
 
-            <div class="courseListAdd">
-                <div class="addCourse btn" @click="addCourse()"></div>
-                <div class="addDrinks btn" @click="addDrinks()"></div>
-            </div>
-        </div>
-        <div class="btnGroup">
-            <action-button level="action" @click-action="placeOrder()"
-                >Place Order</action-button
-            >
-            <action-button level="safe" @click-action="moveToMenuSelect()"
-                >Add Dish</action-button
-            >
-        </div>
-    </div>
+    <order-index
+        v-else-if="state === 'drinks'"
+        :is-drinks="true"
+        :showNotification="showNotification"
+        :notificationContent="notificationContent"
+        :table="table"
+        :computedActiveTables="computedActiveTables"
+        :computedSelectedCourse="computedSelectedCourse"
+        :computed_normal_course="computed_normal_course"
+        :computed_drink_course="computed_drink_course"
+        :order="order"
+        :selectedCourse="selectedCourse"
+        @swap="setState('new')"
+        @table-changed="table = $event.target.value"
+        @check-table="checkTable()"
+        @remove-dish="removeDish"
+        @add-course="addCourse()"
+        @add-drinks="addDrinks()"
+        @place-order="placeOrder()"
+        @move-to-menu-select="moveToMenuSelect()"
+    />
+
     <div id="order-root" v-else-if="state == 'select'">
         <div class="dishCategorySelect">
             <!-- todo: implement properly-->
@@ -256,6 +206,9 @@ export default {
         },
         moveToMenuSelect() {
             this.state = "select";
+        },
+        setState(newState) {
+            this.state = newState;
         },
         selectMenuItem(index) {
             if (index != this.selectedDish) {
