@@ -10,6 +10,8 @@ class Course extends Model
 {
     use HasFactory;
 
+    protected $touches = ["order"];
+
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
