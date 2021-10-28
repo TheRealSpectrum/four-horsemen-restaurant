@@ -1,7 +1,11 @@
 @extends("layout.management")
 
 @section("management-content")
-  <management-advanced-app :groups="{{str_replace("\"", "'", json_encode($groups))}}">
+  <management-advanced-app
+    :groups="{{str_replace("\"", "'", json_encode($groups))}}"
+    update-route="{{route("management.advanced.update", ["setting" => "___INSERT_SETTING___"])}}"
+    >
+
     <template slot-scope="props">
     @foreach($groups as $i => $group)
       @foreach($group["settings"] as $j => $setting)

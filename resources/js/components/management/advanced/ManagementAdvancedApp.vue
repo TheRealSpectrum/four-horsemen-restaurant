@@ -25,6 +25,9 @@
             </li>
         </ul>
         <div class="h-full w-full">
+            <action-button level="safe" @click-action="triggerUpdate()">
+                Save
+            </action-button>
             <slot :isSelected="isSelected" />
         </div>
     </div>
@@ -39,6 +42,7 @@ export default {
     },
     props: {
         groups: Array,
+        updateRoute: String,
     },
     methods: {
         select(header, item) {
@@ -48,6 +52,26 @@ export default {
             return (
                 this.selected.header === header && this.selected.item === item
             );
+        },
+        async triggerUpdate() {
+            const elements = document.getElementsByClassName(
+                "management-input-value"
+            );
+
+            const results = [];
+            for (const element of elements) {
+                results.push(
+                    axios.put(
+                        this.updateRoute.replace(
+                            "___INSERT_SETTING___",
+                            element.dataset.name
+                        ),
+                        {
+                            data: element.dataset.value,
+                        }
+                    )
+                );
+            }
         },
     },
 };

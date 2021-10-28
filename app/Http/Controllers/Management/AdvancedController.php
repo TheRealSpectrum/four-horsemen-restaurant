@@ -7,15 +7,38 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Collection;
+use Barryvdh\Debugbar\Facade as DebugBar;
 
-use App\Management\Advanced\{Group, Setting};
+use App\Management\Advanced\{Group, Setting, Updater};
 
 final class AdvancedController extends Controller
 {
-    public function __construct()
+    public function index(): View
     {
-        $this->groups = new Collection();
-        $this->groups->push(
+        return view("management.advanced.index", [
+            "groups" => $this->generateGroups()
+                ->map(function (Group $group) {
+                    return $group->getData();
+                })
+                ->toArray(),
+        ]);
+    }
+
+    public function update(Request $request, string $setting): JsonResponse
+    {
+        foreach ($this->generateUpdates() as $update) {
+            if ($setting === $update->name) {
+                ($update->callback)($request->get("data"));
+                return response()->json(["success" => true]);
+            }
+        }
+        return response()->json(["success" => false]);
+    }
+
+    private function generateGroups(): Collection
+    {
+        $result = new Collection();
+        $result->push(
             new Group("Settings", function (Collection $settings) {
                 $settings->push(
                     new Setting(
@@ -24,13 +47,13 @@ final class AdvancedController extends Controller
                         <<<VUE
                            <management-input
                            type="number"
-                           name="dishes-markup"
+                           name="markup-dishes"
                            default-value="50"
                            >Dishes Markup</management-input>
 
                            <management-input
                            type="string"
-                           name="drinks-markup"
+                           name="markup-drinks"
                            default-value="70"
                            >Drinks Markup</management-input>
                            VUE
@@ -38,23 +61,17 @@ final class AdvancedController extends Controller
                 );
             })
         );
+        return $result;
     }
 
-    public function index(): View
+    private function generateUpdates(): \Generator
     {
-        return view("management.advanced.index", [
-            "groups" => $this->groups
-                ->map(function (Group $group) {
-                    return $group->getData();
-                })
-                ->toArray(),
-        ]);
-    }
+        yield new Updater("markup-drinks", function ($value) {
+            DebugBar::info("drinks", $value);
+        });
 
-    public function update(Request $request, $id): JsonResponse
-    {
-        return response()->json();
+        yield new Updater("markup-dishes", function ($value) {
+            DebugBar::info("dishes", $value);
+        });
     }
-
-    private Collection $groups;
 }
