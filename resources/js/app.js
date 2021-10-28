@@ -93,6 +93,12 @@ Vue.component(
     require("./components/ActionButton.vue").default
 );
 
+Vue.component(
+    "management-advanced-app",
+    require("./components/management/advanced/ManagementAdvancedApp.vue")
+        .default
+);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
