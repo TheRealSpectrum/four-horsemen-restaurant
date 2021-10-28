@@ -11,7 +11,7 @@
         <div class="flex flex-col gap-4">
             @yield("fields-left")
         </div>
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-4 border-l mx-3">
             @yield("fields-right")
         </div>
     </div>
