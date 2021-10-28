@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Management;
 
 use App\Http\Controllers\Controller;
+use App\Models\SiteGlobal;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
@@ -66,12 +68,12 @@ final class AdvancedController extends Controller
 
     private function generateUpdates(): \Generator
     {
-        yield new Updater("markup-drinks", function ($value) {
-            DebugBar::info("drinks", $value);
+        yield new Updater("markup-dishes", function ($value) {
+            SiteGlobal::updateOrCreate([], ["markup_dishes" => $value]);
         });
 
-        yield new Updater("markup-dishes", function ($value) {
-            DebugBar::info("dishes", $value);
+        yield new Updater("markup-drinks", function ($value) {
+            SiteGlobal::updateOrCreate([], ["markup_drinks" => $value]);
         });
     }
 }
