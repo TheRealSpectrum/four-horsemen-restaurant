@@ -18,7 +18,7 @@
                         <action-button
                             @click-action="select(i, j)"
                             class="w-full"
-                            >item {{ setting.name }}</action-button
+                            >{{ setting.name }}</action-button
                         >
                     </li>
                 </ul>

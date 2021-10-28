@@ -16,11 +16,26 @@ final class AdvancedController extends Controller
     {
         $this->groups = new Collection();
         $this->groups->push(
-            new Group("Markup", function (Collection $settings) {
+            new Group("Settings", function (Collection $settings) {
                 $settings->push(
-                    new Setting("Dishes", "<action-button>hey</action-button>")
+                    new Setting(
+                        "Markup",
+                        //prettier-ignore
+                        <<<VUE
+                           <management-input
+                           type="number"
+                           name="dishes-markup"
+                           default-value="50"
+                           >Dishes Markup</management-input>
+
+                           <management-input
+                           type="string"
+                           name="drinks-markup"
+                           default-value="70"
+                           >Drinks Markup</management-input>
+                           VUE
+                    )
                 );
-                $settings->push(new Setting("Drinks", "bye"));
             })
         );
     }
