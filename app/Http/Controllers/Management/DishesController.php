@@ -70,7 +70,7 @@ final class DishesController extends ManagementController
                 "filled",
                 "numeric",
                 "min:1",
-            ]) // TODO: add update for allergy, variations and recipe
+            ])
             ->defineChangerUpdate("allergies", ["present"])
             ->defineChangerUpdate("variations", ["present"])
             ->defineChangerUpdate("recipe", ["present"])
