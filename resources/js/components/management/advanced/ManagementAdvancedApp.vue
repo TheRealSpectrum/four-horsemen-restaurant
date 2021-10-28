@@ -11,25 +11,21 @@
                 max-h-full
             "
         >
-            <li v-for="i in 4" :key="i">
-                <h2>header {{ i }} >>></h2>
+            <li v-for="(group, i) in groups" :key="i">
+                <h2>{{ group.name }} >>></h2>
                 <ul class="list-disc pl-8 flex flex-col gap-6">
-                    <li v-for="j in 8" :key="j">
+                    <li v-for="(setting, j) in group.settings" :key="j">
                         <action-button
                             @click-action="select(i, j)"
                             class="w-full"
-                            >item {{ j }}</action-button
+                            >item {{ setting.name }}</action-button
                         >
                     </li>
                 </ul>
             </li>
         </ul>
         <div class="h-full w-full">
-            <div v-for="i in 4" :key="i">
-                <div v-for="j in 8" :key="j">
-                    <div v-if="isSelected(i, j)">{{ i }}, {{ j }}</div>
-                </div>
-            </div>
+            <slot :isSelected="isSelected" />
         </div>
     </div>
 </template>
@@ -40,6 +36,9 @@ export default {
         return {
             selected: { header: null, item: null },
         };
+    },
+    props: {
+        groups: Array,
     },
     methods: {
         select(header, item) {
