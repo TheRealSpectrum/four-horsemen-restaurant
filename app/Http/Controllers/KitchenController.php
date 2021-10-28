@@ -52,7 +52,7 @@ class KitchenController extends Controller
                             "note" => $dish->note,
                         ];
                     }),
-                    "time" => "11:00",
+                    "time" => $order->updated_at->format("H:i"),
                 ];
             }),
         ]);

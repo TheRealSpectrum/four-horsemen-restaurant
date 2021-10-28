@@ -77,6 +77,21 @@ final class Dish extends Model
         return substr($result, 0, -1) . "]}";
     }
 
+    public function setAllergiesAttribute($value = null)
+    {
+        $this->attributes["allergies"] = is_null($value) ? "" : $value;
+    }
+
+    public function setVariationsAttribute($value = null)
+    {
+        $this->attributes["variations"] = is_null($value) ? "" : $value;
+    }
+
+    public function setRecipeAttribute($value = null)
+    {
+        $this->attributes["recipe"] = is_null($value) ? "" : $value;
+    }
+
     public function ingredients(): BelongsToMany
     {
         return $this->belongsToMany(Ingredient::class)
@@ -84,5 +99,12 @@ final class Dish extends Model
             ->using(DishIngredient::class);
     }
 
-    protected $fillable = ["name", "price", "minutes_to_prepare"];
+    protected $fillable = [
+        "name",
+        "price",
+        "minutes_to_prepare",
+        "allergies",
+        "variations",
+        "recipe",
+    ];
 }
