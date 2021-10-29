@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Management;
 
 use App\Http\Controllers\Controller;
-use App\Models\SiteGlobal;
+use App\Models\{SiteGlobal, GlobalUnit};
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+
 use Barryvdh\Debugbar\Facade as DebugBar;
 
 use App\Management\Advanced\{Group, Setting, Updater};
@@ -42,13 +44,26 @@ final class AdvancedController extends Controller
     private function generateGroups(): Collection
     {
         SiteGlobal::firstOrCreate([]);
-
         $siteGlobal = SiteGlobal::firstOrFail();
+
+        $globalUnits = GlobalUnit::all();
+        $globalUnitsString = str_replace(
+            "\"",
+            "'",
+            json_encode(
+                $globalUnits
+                    ->map(function (GlobalUnit $unit) {
+                        return $unit->name;
+                    })
+                    ->toArray()
+            )
+        );
 
         $result = new Collection();
         $result->push(
             new Group("Settings", function (Collection $settings) use (
-                $siteGlobal
+                $siteGlobal,
+                $globalUnitsString
             ) {
                 $settings->push(
                     new Setting(
@@ -77,7 +92,7 @@ final class AdvancedController extends Controller
                         <<<VUE
                         <management-list-input
                             name="ingredient-units"
-                            :default-value="['g', 'mg']"
+                            :default-value="{$globalUnitsString}"
                             default-new=""
                             label="Ingredient Units"
                         >
@@ -101,6 +116,18 @@ final class AdvancedController extends Controller
 
         yield new Updater("markup-drinks", function ($value) {
             SiteGlobal::updateOrCreate([], ["markup_drinks" => $value]);
+        });
+
+        yield new Updater("ingredient-units", function ($value) {
+            DB::transaction(function () use ($value) {
+                \Barryvdh\Debugbar\Facade::info($value);
+                GlobalUnit::where("id", "like", "%%")->delete();
+                foreach ($value as $unit) {
+                    GlobalUnit::create([
+                        "name" => $unit ?? "",
+                    ]);
+                }
+            });
         });
     }
 }
