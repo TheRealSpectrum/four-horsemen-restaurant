@@ -101,8 +101,19 @@ final class AdvancedController extends Controller
                             label="Ingredient Units"
                         >
                             <template slot-scope="props">
-                                <input type="string" :value="props.getValue().name"
+                                <input type="string" :value="props.getValue().name" 
+                                    :disabled="props.getValue().status === 'delete'"
+                                    :class="{'text-mono-dark': props.getValue().status === 'delete'}"
                                     @input="props.setValue({id: props.getValue().id, name: \$event.target.value, status: props.getValue().status})"/>
+
+                                <action-button v-if="props.getValue().status !== 'delete'" level="low"
+                                    @click-action="props.setValue({id: props.getValue().id, name: props.getValue().name, status: 'delete'})">
+                                        Delete unit
+                                    </action-button>
+                                <action-button v-else level="safe"
+                                    @click-action="props.setValue({id: props.getValue().id, name: props.getValue().name, status: props.getValue().id === 0 ? 'create' : 'update'})">
+                                        Undo Delete
+                                    </action-button>
                             </template>
                         </management-list-input>
                         VUE
@@ -140,6 +151,12 @@ final class AdvancedController extends Controller
                             GlobalUnit::create([
                                 "name" => $unitValue["name"] ?? "",
                             ]);
+                            break;
+                        case "delete":
+                            if ($unitValue["id"] === 0) {
+                                break;
+                            }
+                            GlobalUnit::where("id", $unitValue["id"])->delete();
                             break;
                     }
                 }
