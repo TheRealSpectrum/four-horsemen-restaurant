@@ -39,7 +39,9 @@ final class AdvancedController extends Controller
 
     private function generateGroups(): Collection
     {
-        $siteGlobal = SiteGlobal::firstOrCreate([]);
+        SiteGlobal::firstOrCreate([]);
+
+        $siteGlobal = SiteGlobal::firstOrFail();
 
         $result = new Collection();
         $result->push(
@@ -55,13 +57,13 @@ final class AdvancedController extends Controller
                            type="number"
                            name="markup-dishes"
                            default-value="{$siteGlobal->markup_dishes}"
-                           >Dishes Markup</management-input>
+                           >Dishes Markup (%)</management-input>
 
                            <management-input
                            type="string"
                            name="markup-drinks"
                            default-value="{$siteGlobal->markup_drinks}"
-                           >Drinks Markup</management-input>
+                           >Drinks Markup (%)</management-input>
                            VUE
                     )
                 );
