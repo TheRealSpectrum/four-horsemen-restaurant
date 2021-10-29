@@ -53,7 +53,11 @@ final class AdvancedController extends Controller
             json_encode(
                 $globalUnits
                     ->map(function (GlobalUnit $unit) {
-                        return $unit->name;
+                        return [
+                            "id" => $unit->id,
+                            "name" => $unit->name,
+                            "status" => "update",
+                        ];
                     })
                     ->toArray()
             )
@@ -93,11 +97,12 @@ final class AdvancedController extends Controller
                         <management-list-input
                             name="ingredient-units"
                             :default-value="{$globalUnitsString}"
-                            default-new=""
+                            :default-new="{id: 0, name: '', status: 'create'}"
                             label="Ingredient Units"
                         >
                             <template slot-scope="props">
-                                <input type="string" :value="props.getValue()" @input="props.setValue(\$event.target.value)"/>
+                                <input type="string" :value="props.getValue().name"
+                                    @input="props.setValue({id: props.getValue().id, name: \$event.target.value, status: props.getValue().status})"/>
                             </template>
                         </management-list-input>
                         VUE
@@ -120,12 +125,23 @@ final class AdvancedController extends Controller
 
         yield new Updater("ingredient-units", function ($value) {
             DB::transaction(function () use ($value) {
-                \Barryvdh\Debugbar\Facade::info($value);
-                GlobalUnit::where("id", "like", "%%")->delete();
-                foreach ($value as $unit) {
-                    GlobalUnit::create([
-                        "name" => $unit ?? "",
-                    ]);
+                foreach ($value as $unitValue) {
+                    switch ($unitValue["status"]) {
+                        case "update":
+                            $unit = GlobalUnit::where(
+                                "id",
+                                $unitValue["id"]
+                            )->firstOrFail();
+                            $unit->name = $unitValue["name"] ?? "";
+                            $unit->save();
+                            break;
+
+                        case "create":
+                            GlobalUnit::create([
+                                "name" => $unitValue["name"] ?? "",
+                            ]);
+                            break;
+                    }
                 }
             });
         });
