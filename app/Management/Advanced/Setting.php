@@ -16,10 +16,9 @@ final class Setting
     {
         return collect([
             "name" => $this->name,
-            "display" => $this->display,
         ]);
     }
 
-    private string $name;
-    private string $display;
+    public string $name;
+    public string $display;
 }

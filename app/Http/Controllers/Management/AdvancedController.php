@@ -17,8 +17,10 @@ final class AdvancedController extends Controller
 {
     public function index(): View
     {
+        $groups = $this->generateGroups();
         return view("management.advanced.index", [
-            "groups" => $this->generateGroups()
+            "groups" => $groups,
+            "groupsData" => $groups
                 ->map(function (Group $group) {
                     return $group->getData();
                 })
@@ -65,6 +67,25 @@ final class AdvancedController extends Controller
                            default-value="{$siteGlobal->markup_drinks}"
                            >Drinks Markup (%)</management-input>
                            VUE
+                    )
+                );
+
+                $settings->push(
+                    new Setting(
+                        "Ingredient Units",
+                        // prettier-ignore
+                        <<<VUE
+                        <management-list-input
+                            name="ingredient-units"
+                            :default-value="['g', 'mg']"
+                            default-new=""
+                            label="Ingredient Units"
+                        >
+                            <template slot-scope="props">
+                                <input type="string" :value="props.getValue()" @input="props.setValue(\$event.target.value)"/>
+                            </template>
+                        </management-list-input>
+                        VUE
                     )
                 );
             })

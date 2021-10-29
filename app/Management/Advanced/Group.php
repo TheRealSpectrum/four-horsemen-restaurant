@@ -23,6 +23,6 @@ final class Group
         ]);
     }
 
-    private string $name;
-    private Collection $settings;
+    public string $name;
+    public Collection $settings;
 }
