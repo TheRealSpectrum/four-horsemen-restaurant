@@ -67,7 +67,7 @@ export default {
                             element.dataset.name
                         ),
                         {
-                            data: element.dataset.value,
+                            data: JSON.parse(element.dataset.value),
                         }
                     )
                 );
