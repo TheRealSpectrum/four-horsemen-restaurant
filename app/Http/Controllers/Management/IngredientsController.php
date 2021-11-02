@@ -22,7 +22,7 @@ final class IngredientsController extends ManagementController
                 Ingredient $ingredient
             ) {
                 return $ingredient->purchasePriceAsString() .
-                    " / {$ingredient->purchase_price_per}{$ingredient->unit}";
+                    " / {$ingredient->purchase_price_per}{$ingredient->globalUnit->name}";
             });
 
         $builder
