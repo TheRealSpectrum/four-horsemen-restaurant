@@ -9,12 +9,12 @@ class SiteGlobal extends Model
 {
     use HasFactory;
 
-    public function markupDishesUnit(): float
+    public function markupDishesFactor(): float
     {
         return $this->markup_dishes / 100;
     }
 
-    public function markupDrinksUnit(): float
+    public function markupDrinksFactor(): float
     {
         return $this->markup_drinks / 100;
     }

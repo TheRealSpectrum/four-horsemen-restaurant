@@ -48,6 +48,7 @@ final class Dish extends Model
                 -2,
                 0
             );
+
             $currentPriceString =
                 ($ingredient->pivot->amount * $ingredient->purchase_price) /
                     $ingredient->purchase_price_per <
@@ -68,11 +69,17 @@ final class Dish extends Model
             );
         }
 
+        $profit = round($this->price - $totalPrice);
+
+        $profitString = substr_replace((string) $profit, ",", -2, 0);
+        $profitString = $profit < 100 ? "€0$profitString" : "€$profitString";
+
         $priceString = substr_replace((string) $totalPrice, ",", -2, 0);
         $priceString = $totalPrice < 100 ? "€0$priceString" : "€$priceString";
 
         $result =
-            "{totalPurchasePrice: '$priceString', ingredients: [" . $result;
+            "{profit: '$profitString', totalPrice: '$priceString', ingredients: [" .
+            $result;
 
         return substr($result, 0, -1) . "]}";
     }
