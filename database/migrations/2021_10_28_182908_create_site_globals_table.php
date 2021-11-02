@@ -11,8 +11,8 @@ final class CreateSiteGlobalsTable extends Migration
         Schema::create("site_globals", function (Blueprint $table) {
             $table->id();
 
-            $table->integer("markup_dishes")->default(3);
-            $table->integer("markup_drinks")->default(2);
+            $table->integer("markup_dishes")->default(300);
+            $table->integer("markup_drinks")->default(200);
 
             $table->timestamps();
         });
