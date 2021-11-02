@@ -2,7 +2,7 @@
 
 namespace App\View\Components\Management;
 
-use App\Models\Ingredient;
+use App\Models\{Ingredient, GlobalUnit};
 
 use Illuminate\View\Component;
 
@@ -41,6 +41,23 @@ class CreateField extends Component
                     "ingredients" => $ingredientsJson,
                 ];
                 break;
+
+            case "unit":
+                $units = GlobalUnit::orderBy("name")->get();
+
+                $unitsData = $units->map(function (GlobalUnit $unit) {
+                    return collect([
+                        "id" => $unit->id,
+                        "name" => $unit->name,
+                    ]);
+                });
+
+                $unitsJson = str_replace("\"", "'", json_encode($unitsData));
+
+                $this->display = "components.management.create-field-unit";
+                $this->displayInput = [
+                    "units" => $unitsJson,
+                ];
         }
     }
 

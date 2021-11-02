@@ -64,6 +64,11 @@ Vue.component(
 );
 
 Vue.component(
+    "unit-input",
+    require("./components/management/UnitInput.vue").default
+);
+
+Vue.component(
     "kitchen-app",
     require("./components/kitchen/KitchenApp.vue").default
 );
