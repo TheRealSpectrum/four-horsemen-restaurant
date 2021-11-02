@@ -14,19 +14,11 @@ final class IngredientFactory extends Factory
     {
         return [
             "name" => $this->faker->word(1),
-            "unit" => $this->faker->randomElement([
-                "g",
-                "kg",
-                "ml",
-                "l",
-                "",
-                "",
-                "",
-            ]),
             "stored" => $this->faker->numberBetween(0, 100),
             "stored_min" => $this->faker->numberBetween(50, 100),
             "purchase_price" => $this->faker->numberBetween(1, 5) * 50,
             "purchase_price_per" => $this->faker->numberBetween(1, 10) * 100,
+            "global_unit_id" => 1,
         ];
     }
 }
