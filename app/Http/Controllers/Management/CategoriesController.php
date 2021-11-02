@@ -30,7 +30,7 @@ final class CategoriesController extends ManagementController
                 "required",
                 "string",
                 "unique:App\Models\Category,name, ",
-            ])
+            ]) // TODO add id to unique validation
             ->defineChangerUpdate("type", ["required"]);
     }
 
