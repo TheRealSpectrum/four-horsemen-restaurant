@@ -4,6 +4,15 @@
             {{ $label }}
         </label>
         <textarea name="{{$name}}" value="{{old($name, $value)}}" class="text-lg col-span-2" placeholder="{{$label}}"></textarea>
+@elseif ($type == "type")
+    <div class="grid grid-cols-3 h-6">
+        <label for="{{$name}}" class="text-lg font-bold">
+            {{ $label }}
+        </label>
+        <select name="{{$name}}" class="text-lg">
+            <option value="dish" @if (old($name) == "dish") selected="selected" @endif>Dish</option>
+            <option value="drink" @if (old($name) == "drink") selected="selected" @endif>Drink</option>
+        </select>
 @else
     <div class="grid grid-cols-3 h-6">
         <label for="{{$name}}" class="text-lg font-bold">

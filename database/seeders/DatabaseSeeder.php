@@ -11,6 +11,7 @@ final class DatabaseSeeder extends Seeder
         $this->call([
             GlobalUnitSeeder::class,
             UserSeeder::class,
+            CategorySeeder::class,
             DishSeeder::class,
             TableSeeder::class,
             //ReservationSeeder::class,

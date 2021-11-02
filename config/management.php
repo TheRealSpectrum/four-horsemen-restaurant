@@ -7,6 +7,7 @@ return [
     //     ["Dishes", "dishes"],
     //     ["Tables", "tables"],
     //     ["Ingredients", "ingredients"],
+    //     ["Categories", "categories"],
     //     ["Advanced", "advanced"],
     // ],
     "navigation" => [
@@ -15,6 +16,7 @@ return [
         ["Dishes", "dishes"],
         ["Tables", "tables"],
         ["Ingredients", "ingredients"],
+        ["Categories", "categories"],
         ["Advanced", "advanced"],
     ],
 ];

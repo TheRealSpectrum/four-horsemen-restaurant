@@ -8,6 +8,7 @@ use App\Http\Controllers\Management\{
     TablesController,
     UsersController,
     AdvancedController,
+    CategoriesController,
 };
 
 /*
@@ -22,6 +23,7 @@ Route::resource("dishes", DishesController::class);
 Route::resource("ingredients", IngredientsController::class);
 Route::resource("employees", UsersController::class);
 Route::resource("tables", TablesController::class)->only(["index", "store", "update", "destroy"]);
+Route::resource("categories", CategoriesController::class);
 
 Route::prefix("advanced/")->name("advanced.")->group( function () {
     Route::get("/", [AdvancedController::class, "index"])->name("index");
