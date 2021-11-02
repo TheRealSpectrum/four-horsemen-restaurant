@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Management;
 
+use App\Models\GlobalUnit;
 use App\Models\Ingredient;
 use App\Management\Builder as ManagementBuilder;
 
@@ -22,12 +23,16 @@ final class IngredientsController extends ManagementController
                 Ingredient $ingredient
             ) {
                 return $ingredient->purchasePriceAsString() .
-                    " / {$ingredient->purchase_price_per}{$ingredient->unit}";
+                    " / {$ingredient->purchase_price_per}{$ingredient->globalUnit->name}";
             });
 
         $builder
             ->defineFieldLeft("name", "text", "Name")
-            ->defineFieldLeft("unit", "text", "unit")
+            ->defineFieldLeft("global_unit_id", "unit", "Unit", function (
+                Ingredient $ingredient
+            ) {
+                return $ingredient->globalUnit->name;
+            })
             ->defineFieldLeft("stored", "number", "Stock")
             ->defineFieldLeft("stored_min", "number", "Desired Stock")
             ->defineFieldLeft("purchase_price", "number", "Purchase Price")
@@ -39,7 +44,11 @@ final class IngredientsController extends ManagementController
 
         $builder
             ->defineChangerStore("name", ["required"])
-            ->defineChangerStore("unit", ["present"])
+            ->defineChangerStore("global_unit_id", [
+                "required",
+                "numeric",
+                "min:1",
+            ])
             ->defineChangerStore("stored", ["required", "numeric", "min:0"])
             ->defineChangerStore("stored_min", ["required", "numeric", "min:0"])
             ->defineChangerStore("purchase_price", [
@@ -55,7 +64,11 @@ final class IngredientsController extends ManagementController
 
         $builder
             ->defineChangerUpdate("name", ["filled"])
-            ->defineChangerUpdate("unit", [])
+            ->defineChangerUpdate("global_unit_id", [
+                "filled",
+                "numeric",
+                "min:1",
+            ])
             ->defineChangerUpdate("stored", ["filled", "numeric", "min:0"])
             ->defineChangerUpdate("stored_min", ["filled", "numeric", "min:0"])
             ->defineChangerUpdate("purchase_price", [

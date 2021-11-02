@@ -4,15 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-final class CreateSiteGlobalsTable extends Migration
+final class CreateGlobalUnitsTable extends Migration
 {
     public function up(): void
     {
-        Schema::create("site_globals", function (Blueprint $table) {
+        Schema::create("global_units", function (Blueprint $table) {
             $table->id();
 
-            $table->integer("markup_dishes")->default(300);
-            $table->integer("markup_drinks")->default(200);
+            $table->string("name", 20);
 
             $table->timestamps();
         });
@@ -20,6 +19,6 @@ final class CreateSiteGlobalsTable extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists("site_globals");
+        Schema::dropIfExists("global_units");
     }
 }
