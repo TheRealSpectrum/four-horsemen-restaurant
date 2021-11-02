@@ -10,7 +10,6 @@
             </div>
         </div>
         <div class="flex flex-col py-4">
-            <div>Total purchase price: {{ totalPurchasePrice }}</div>
             <div
                 v-for="(ingredient, index) in items"
                 :key="index"
@@ -22,7 +21,8 @@
                     :name="`ingredient-id-${index}`"
                 >
                     <option
-                        v-for="{ id, name, unit } of ingredients"
+                        v-for="({ id, name, unit }, i) in ingredients"
+                        :key="i"
                         :value="id"
                         :selected.boolean="id === ingredient.id"
                     >
@@ -50,6 +50,22 @@
                     >Delete</action-button
                 >
             </div>
+            <div class="grid grid-cols-4 py-2 border-t border-mono-darker">
+                <div class="text-lg font-bold w-1/2">Total</div>
+                <div>
+                    {{ totalPurchasePrice }}
+                </div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="grid grid-cols-4 py-2">
+                <div class="text-lg font-bold w-1/2">AdvicePrice</div>
+                <div>
+                    {{ priceWithMarkup }}
+                </div>
+                <div></div>
+                <div></div>
+            </div>
         </div>
     </div>
 </template>
@@ -76,6 +92,7 @@ export default {
         value: Array,
         error: String,
         ingredients: Array,
+        markup: Number,
     },
     methods: {
         addItem() {
@@ -99,6 +116,21 @@ export default {
             for (const ingredient of this.items) {
                 total += ingredient.amount * this.purchasePrices[ingredient.id];
             }
+
+            return this.asCurrency(total);
+        },
+        priceWithMarkup() {
+            let total = 0;
+            for (const ingredient of this.items) {
+                total += ingredient.amount * this.purchasePrices[ingredient.id];
+            }
+
+            total *= this.markup;
+
+            total =
+                total % 100 < 50
+                    ? total - (total % 100) - 1
+                    : total - (total % 100) + 99;
 
             return this.asCurrency(total);
         },

@@ -1,4 +1,6 @@
 <ingredient-input
     label="Ingredients"
     :value="{{{ $value }}}"
-    :ingredients="{{$ingredients}}"/>
+    :ingredients="{{$ingredients}}"
+    :markup="{{$markup}}"
+    />
