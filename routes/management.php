@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Management\{
     DishesController,
+    DrinksController,
     IngredientsController,
     TablesController,
     UsersController,
@@ -20,6 +21,7 @@ use App\Http\Controllers\Management\{
  */
 
 Route::resource("dishes", DishesController::class);
+Route::resource("drinks", DrinksController::class);
 Route::resource("ingredients", IngredientsController::class);
 Route::resource("employees", UsersController::class);
 Route::resource("tables", TablesController::class)->only(["index", "store", "update", "destroy"]);
