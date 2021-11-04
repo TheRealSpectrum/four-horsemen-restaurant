@@ -26,11 +26,13 @@ final class CategoriesController extends ManagementController
             ->defineChangerStore("type", ["required"]);
 
         $builder
-            ->defineChangerUpdate("name", [
-                "required",
-                "string",
-                "unique:App\Models\Category,name, ",
-            ]) // TODO add id to unique validation
+            ->defineChangerUpdate("name", function (int $id) {
+                return [
+                    "required",
+                    "string",
+                    "unique:App\Models\Category,name,$id",
+                ];
+            }) // TODO add id to unique validation
             ->defineChangerUpdate("type", ["required"]);
     }
 

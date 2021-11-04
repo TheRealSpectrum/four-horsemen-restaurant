@@ -113,7 +113,9 @@ abstract class ManagementController extends Controller
         } else {
             $validationRules = [];
             foreach ($this->builder->changersStore as $changer) {
-                $validationRules[$changer->column] = $changer->validation;
+                $validationRules[
+                    $changer->column
+                ] = $changer->getValidationRules(0);
             }
 
             $validated = $this->transformStore(
@@ -195,7 +197,9 @@ abstract class ManagementController extends Controller
 
         $validationRules = [];
         foreach ($this->builder->changersUpdate as $changer) {
-            $validationRules[$changer->column] = $changer->validation;
+            $validationRules[$changer->column] = $changer->getValidationRules(
+                $id
+            );
         }
 
         $validated = $this->transformUpdate(

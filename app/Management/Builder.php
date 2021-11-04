@@ -143,7 +143,16 @@ final class Builder
      */
     public function defineChangerStore(string $column, array $validation): self
     {
-        $this->changersStore->push(new Changer($column, $validation));
+        $this->changersStore->push(
+            new Changer(
+                $column,
+                gettype($validation) === "array"
+                    ? function (int $id) use ($validation) {
+                        return $validation;
+                    }
+                    : $validation
+            )
+        );
 
         return $this;
     }
@@ -155,9 +164,20 @@ final class Builder
      * @param $column the column in the database which should be changed.
      * @param $validation an array of validation rules applied to the input.
      */
-    public function defineChangerUpdate(string $column, array $validation): self
-    {
-        $this->changersUpdate->push(new Changer($column, $validation));
+    public function defineChangerUpdate(
+        string $column,
+        array|callable $validation
+    ): self {
+        $this->changersUpdate->push(
+            new Changer(
+                $column,
+                gettype($validation) === "array"
+                    ? function ($id) use ($validation) {
+                        return $validation;
+                    }
+                    : $validation
+            )
+        );
 
         return $this;
     }
