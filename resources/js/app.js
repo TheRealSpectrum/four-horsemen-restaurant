@@ -54,6 +54,11 @@ Vue.component(
 );
 
 Vue.component(
+    "select-input",
+    require("./components/management/SelectInput.vue").default
+);
+
+Vue.component(
     "ingredient-input",
     require("./components/management/IngredientInput.vue").default
 );

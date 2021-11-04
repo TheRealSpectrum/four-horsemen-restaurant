@@ -62,6 +62,8 @@ class CreateField extends Component
                 $this->displayInput = [
                     "units" => $unitsJson,
                 ];
+            case "select":
+                $this->display = "components.management.create-field-select";
         }
     }
 

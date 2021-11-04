@@ -22,12 +22,12 @@ final class Field
 
     public function map(Model $model): string
     {
-        return ($this->mapCallback)($model);
+        return ($this->mapCallback)($model) ?? "";
     }
 
     public function mapInput(Model $model): string
     {
-        return ($this->mapInputCallback)($model);
+        return ($this->mapInputCallback)($model) ?? "";
     }
 
     public string $column;
