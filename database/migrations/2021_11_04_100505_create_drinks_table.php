@@ -13,7 +13,7 @@ final class CreateDrinksTable extends Migration
             $table->text("name");
             $table->integer("price");
             $table->integer("alcohol_content")->nullable();
-            $table->text("allergies");
+            $table->text("allergies")->nullable();
             $table->foreignId("category_id");
             $table->timestamps();
         });

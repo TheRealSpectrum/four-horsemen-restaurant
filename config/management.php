@@ -11,9 +11,9 @@ return [
     //     ["Advanced", "advanced"],
     // ],
     "navigation" => [
-        ["Statistics", ""],
         ["Employees", "employees"],
         ["Dishes", "dishes"],
+        ["Drinks", "drinks"],
         ["Tables", "tables"],
         ["Ingredients", "ingredients"],
         ["Categories", "categories"],

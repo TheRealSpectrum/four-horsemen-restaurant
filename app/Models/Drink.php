@@ -10,6 +10,12 @@ final class Drink extends Model
 {
     use HasFactory;
 
+    public function priceAsString(): string
+    {
+        $priceString = substr_replace((string) $this->price, ",", -2, 0);
+        return $this->price < 100 ? "€0$priceString" : "€$priceString";
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
