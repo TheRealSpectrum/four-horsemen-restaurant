@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+use App\Models\Category;
 
 final class Dish extends Model
 {
@@ -106,6 +109,11 @@ final class Dish extends Model
             ->using(DishIngredient::class);
     }
 
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     protected $fillable = [
         "name",
         "price",
@@ -113,5 +121,6 @@ final class Dish extends Model
         "allergies",
         "variations",
         "recipe",
+        "category_id",
     ];
 }

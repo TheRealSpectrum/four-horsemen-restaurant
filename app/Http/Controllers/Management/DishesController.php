@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\{Dish, Ingredient};
+use App\Models\{Dish, Ingredient, Category};
 use App\Management\Builder as ManagementBuilder;
 
 use Illuminate\Http\Request;
@@ -16,6 +16,11 @@ final class DishesController extends ManagementController
             ->defineColumn("name", "Name", true)
             ->defineColumn("price", "Price", true, function (Dish $dish) {
                 return $dish->priceAsString();
+            })
+            ->defineColumn("category_id", "Category", true, function (
+                Dish $dish
+            ) {
+                return $dish->category->name;
             });
 
         $builder
@@ -29,6 +34,32 @@ final class DishesController extends ManagementController
                 "minutes_to_prepare",
                 "number",
                 "Minutes to Prepare"
+            )
+            ->defineFieldLeft(
+                column: "category_id",
+                type: "select",
+                label: "Category",
+                map: function (Dish $dish) {
+                    return $dish->category->name;
+                },
+                mapInput: function (Dish $dish) {
+                    return str_replace(
+                        "\"",
+                        "'",
+                        json_encode([
+                            "options" => Category::where("type", "dish")
+                                ->get()
+                                ->map(function (Category $category) {
+                                    return [
+                                        "id" => $category->id,
+                                        "display" => $category->name,
+                                    ];
+                                })
+                                ->toArray(),
+                            "value" => $dish->category_id,
+                        ])
+                    );
+                }
             )
             ->defineFieldLeft(
                 "ingredients",
@@ -53,6 +84,11 @@ final class DishesController extends ManagementController
                 "numeric",
                 "min:1",
             ])
+            ->defineChangerStore("category_id", [
+                "required",
+                "numeric",
+                "min:1",
+            ])
             ->defineChangerStore("allergies", ["present"])
             ->defineChangerStore("variations", ["present"])
             ->defineChangerStore("recipe", ["present"])
@@ -71,6 +107,7 @@ final class DishesController extends ManagementController
                 "numeric",
                 "min:1",
             ])
+            ->defineChangerUpdate("category_id", ["filled", "numeric", "min:1"])
             ->defineChangerUpdate("allergies", ["present"])
             ->defineChangerUpdate("variations", ["present"])
             ->defineChangerUpdate("recipe", ["present"])
