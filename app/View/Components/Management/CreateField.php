@@ -2,7 +2,7 @@
 
 namespace App\View\Components\Management;
 
-use App\Models\{Ingredient, GlobalUnit, SiteGlobal};
+use App\Models\{Ingredient, GlobalUnit, SiteGlobal, Category};
 
 use Illuminate\View\Component;
 
@@ -63,6 +63,24 @@ class CreateField extends Component
                     "units" => $unitsJson,
                 ];
             case "select":
+                if ($this->value == "") {
+                    $categories = Category::where("type", "drink")->get();
+                    $this->value = str_replace(
+                        "\"",
+                        "'",
+                        json_encode([
+                            "options" => $categories
+                                ->map(function (Category $category) {
+                                    return [
+                                        "id" => $category->id,
+                                        "display" => $category->name,
+                                    ];
+                                })
+                                ->toArray(),
+                            "value" => $categories[0],
+                        ])
+                    );
+                }
                 $this->display = "components.management.create-field-select";
         }
     }
