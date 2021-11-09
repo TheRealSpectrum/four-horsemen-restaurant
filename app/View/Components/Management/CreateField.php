@@ -62,9 +62,16 @@ class CreateField extends Component
                 $this->displayInput = [
                     "units" => $unitsJson,
                 ];
-            case "select":
+            case "select2":
+                $categories = null;
                 if ($this->value == "") {
+                    $categories = Category::where("type", "dish")->get();
+                }
+            case "select":
+                if ($this->value == "" && $categories === null) {
                     $categories = Category::where("type", "drink")->get();
+                }
+                if ($this->value == "") {
                     $this->value = str_replace(
                         "\"",
                         "'",
