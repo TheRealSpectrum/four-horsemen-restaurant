@@ -6,26 +6,28 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
-use App\Models\Reservation;
-use App\Models\Table;
-use App\Models\Order;
-use App\Models\OrderDish;
-use App\Models\Dish;
-use App\Models\Course;
-use Carbon\Carbon;
+use App\Models\{
+    Reservation,
+    Table,
+    Order,
+    OrderDish,
+    Dish,
+    Course,
+    Drink,
+    Carbon
+};
 
 class OrderController extends Controller
 {
     public function index()
     {
         $reservations = Reservation::with("tables")->get();
-        $tables = Table::with("reservations")->get();
-        $dishes = Dish::all();
 
         return view("order.index", [
-            "reservations" => $reservations,
-            "dishes" => $dishes,
-            "tables" => $tables,
+            "reservations" => Reservation::with("tables")->get(),
+            "dishes" => Dish::all(),
+            "drinks" => Drink::all(),
+            "tables" => Table::with("reservations")->get(),
         ]);
     }
 

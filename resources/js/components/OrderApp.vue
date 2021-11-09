@@ -40,13 +40,20 @@
         @add-course="addCourse()"
         @add-drinks="addDrinks()"
         @place-order="placeOrder()"
-        @move-to-menu-select="moveToMenuSelect()"
+        @move-to-menu-select="state = 'select-drink'"
     />
 
     <order-dish-select
         v-else-if="state === 'select'"
         :includeCategories="true"
         :dish_data="dish_data"
+        @select-menu-item="selectMenuItemDrink($event)"
+        @back="state = 'new'"
+    />
+    <order-dish-select
+        v-else-if="state === 'select-drink'"
+        :includeCategories="false"
+        :dish_data="drink_data"
         @select-menu-item="selectMenuItem($event)"
         @back="state = 'new'"
     />
@@ -125,6 +132,7 @@ export default {
         reservation_data: Array,
         table_data: Array,
         dish_data: Array,
+        drink_data: Array,
     },
     data() {
         return {
@@ -190,6 +198,14 @@ export default {
                 this.selectedQuantity = 1;
             }
             this.state = "details";
+            this.selectedDish = index;
+        },
+        selectMenuItemDrink(index) {
+            if (index != this.selectedDish) {
+                this.menuItemNotes = undefined;
+                this.selectedQuantity = 1;
+            }
+            this.state = "details-drink";
             this.selectedDish = index;
         },
         addToOrder() {
