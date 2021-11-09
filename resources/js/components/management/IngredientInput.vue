@@ -131,7 +131,7 @@ export default {
                 total % 100 < 50
                     ? total - (total % 100) - 1
                     : total - (total % 100) + 99;
-
+            total = Math.max(total, 0);
             return this.asCurrency(total);
         },
     },

@@ -13,7 +13,7 @@
             </option>
         </select>
         <div v-if="error != null" class="font-bold text-warning-high p-1">
-            {{ $error }}
+            {{ error }}
         </div>
     </div>
 </template>

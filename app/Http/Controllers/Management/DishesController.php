@@ -37,7 +37,7 @@ final class DishesController extends ManagementController
             )
             ->defineFieldLeft(
                 column: "category_id",
-                type: "select",
+                type: "select2",
                 label: "Category",
                 map: function (Dish $dish) {
                     return $dish->category->name;

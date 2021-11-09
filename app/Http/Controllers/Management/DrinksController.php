@@ -100,7 +100,7 @@ class DrinksController extends ManagementController
         $builder
             ->defineChangerUpdate("name", ["filled"])
             ->defineChangerUpdate("price", ["filled", "numeric", "min:0"])
-            ->defineChangerStore("category_id", ["filled", "numeric", "min:1"])
+            ->defineChangerUpdate("category_id", ["filled", "numeric", "min:1"])
             ->defineChangerUpdate("alcohol_content", [
                 "filled",
                 "numeric",
