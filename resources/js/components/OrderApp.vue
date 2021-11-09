@@ -47,83 +47,21 @@
         v-else-if="state === 'select'"
         :includeCategories="true"
         :dish_data="dish_data"
-        @select-menu-item="selectMenuItemDrink($event)"
+        @select-menu-item="selectMenuItem($event)"
         @back="state = 'new'"
     />
     <order-dish-select
         v-else-if="state === 'select-drink'"
         :includeCategories="false"
         :dish_data="drink_data"
-        @select-menu-item="selectMenuItem($event)"
+        @select-menu-item="selectMenuItemDrink($event)"
         @back="state = 'new'"
     />
-    <div id="order-root" v-else-if="state == 'details'">
-        <div class="menuItemRoot">
-            <div class="menuItemName">
-                <h1>
-                    {{ dish_data[selectedDish].name }}
-                </h1>
-            </div>
-            <div class="menuItemDetails">
-                <h2>Dish Information</h2>
-                <p>
-                    {{ dish_data[selectedDish].details }}
-                </p>
-            </div>
-            <div class="menuItemAllergyDetails">
-                <h2>Allergy Information</h2>
-                <p>
-                    {{ dish_data[selectedDish].allergy }}
-                </p>
-            </div>
-            <div class="orderItemNotes">
-                <h2>Notes</h2>
-                <textarea
-                    name="note"
-                    id="note"
-                    cols="30"
-                    rows="4"
-                    placeholder="Notes..."
-                    v-model="menuItemNotes"
-                >
-                </textarea>
-            </div>
-            <div class="quantitySlector">
-                <div
-                    class="decQuantity btn"
-                    @click="
-                        selectedQuantity > 1 ? (selectedQuantity += -1) : ''
-                    "
-                >
-                    -
-                </div>
-                <input
-                    type="text"
-                    pattern="\d*"
-                    class="curentQuantity"
-                    v-model="selectedQuantity"
-                />
-                <div class="incQuantity btn" @click="selectedQuantity += 1">
-                    +
-                </div>
-            </div>
-            <div class="btnWrap">
-                <action-button
-                    level="action"
-                    class="backBtn"
-                    @click-action="state = 'select'"
-                    >Back</action-button
-                >
-                <action-button
-                    level="safe"
-                    class="addMenuItemBtn btn"
-                    @click-action="addToOrder()"
-                >
-                    Add to Order
-                </action-button>
-            </div>
-        </div>
-    </div>
+
+    <order-dish-edit
+        v-else-if="state === 'details'"
+        :selected-dish="dish_data[selectedDish]"
+    />
 </template>
 
 <script>
