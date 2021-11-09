@@ -60,7 +60,12 @@
 
     <order-dish-edit
         v-else-if="state === 'details'"
+        v-model="menuItemNotes"
         :selected-dish="dish_data[selectedDish]"
+        :quantity="selectedQuantity"
+        @add-to-quantity="selectedQuantity += $event"
+        @back="state = 'select'"
+        @add="addToOrder()"
     />
 </template>
 

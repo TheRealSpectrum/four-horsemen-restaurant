@@ -26,16 +26,15 @@
                     cols="30"
                     rows="4"
                     placeholder="Notes..."
-                    v-model="menuItemNotes"
+                    :value="value"
+                    @input="$emit('change', $event.target.value)"
                 >
                 </textarea>
             </div>
             <div class="quantitySlector">
                 <div
                     class="decQuantity btn"
-                    @click="
-                        selectedQuantity > 1 ? (selectedQuantity += -1) : ''
-                    "
+                    @click="quantity > 1 ? $emit('add-to-quantity', -1) : ''"
                 >
                     -
                 </div>
@@ -43,9 +42,12 @@
                     type="text"
                     pattern="\d*"
                     class="curentQuantity"
-                    v-model="selectedQuantity"
+                    :value="quantity"
                 />
-                <div class="incQuantity btn" @click="selectedQuantity += 1">
+                <div
+                    class="incQuantity btn"
+                    @click="$emit('add-to-quantity', 1)"
+                >
                     +
                 </div>
             </div>
@@ -53,13 +55,13 @@
                 <action-button
                     level="action"
                     class="backBtn"
-                    @click-action="state = 'select'"
+                    @click-action="$emit('back')"
                     >Back</action-button
                 >
                 <action-button
                     level="safe"
                     class="addMenuItemBtn btn"
-                    @click-action="addToOrder()"
+                    @click-action="$emit('add')"
                 >
                     Add to Order
                 </action-button>
@@ -70,8 +72,14 @@
 
 <script>
 export default {
+    model: {
+        prop: "value",
+        event: "change",
+    },
     props: {
+        value: String,
         selectedDish: Object,
+        quantity: Number,
     },
 };
 </script>
