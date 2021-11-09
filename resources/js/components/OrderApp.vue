@@ -43,39 +43,13 @@
         @move-to-menu-select="moveToMenuSelect()"
     />
 
-    <div id="order-root" v-else-if="state == 'select'">
-        <div class="dishCategorySelect">
-            <!-- todo: implement properly-->
-            <action-button v-for="i in 5" :key="i" class="dishCategory">
-                <img src="/dishes/missing.png" />
-            </action-button>
-        </div>
-        <div class="filteredDishes">
-            <action-button
-                v-for="(item, index) of dish_data"
-                :key="index"
-                @click-action="selectMenuItem(index)"
-                class="menuItem"
-            >
-                <!-- TODO add src when images are available -->
-                <div class="menuImage">
-                    <img
-                        src="/dishes/missing.png"
-                        :alt="`${item.name} image`"
-                    />
-                </div>
-                <div class="menuName">
-                    <p>{{ item.name }}</p>
-                </div>
-            </action-button>
-        </div>
-        <action-button
-            level="action"
-            class="backBtn"
-            @click-action="state = 'new'"
-            >Back</action-button
-        >
-    </div>
+    <order-dish-select
+        v-else-if="state === 'select'"
+        :includeCategories="true"
+        :dish_data="dish_data"
+        @select-menu-item="selectMenuItem($event)"
+        @back="state = 'new'"
+    />
     <div id="order-root" v-else-if="state == 'details'">
         <div class="menuItemRoot">
             <div class="menuItemName">
