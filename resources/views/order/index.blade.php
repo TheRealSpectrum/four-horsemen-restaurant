@@ -6,6 +6,7 @@
         :reservation_data="{{$reservations}}"
         :table_data="{{$tables}}"
         :dish_data="{{$dishes}}"
+        :drink_data="{{$drinks}}"
         >
         </order-app>
     </div>

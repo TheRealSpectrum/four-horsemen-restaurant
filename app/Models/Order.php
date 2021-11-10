@@ -4,7 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany, HasOne};
+use Illuminate\Database\Eloquent\Relations\{
+    BelongsTo,
+    BelongsToMany,
+    HasMany,
+    HasOne
+};
 
 class Order extends Model
 {
@@ -35,6 +40,9 @@ class Order extends Model
             ->where("done", false);
     }
 
+    /**
+     * @deprecated use drinksV2 instead, this will not work.
+     */
     public function drinks(): HasMany
     {
         return $this->hasMany(Course::class)
@@ -45,5 +53,12 @@ class Order extends Model
     public function coursesAndDrinks(): HasMany
     {
         return $this->hasMany(Course::class)->with("dishes");
+    }
+
+    public function drinksV2(): BelongsToMany
+    {
+        return $this->belongsToMany(Drink::class, "order_drink")
+            ->withPivot("amount")
+            ->using(OrderDrink::class);
     }
 }

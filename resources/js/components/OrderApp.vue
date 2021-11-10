@@ -9,7 +9,7 @@
         :computedSelectedCourse="computedSelectedCourse"
         :computed_normal_course="computed_normal_course"
         :computed_drink_course="computed_drink_course"
-        :order="order"
+        :order="order.courses"
         :selectedCourse="selectedCourse"
         @swap="setState('drinks')"
         @table-changed="table = $event.target.value"
@@ -31,7 +31,7 @@
         :computedSelectedCourse="computedSelectedCourse"
         :computed_normal_course="computed_normal_course"
         :computed_drink_course="computed_drink_course"
-        :order="order"
+        :order="order.drinks"
         :selectedCourse="selectedCourse"
         @swap="setState('new')"
         @table-changed="table = $event.target.value"
@@ -40,109 +40,44 @@
         @add-course="addCourse()"
         @add-drinks="addDrinks()"
         @place-order="placeOrder()"
-        @move-to-menu-select="moveToMenuSelect()"
+        @move-to-menu-select="state = 'select-drink'"
     />
 
-    <div id="order-root" v-else-if="state == 'select'">
-        <div class="dishCategorySelect">
-            <!-- todo: implement properly-->
-            <action-button v-for="i in 5" :key="i" class="dishCategory">
-                <img src="/dishes/missing.png" />
-            </action-button>
-        </div>
-        <div class="filteredDishes">
-            <action-button
-                v-for="(item, index) of dish_data"
-                :key="index"
-                @click-action="selectMenuItem(index)"
-                class="menuItem"
-            >
-                <!-- TODO add src when images are available -->
-                <div class="menuImage">
-                    <img
-                        src="/dishes/missing.png"
-                        :alt="`${item.name} image`"
-                    />
-                </div>
-                <div class="menuName">
-                    <p>{{ item.name }}</p>
-                </div>
-            </action-button>
-        </div>
-        <action-button
-            level="action"
-            class="backBtn"
-            @click-action="state = 'new'"
-            >Back</action-button
-        >
-    </div>
-    <div id="order-root" v-else-if="state == 'details'">
-        <div class="menuItemRoot">
-            <div class="menuItemName">
-                <h1>
-                    {{ dish_data[selectedDish].name }}
-                </h1>
-            </div>
-            <div class="menuItemDetails">
-                <h2>Dish Information</h2>
-                <p>
-                    {{ dish_data[selectedDish].details }}
-                </p>
-            </div>
-            <div class="menuItemAllergyDetails">
-                <h2>Allergy Information</h2>
-                <p>
-                    {{ dish_data[selectedDish].allergy }}
-                </p>
-            </div>
-            <div class="orderItemNotes">
-                <h2>Notes</h2>
-                <textarea
-                    name="note"
-                    id="note"
-                    cols="30"
-                    rows="4"
-                    placeholder="Notes..."
-                    v-model="menuItemNotes"
-                >
-                </textarea>
-            </div>
-            <div class="quantitySlector">
-                <div
-                    class="decQuantity btn"
-                    @click="
-                        selectedQuantity > 1 ? (selectedQuantity += -1) : ''
-                    "
-                >
-                    -
-                </div>
-                <input
-                    type="text"
-                    pattern="\d*"
-                    class="curentQuantity"
-                    v-model="selectedQuantity"
-                />
-                <div class="incQuantity btn" @click="selectedQuantity += 1">
-                    +
-                </div>
-            </div>
-            <div class="btnWrap">
-                <action-button
-                    level="action"
-                    class="backBtn"
-                    @click-action="state = 'select'"
-                    >Back</action-button
-                >
-                <action-button
-                    level="safe"
-                    class="addMenuItemBtn btn"
-                    @click-action="addToOrder()"
-                >
-                    Add to Order
-                </action-button>
-            </div>
-        </div>
-    </div>
+    <order-dish-select
+        v-else-if="state === 'select'"
+        :includeCategories="true"
+        :dish_data="dish_data"
+        @select-menu-item="selectMenuItem($event)"
+        @back="state = 'new'"
+    />
+    <order-dish-select
+        v-else-if="state === 'select-drink'"
+        :includeCategories="false"
+        :dish_data="drink_data"
+        @select-menu-item="selectMenuItemDrink($event)"
+        @back="state = 'new'"
+    />
+
+    <order-dish-edit
+        v-else-if="state === 'details'"
+        v-model="menuItemNotes"
+        :selected-dish="dish_data[selectedDish]"
+        :quantity="selectedQuantity"
+        :isDish="true"
+        @add-to-quantity="selectedQuantity += $event"
+        @back="state = 'select'"
+        @add="addToOrder()"
+    />
+    <order-dish-edit
+        v-else-if="state === 'details-drink'"
+        v-model="menuItemNotes"
+        :selected-dish="drink_data[selectedDish]"
+        :quantity="selectedQuantity"
+        :isDish="false"
+        @add-to-quantity="selectedQuantity += $event"
+        @back="state = 'select-drink'"
+        @add="addToOrderDrink()"
+    />
 </template>
 
 <script>
@@ -151,6 +86,7 @@ export default {
         reservation_data: Array,
         table_data: Array,
         dish_data: Array,
+        drink_data: Array,
     },
     data() {
         return {
@@ -167,7 +103,7 @@ export default {
             menuItemNotes: undefined,
 
             //curent order
-            order: [{ type: "normal", items: [] }],
+            order: { courses: [{ type: "normal", items: [] }], drinks: [] },
             table: "",
             currentItemDetails: {},
         };
@@ -180,30 +116,29 @@ export default {
             return { table: this.table, dishes: this.order };
         },
         computed_normal_course() {
-            return this.order.filter((i) => this.isNormalOrder(i));
+            return this.order.courses.filter((i) => this.isNormalOrder(i));
         },
         computed_drink_course() {
-            return this.order.filter((i) => this.isDrinkOrder(i));
+            return this.order.courses.filter((i) => this.isDrinkOrder(i));
         },
         computedSelectedCourse() {
-            return this.order[this.selectedCourse]?.items ?? [];
+            return this.order.courses[this.selectedCourse]?.items ?? [];
         },
     },
     methods: {
         removeDish(index) {
-            delete this.order[this.selectedCourse].items[index];
-            this.order[this.selectedCourse].items = this.order[
+            delete this.order.courses[this.selectedCourse].items[index];
+            this.order.courses[this.selectedCourse].items = this.order[
                 this.selectedCourse
             ].items.filter((i) => {
                 return i;
             });
         },
         addCourse() {
-            this.order.push({ type: "normal", items: [] });
+            this.order.courses.push({ type: "normal", items: [] });
         },
-        addDrinks() {
-            this.order.push({ type: "drinks", items: [] });
-        },
+        // deprecated
+        addDrinks() {},
         moveToMenuSelect() {
             this.state = "select";
         },
@@ -218,16 +153,35 @@ export default {
             this.state = "details";
             this.selectedDish = index;
         },
+        selectMenuItemDrink(index) {
+            if (index != this.selectedDish) {
+                this.menuItemNotes = undefined;
+                this.selectedQuantity = 1;
+            }
+            this.state = "details-drink";
+            this.selectedDish = index;
+        },
         addToOrder() {
-            let itemToAdd = this.dish_data[this.selectedDish];
+            const itemToAdd = this.dish_data[this.selectedDish];
             itemToAdd["amount"] = this.selectedQuantity;
             itemToAdd["note"] = this.menuItemNotes ?? "";
-            this.order[this.selectedCourse].items.push(itemToAdd);
+            this.order.courses[this.selectedCourse].items.push(itemToAdd);
             this.menuItemNotes = undefined;
             this.selectedQuantity = 1;
             this.selectedDish = undefined;
             this.selectedDishFilter = undefined;
             this.state = "new";
+        },
+        addToOrderDrink() {
+            const itemToAdd = this.drink_data[this.selectedDish];
+            itemToAdd["amount"] = this.selectedQuantity;
+            itemToAdd["note"] = this.menuItemNotes ?? "";
+            this.order.drinks.push(itemToAdd);
+            this.menuItemNotes = undefined;
+            this.selectedQuantity = 1;
+            this.selectedDish = undefined;
+            this.selectedDishFilter = undefined;
+            this.state = "drinks";
         },
         checkTable() {
             let related = "";

@@ -6,26 +6,28 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
-use App\Models\Reservation;
-use App\Models\Table;
-use App\Models\Order;
-use App\Models\OrderDish;
-use App\Models\Dish;
-use App\Models\Course;
-use Carbon\Carbon;
+use App\Models\{
+    Carbon,
+    Course,
+    Dish,
+    Drink,
+    Order,
+    OrderDish,
+    Reservation,
+    Table
+};
 
 class OrderController extends Controller
 {
     public function index()
     {
         $reservations = Reservation::with("tables")->get();
-        $tables = Table::with("reservations")->get();
-        $dishes = Dish::all();
 
         return view("order.index", [
-            "reservations" => $reservations,
-            "dishes" => $dishes,
-            "tables" => $tables,
+            "reservations" => Reservation::with("tables")->get(),
+            "dishes" => Dish::all(),
+            "drinks" => Drink::all(),
+            "tables" => Table::with("reservations")->get(),
         ]);
     }
 
@@ -40,7 +42,7 @@ class OrderController extends Controller
 
         $order->save();
 
-        foreach ($request["dishes"] as $i => $course) {
+        foreach ($request["dishes"]["courses"] as $i => $course) {
             $newCourse = new Course();
 
             $newCourse->order()->associate($order);
@@ -59,6 +61,13 @@ class OrderController extends Controller
 
                 $newOrderDish->save();
             }
+        }
+
+        foreach (
+            $request["dishes"]["drinks"]
+            as ["id" => $id, "amount" => $amount]
+        ) {
+            $order->drinksV2()->attach($id, ["amount" => $amount]);
         }
     }
 }

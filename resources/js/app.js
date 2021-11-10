@@ -39,6 +39,16 @@ Vue.component(
 );
 
 Vue.component(
+    "order-dish-select",
+    require("./components/orders/OrderDishSelect.vue").default
+);
+
+Vue.component(
+    "order-dish-edit",
+    require("./components/orders/OrderDishEdit.vue").default
+);
+
+Vue.component(
     "index-list",
     require("./components/management/IndexList.vue").default
 );
