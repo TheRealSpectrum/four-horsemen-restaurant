@@ -19,6 +19,8 @@ class CreateField extends Component
         $this->value = $value;
         $this->type = $type;
 
+        $categories = null;
+
         switch ($type) {
             case "ingredient":
                 if ($this->value == "") {
@@ -63,7 +65,6 @@ class CreateField extends Component
                     "units" => $unitsJson,
                 ];
             case "select2":
-                $categories = null;
                 if ($this->value == "") {
                     $categories = Category::where("type", "dish")->get();
                 }
