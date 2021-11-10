@@ -75,7 +75,11 @@ abstract class ManagementController extends Controller
             "managementName" => $this->managementName,
             "managementParameterName" => $this->managementParameterName,
             "models" => $models,
-            "rows" => str_replace("\"", "'", json_encode($rows->toArray())),
+            "rows" => str_replace(
+                "\"",
+                "'",
+                str_replace("'", "\\'", json_encode($rows->toArray()))
+            ),
             "builder" => $this->builder,
             "editInline" => $this->editInline,
             "columnNames" => str_replace(
