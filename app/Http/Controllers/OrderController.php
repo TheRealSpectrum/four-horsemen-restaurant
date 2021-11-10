@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
 use App\Models\{
-    Reservation,
-    Table,
+    Carbon,
+    Course,
+    Dish,
+    Drink,
     Order,
     OrderDish,
-    Dish,
-    Course,
-    Drink,
-    Carbon
+    Reservation,
+    Table
 };
 
 class OrderController extends Controller
@@ -42,7 +42,7 @@ class OrderController extends Controller
 
         $order->save();
 
-        foreach ($request["dishes"] as $i => $course) {
+        foreach ($request["dishes"]["courses"] as $i => $course) {
             $newCourse = new Course();
 
             $newCourse->order()->associate($order);
