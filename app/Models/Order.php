@@ -57,7 +57,7 @@ class Order extends Model
 
     public function drinksV2(): BelongsToMany
     {
-        return $this->belongsToMany(Drink::class)
+        return $this->belongsToMany(Drink::class, "order_drink")
             ->withPivot("amount")
             ->using(OrderDrink::class);
     }

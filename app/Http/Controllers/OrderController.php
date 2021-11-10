@@ -62,5 +62,12 @@ class OrderController extends Controller
                 $newOrderDish->save();
             }
         }
+
+        foreach (
+            $request["dishes"]["drinks"]
+            as ["id" => $id, "amount" => $amount]
+        ) {
+            $order->drinksV2()->attach($id, ["amount" => $amount]);
+        }
     }
 }
