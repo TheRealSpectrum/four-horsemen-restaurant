@@ -24,7 +24,7 @@
         </label>
         <div class="orderList">
             <div
-                v-for="(item, index) in computedSelectedCourse"
+                v-for="(item, index) in orderList"
                 :key="index"
                 class="orderItem"
             >
@@ -145,6 +145,13 @@ export default {
                     this.computed_drink_course.indexOf(course) + 1
                 }`;
             }
+        },
+    },
+    computed: {
+        orderList() {
+            return this.isDrinks
+                ? this.order
+                : this.order[this.selectedCourse].items;
         },
     },
 };

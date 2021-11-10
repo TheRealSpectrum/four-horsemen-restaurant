@@ -9,7 +9,7 @@
         :computedSelectedCourse="computedSelectedCourse"
         :computed_normal_course="computed_normal_course"
         :computed_drink_course="computed_drink_course"
-        :order="order"
+        :order="order.courses"
         :selectedCourse="selectedCourse"
         @swap="setState('drinks')"
         @table-changed="table = $event.target.value"
@@ -31,7 +31,7 @@
         :computedSelectedCourse="computedSelectedCourse"
         :computed_normal_course="computed_normal_course"
         :computed_drink_course="computed_drink_course"
-        :order="order"
+        :order="order.drinks"
         :selectedCourse="selectedCourse"
         @swap="setState('new')"
         @table-changed="table = $event.target.value"
@@ -63,9 +63,20 @@
         v-model="menuItemNotes"
         :selected-dish="dish_data[selectedDish]"
         :quantity="selectedQuantity"
+        :isDish="true"
         @add-to-quantity="selectedQuantity += $event"
         @back="state = 'select'"
         @add="addToOrder()"
+    />
+    <order-dish-edit
+        v-else-if="state === 'details-drink'"
+        v-model="menuItemNotes"
+        :selected-dish="drink_data[selectedDish]"
+        :quantity="selectedQuantity"
+        :isDish="false"
+        @add-to-quantity="selectedQuantity += $event"
+        @back="state = 'select-drink'"
+        @add="addToOrderDrink()"
     />
 </template>
 
@@ -92,7 +103,7 @@ export default {
             menuItemNotes: undefined,
 
             //curent order
-            order: [{ type: "normal", items: [] }],
+            order: { courses: [{ type: "normal", items: [] }], drinks: [] },
             table: "",
             currentItemDetails: {},
         };
@@ -105,30 +116,29 @@ export default {
             return { table: this.table, dishes: this.order };
         },
         computed_normal_course() {
-            return this.order.filter((i) => this.isNormalOrder(i));
+            return this.order.courses.filter((i) => this.isNormalOrder(i));
         },
         computed_drink_course() {
-            return this.order.filter((i) => this.isDrinkOrder(i));
+            return this.order.courses.filter((i) => this.isDrinkOrder(i));
         },
         computedSelectedCourse() {
-            return this.order[this.selectedCourse]?.items ?? [];
+            return this.order.courses[this.selectedCourse]?.items ?? [];
         },
     },
     methods: {
         removeDish(index) {
-            delete this.order[this.selectedCourse].items[index];
-            this.order[this.selectedCourse].items = this.order[
+            delete this.order.courses[this.selectedCourse].items[index];
+            this.order.courses[this.selectedCourse].items = this.order[
                 this.selectedCourse
             ].items.filter((i) => {
                 return i;
             });
         },
         addCourse() {
-            this.order.push({ type: "normal", items: [] });
+            this.order.courses.push({ type: "normal", items: [] });
         },
-        addDrinks() {
-            this.order.push({ type: "drinks", items: [] });
-        },
+        // deprecated
+        addDrinks() {},
         moveToMenuSelect() {
             this.state = "select";
         },
@@ -152,15 +162,26 @@ export default {
             this.selectedDish = index;
         },
         addToOrder() {
-            let itemToAdd = this.dish_data[this.selectedDish];
+            const itemToAdd = this.dish_data[this.selectedDish];
             itemToAdd["amount"] = this.selectedQuantity;
             itemToAdd["note"] = this.menuItemNotes ?? "";
-            this.order[this.selectedCourse].items.push(itemToAdd);
+            this.order.courses[this.selectedCourse].items.push(itemToAdd);
             this.menuItemNotes = undefined;
             this.selectedQuantity = 1;
             this.selectedDish = undefined;
             this.selectedDishFilter = undefined;
             this.state = "new";
+        },
+        addToOrderDrink() {
+            const itemToAdd = this.drink_data[this.selectedDish];
+            itemToAdd["amount"] = this.selectedQuantity;
+            itemToAdd["note"] = this.menuItemNotes ?? "";
+            this.order.drinks.push(itemToAdd);
+            this.menuItemNotes = undefined;
+            this.selectedQuantity = 1;
+            this.selectedDish = undefined;
+            this.selectedDishFilter = undefined;
+            this.state = "drinks";
         },
         checkTable() {
             let related = "";

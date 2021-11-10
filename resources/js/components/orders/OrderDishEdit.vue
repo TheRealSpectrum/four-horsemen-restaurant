@@ -7,10 +7,18 @@
                 </h1>
             </div>
             <div class="menuItemDetails">
-                <h2>Dish Information</h2>
-                <p>
-                    {{ selectedDish.details }}
-                </p>
+                <template v-if="isDish">
+                    <h2>Dish Information</h2>
+                    <p>
+                        {{ selectedDish.details }}
+                    </p>
+                </template>
+                <template v-else>
+                    <h2>Alcohol content</h2>
+                    <p class="alcohol-content">
+                        {{ selectedDish.alcohol_content }}%
+                    </p>
+                </template>
             </div>
             <div class="menuItemAllergyDetails">
                 <h2>Allergy Information</h2>
@@ -80,6 +88,7 @@ export default {
         value: String,
         selectedDish: Object,
         quantity: Number,
+        isDish: Boolean,
     },
 };
 </script>
@@ -182,5 +191,11 @@ export default {
     margin: 1rem;
     background-color: var(--mono-lighter);
     border: 2px solid var(--mono-darker);
+}
+
+.alcohol-content {
+    font-size: 10rem;
+    font-weight: bold;
+    text-align: center;
 }
 </style>
