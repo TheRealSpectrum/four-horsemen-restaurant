@@ -16,6 +16,17 @@ final class Drink extends Model
         return $this->price < 100 ? "€0$priceString" : "€$priceString";
     }
 
+    public function purchasePriceAsString(): string
+    {
+        $priceString = substr_replace(
+            (string) $this->purchase_price,
+            ",",
+            -2,
+            0
+        );
+        return $this->price < 100 ? "€0$priceString" : "€$priceString";
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
@@ -24,6 +35,7 @@ final class Drink extends Model
     protected $fillable = [
         "name",
         "price",
+        "purchase_price",
         "alcohol_content",
         "allergies",
         "category_id",

@@ -16,6 +16,11 @@ class DrinksController extends ManagementController
             ->defineColumn("price", "Price", true, function (Drink $drink) {
                 return $drink->priceAsString();
             })
+            ->defineColumn("purchase_price", "Purchase Price", true, function (
+                Drink $drink
+            ) {
+                return $drink->purchasePriceAsString();
+            })
             ->defineColumn(
                 column: "alcohol_content",
                 header: "Alcohol Content",
@@ -38,6 +43,14 @@ class DrinksController extends ManagementController
             ) {
                 return $drink->priceAsString();
             })
+            ->defineFieldLeft(
+                "purchase_price",
+                "number",
+                "Purchase Price",
+                function (Drink $drink) {
+                    return $drink->purchasePriceAsString();
+                }
+            )
             ->defineFieldLeft(
                 "alcohol_content",
                 "number",
@@ -83,7 +96,12 @@ class DrinksController extends ManagementController
 
         $builder
             ->defineChangerStore("name", ["required"])
-            ->defineChangerStore("price", ["required"])
+            ->defineChangerStore("price", ["required", "numeric", "min:1"])
+            ->defineChangerStore("purchase_price", [
+                "required",
+                "numeric",
+                "min:1",
+            ])
             ->defineChangerStore("alcohol_content", [
                 "required",
                 "numeric",
@@ -100,6 +118,11 @@ class DrinksController extends ManagementController
         $builder
             ->defineChangerUpdate("name", ["filled"])
             ->defineChangerUpdate("price", ["filled", "numeric", "min:0"])
+            ->defineChangerUpdate("purchase_price", [
+                "filled",
+                "numeric",
+                "min:0",
+            ])
             ->defineChangerUpdate("category_id", ["filled", "numeric", "min:1"])
             ->defineChangerUpdate("alcohol_content", [
                 "filled",

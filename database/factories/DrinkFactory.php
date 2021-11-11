@@ -14,6 +14,7 @@ final class DrinkFactory extends Factory
         return [
             "name" => $this->faker->word(),
             "price" => $this->faker->randomNumber(2, true) * 100,
+            "purchase_price" => $this->faker->randomNumber(2, true) * 50,
             "alcohol_content" => $this->faker->numberBetween(0, 60),
             "allergies" => "",
             "category_id" => 1,
