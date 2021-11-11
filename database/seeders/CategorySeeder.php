@@ -6,17 +6,14 @@ use Illuminate\Database\Seeder;
 
 use App\Models\Category;
 
-class CategorySeeder extends Seeder
+final class CategorySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
-        for ($i = 1; $i <= 5; $i++) {
-            Category::factory()->create();
-        }
+        Category::factory()->create(["name" => "beer", "type" => "drink"]);
+        Category::factory()->create(["name" => "wine", "type" => "drink"]);
+        Category::factory()->create(["name" => "fish", "type" => "dish"]);
+        Category::factory()->create(["name" => "beef", "type" => "dish"]);
+        Category::factory()->create(["name" => "pasta", "type" => "dish"]);
     }
 }

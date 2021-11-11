@@ -123,7 +123,7 @@ final class DishSeeder extends Seeder
                 "name" => "Pasta Pesto",
                 "price" => 4499,
                 "minutes_to_prepare" => 30,
-                "category_id" => 1,
+                "category_id" => 5,
             ],
             [
                 [$flour, 500],
@@ -138,7 +138,7 @@ final class DishSeeder extends Seeder
                 "name" => "Pasta Fish",
                 "price" => 2999,
                 "minutes_to_prepare" => 40,
-                "category_id" => 1,
+                "category_id" => 3,
             ],
             [
                 [$flour, 500],
@@ -156,7 +156,7 @@ final class DishSeeder extends Seeder
                 "name" => "Pasta with steak",
                 "price" => 4499,
                 "minutes_to_prepare" => 50,
-                "category_id" => 1,
+                "category_id" => 4,
             ],
             [
                 [$flour, 500],
