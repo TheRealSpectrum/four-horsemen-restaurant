@@ -61,9 +61,11 @@ class CreateField extends Component
                 $unitsJson = str_replace("\"", "'", json_encode($unitsData));
 
                 $this->display = "components.management.create-field-unit";
+                $this->value = $this->value === "" ? 0 : $this->value;
                 $this->displayInput = [
                     "units" => $unitsJson,
                 ];
+                break;
             case "select2":
                 if ($this->value == "") {
                     $categories = Category::where("type", "dish")->get();
