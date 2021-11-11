@@ -45,4 +45,7 @@ Route::prefix("kitchen")->name("kitchen.")->middleware("auth")->group(function()
     Route::get("/", [KitchenController::class, "index"])->name("index");
     Route::get("orders", [KitchenController::class, "orders"])->name("orders");
     Route::patch("{course}", [KitchenController::class, "closeCourse"])->name("closeCourse");
+
+    Route::get("v2", [KitchenController::class, "index2"])->name("index2");
+    Route::get("orders2", [KitchenController::class, "orders2"])->name("orders2");
 });
